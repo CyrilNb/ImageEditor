@@ -6,28 +6,31 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 
-import static android.R.attr.width;
-
 /**
  * Created by gagno on 2/3/2017.
  */
 
 public class BrightnessEditor extends AbstractImageModification {
 
-    private int value;
+    private float value;
 
     /**
      *
      * @param src Source image to be modified
      * @param value Brightness adjusment value, between -100 and 100
      */
-    public BrightnessEditor(Bitmap src, int value) {
+    public BrightnessEditor(Bitmap src, float value) {
         this.src = src;
         this.value = value;
     }
 
     @Override
     public Bitmap call() throws Exception {
+
+        if (value == 0) {
+            return src;
+        }
+
         float rgbValue = (value/100)*255;
         Bitmap result;
         int height = src.getHeight();
@@ -45,10 +48,10 @@ public class BrightnessEditor extends AbstractImageModification {
         Paint paint = new Paint();
         paint.setColorFilter(colorFilter);
 
-        result = Bitmap.createBitmap(src, 0, 0, width, height);
+        result = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(result);
-        canvas.drawBitmap(result, 0, 0, paint);
+        canvas.drawBitmap(src, 0, 0, paint);
 
         return result;
 
