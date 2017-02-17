@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         brightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                brightnessValue.setText(String.valueOf(i-100));
+                brightnessValue.setText(String.valueOf(i));
             }
 
             @Override
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Callable imageModif = new BrightnessEditor(((BitmapDrawable) mainImageView.getDrawable()).getBitmap(),seekBar.getProgress()-100);
+                Callable imageModif = new BrightnessEditor(((BitmapDrawable) mainImageView.getDrawable()).getBitmap(),seekBar.getProgress());
 
                 try {
                     mainImageView.setImageBitmap((Bitmap) imageModif.call());
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onTestButtonClicked(View view) {
-        Callable imageModif = new FiltreMoyenneur(((BitmapDrawable) mainImageView.getDrawable()).getBitmap(),11);
+        Callable imageModif = new FiltreMoyenneur(((BitmapDrawable) mainImageView.getDrawable()).getBitmap(),7);
 
         try {
             mainImageView.setImageBitmap((Bitmap) imageModif.call());

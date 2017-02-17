@@ -41,8 +41,8 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
-            android:max="200"
-            android:progress="100"
+            android:max="100"
+            android:progress="50"
             android:progressTint="@android:color/transparent"
             android:thumbTint="@color/colorPrimary" />
     </LinearLayout>
