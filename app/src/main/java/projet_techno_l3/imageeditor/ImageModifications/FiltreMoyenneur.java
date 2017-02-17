@@ -47,9 +47,7 @@ public class FiltreMoyenneur extends AbstractImageModification {
     private int[][] get2DPixels(int pixels[],int width, int height){
         int[][] newPixels = new int[height][width];
         for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                newPixels[y][x] = pixels[y*width + x];
-            }
+            System.arraycopy(pixels, y * width, newPixels[y], 0, width); // Copying each set of "width" as a row
         }
         return newPixels;
     }
@@ -63,22 +61,25 @@ public class FiltreMoyenneur extends AbstractImageModification {
         int imgHeight = result.getHeight();
         int imgWidth = result.getWidth();
 
+        // Getting each pixel in the Bitmap
         int[] pixels = new int[imgWidth * imgHeight];
-        int[] newPixels = new int[imgWidth * imgHeight];
         result.getPixels(pixels, 0, imgWidth, 0, 0, imgWidth, imgHeight);
+
+        // Copying the array to keep the old pixels on the borders
+        int[] newPixels = new int[imgWidth*imgHeight];
+        System.arraycopy(pixels,0,newPixels,0,pixels.length);
+
+        // Getting a 2D array to pick a sub array more easily
         int[][] pixels2D = get2DPixels(pixels,imgWidth,imgHeight);
         int offset = (filterSize-1)/2;
+
         // Pour chaque pixel
         for (int y = 0; y < imgHeight-(offset*2); y++) { // We keep away from the borders
             for (int x = 0; x < imgWidth-(offset*2); x++) { // Same here for the width
                 int[][] subPixels;
-                if((subPixels = copySubrange(pixels2D,x,y,filterSize,filterSize)) == null){
-                    Log.d("MOY_COPYSUBRANGE","Subrange is null");
-                    newPixels[y*imgWidth + x] = Color.WHITE;
-                }else{
-
-                newPixels[(y+offset)*imgWidth + x+offset] = getAverage(subPixels);
-
+                if((subPixels = copySubrange(pixels2D,x,y,filterSize,filterSize)) != null){
+                    // Get the average of the subrange, otherwise we keep the old non-blurred pixel
+                    newPixels[(y+offset)*imgWidth + x+offset] = getAverage(subPixels);
                 }
             }
         }
@@ -105,16 +106,12 @@ public class FiltreMoyenneur extends AbstractImageModification {
             Log.d("MOY_TESTHEIGHT","Height = " + height);
             return null;
         }
-        if((x+width) > source[0].length){
-            Log.d("MOY_TESTWIDTH","Height = " + height);
-
-            return null;
-        }
         int[][] dest = new int[height][width];
         for (int destY = 0; destY < height; destY++) {
             int[] srcRow = source[(y + destY)];
             if ((x + width) > srcRow.length) {
-                throw new IllegalArgumentException("subrange too wide");
+                Log.d("MOY_TESTWIDTH","Height = " + height);
+                return null;
             }
             System.arraycopy(srcRow, x, dest[destY], 0, width);
         }
