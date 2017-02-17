@@ -6,7 +6,7 @@ import android.text.style.LineHeightSpan;
 import android.util.Log;
 
 /**
- * Created by gagno on 2/10/2017.
+ * Created by Antoine Gagnon
  */
 
 public class FiltreMoyenneur extends AbstractImageModification {
