@@ -2,6 +2,7 @@ package projet_techno_l3.imageeditor.ImageModifications;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
@@ -15,8 +16,7 @@ public class ContrastEditor extends AbstractImageModification {
     private float value;
 
     /**
-     *
-     * @param src Source image to be modified
+     * @param src   Source image to be modified
      * @param value Contract adjusment value, between -100 and 100
      */
     public ContrastEditor(Bitmap src, float value) {
@@ -27,34 +27,52 @@ public class ContrastEditor extends AbstractImageModification {
     @Override
     public Bitmap call() throws Exception {
 
-        if (value == 0) {
+        if (value > 255 || value < -255) {
             return src;
         }
 
-        float rgbValue = (value/100)*255;
-        Bitmap result;
-        int height = src.getHeight();
-        int width = src.getWidth();
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.set(new float[]{
-                1/255, 0, 0, 0, 0, //red
-                0, 1/255, 0, 0, 0, //green
-                0, 0, 1/255, 0, 0, //blue
-                0, 0, 0, 1, 0 //alpha
-        });
+        float factor = (259 * (value + 255)) / (255 * (259 - value));
 
-        ColorMatrixColorFilter colorFilter = new ColorMatrixColorFilter(colorMatrix);
+        Bitmap result = src.copy(Bitmap.Config.ARGB_8888, true);
 
-        Paint paint = new Paint();
-        paint.setColorFilter(colorFilter);
+        int imgHeight = result.getHeight();
+        int imgWidth = result.getWidth();
 
-        result = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
+        // Getting each pixel in the Bitmap
+        int[] pixels = new int[imgWidth * imgHeight];
+        result.getPixels(pixels, 0, imgWidth, 0, 0, imgWidth, imgHeight);
 
-        Canvas canvas = new Canvas(result);
-        canvas.drawBitmap(src, 0, 0, paint);
+        for (int i = 0; i < pixels.length; i++) {
+            int pixel = pixels[i];
 
+            int red = Color.red(pixel);
+            int green = Color.green(pixel);
+            int blue = Color.blue(pixel);
+
+            int newRed = pixelTruncate(factor * (red - 128) + 128);
+            int newGreen = pixelTruncate(factor * (green - 128) + 128);
+            int newBlue = pixelTruncate(factor * (blue - 128) + 128);
+            pixels[i] = Color.rgb(newRed, newGreen, newBlue);
+        }
+
+        result.setPixels(pixels, 0, imgWidth, 0, 0, imgWidth, imgHeight);
         return result;
 
+    }
+
+    /**
+     * Truncate a pixel value between 0 and 255
+     * @param v original color value
+     * @return truncated value between 0 and 255
+     */
+    private int pixelTruncate(float v) {
+        if (v < 0) {
+            return 0;
+        }
+        if (v > 255) {
+            return 255;
+        }
+        return (int) v;
     }
 
 }
