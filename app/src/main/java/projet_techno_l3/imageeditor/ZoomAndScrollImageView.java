@@ -40,9 +40,27 @@ public class ZoomAndScrollImageView extends ImageView implements View.OnTouchLis
         }
     }
 
+
+    /**
+     * Removes a modification by going back to the previous image.
+     */
     public void undoModification(){
-        bitmapStack.pop();
-        setImageBitmap(bitmapStack.peek());
+        if(bitmapStack.size() > 1) {
+            bitmapStack.pop();
+            setImageBitmap(bitmapStack.peek());
+        }
+    }
+
+    /**
+     * Resets the image to the first one.
+     */
+    public void resetPicture(){
+        Bitmap firstBM = bitmapStack.firstElement();
+        if(firstBM != bitmapStack.peek()){
+             bitmapStack.removeAllElements();
+             bitmapStack.add(firstBM);
+        }
+        setImageBitmap(firstBM);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
