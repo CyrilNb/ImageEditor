@@ -1,26 +1,39 @@
-package projet_techno_l3.imageeditor.ImageModifications;
+package projet_techno_l3.imageeditor.ImageModifications.convolution;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.text.style.LineHeightSpan;
 import android.util.Log;
 
+import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
+
 /**
  * Created by Antoine Gagnon
  */
 
-public class FiltreMoyenneur extends AbstractImageModification {
+/**
+ * Creates a blur filter by using a mean value of the surroundings of a pixel.
+ *
+ * Also called "Filtre Moyenneur" in French.
+ */
+public class MeanFilter extends AbstractImageModification {
 
     private final int filterSize;
 
-    public FiltreMoyenneur(Bitmap src, int filterSize) {
+    public MeanFilter(Bitmap src, int filterSize) {
         this.src = src;
         if(filterSize%2 != 1){
             filterSize = filterSize-1;
         }
+        filterSize = ensureRange(filterSize,1,7);
         this.filterSize =filterSize;
     }
 
+    /**
+     * Returns the average Color value of a pixel array
+     * @param pixels2D Array of pixels
+     * @return Color value
+     */
     private int getAverage(int [][]pixels2D) {
         int arrayHeight = pixels2D.length;
         int arrayWidth = pixels2D[0].length;
@@ -44,6 +57,13 @@ public class FiltreMoyenneur extends AbstractImageModification {
         return Color.rgb(finalRed.intValue(),finalGreen.intValue(),finalBlue.intValue());
     }
 
+    /**
+     * Turns a single dimension array of pixels into a 2D one
+     * @param pixels Single dimension array
+     * @param width Size of rows
+     * @param height Size of columns
+     * @return A 2D pixel array with the the first index behind the rows and the second the columns
+     */
     private int[][] get2DPixels(int pixels[],int width, int height){
         int[][] newPixels = new int[height][width];
         for (int y = 0; y < height; y++) {
@@ -88,6 +108,15 @@ public class FiltreMoyenneur extends AbstractImageModification {
         return result;
     }
 
+    /**
+     * Gets a part of a 2D array
+     * @param source The original 2D array
+     * @param x The top left corner point x value
+     * @param y The top left corner point y value
+     * @param width The width of the resulting array
+     * @param height The height of the resulting array
+     * @return Resulting array
+     */
     private static int[][] copySubrange(int[][] source, int x, int y, int width, int height) {
 
         if (source == null) {

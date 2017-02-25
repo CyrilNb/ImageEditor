@@ -10,5 +10,9 @@ import java.util.concurrent.Callable;
 
 public abstract class AbstractImageModification implements Callable{
 
-    Bitmap src;
+    protected Bitmap src;
+
+    protected int ensureRange(int value, int min, int max) {
+        return Math.min(Math.max(value, min), max);
+    }
 }

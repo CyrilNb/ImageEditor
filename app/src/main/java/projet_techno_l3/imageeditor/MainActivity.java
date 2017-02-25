@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.concurrent.Callable;
 
 import projet_techno_l3.imageeditor.ImageModifications.BrightnessEditor;
-import projet_techno_l3.imageeditor.ImageModifications.FiltreMoyenneur;
+import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanFilter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onTestButtonClicked(View view) {
-        Callable imageModif = new FiltreMoyenneur(((BitmapDrawable) mainImageView.getDrawable()).getBitmap(),7);
+        Callable imageModif = new MeanFilter(((BitmapDrawable) mainImageView.getDrawable()).getBitmap(),7);
 
         try {
             mainImageView.setImageBitmap((Bitmap) imageModif.call());
