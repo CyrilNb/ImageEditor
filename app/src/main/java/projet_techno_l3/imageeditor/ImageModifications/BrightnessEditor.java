@@ -1,16 +1,11 @@
 package projet_techno_l3.imageeditor.ImageModifications;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 
 /**
- * Created by gagno on 2/3/2017.
+ * Used to edit the brightness of an image using the Value in HSV colors
  */
-
 public class BrightnessEditor extends AbstractImageModification {
 
     private float value;
