@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@android:color/black"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -14,44 +14,180 @@
     tools:context="projet_techno_l3.imageeditor.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <Button
+        android:id="@+id/undoButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/undo" />
+
     <projet_techno_l3.imageeditor.ZoomAndScrollImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
         android:src="@drawable/fruitbasket" />
 
 
-    <LinearLayout
+    <HorizontalScrollView
+        android:id="@+id/menuPickerScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/black_group"
-        android:orientation="vertical" android:padding="2dp">
+        android:layout_alignParentBottom="true"
+        >
 
-        <TextView
-            android:id="@+id/labelBrightnessSeekBar"
+        <LinearLayout
+            android:id="@+id/menuPickerLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="0" />
+            android:layout_gravity="center">
 
-        <SeekBar
-            android:id="@+id/brightnessSeekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:max="100"
-            android:progress="50"
-            android:progressTint="@android:color/transparent"
-            android:thumbTint="@color/colorPrimary" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/adjustButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCategoriesMenuButtonClicked"
+                android:text="ADJUST" />
 
-    <Button
+            <Button
+                android:id="@+id/filterButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCategoriesMenuButtonClicked"
+                android:text="FILTER" />
+
+            <Button
+                android:id="@+id/convolutionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onCategoriesMenuButtonClicked"
+                android:text="CONVOLUTION" />
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onTestButtonClicked"
-        android:text="TestButton" />
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/adjustLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onMenuBackPressed"
+                android:text="@string/left_arrow" />
+
+            <Button
+                android:id="@+id/brightnessButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onBrightnessButtonClicked"
+                android:text="BRIGHTNESS" />
+
+            <Button
+                android:id="@+id/contrastButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onContrastButtonClicked"
+                android:text="CONTRAST" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/filterLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onMenuBackPressed"
+                android:text="@string/left_arrow" />
+
+            <Button
+                android:id="@+id/histogramEqualizationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onHistogramEqualizationClicked"
+                android:text="Histo Equ" />
+
+            <Button
+                android:id="@+id/colorPickerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onColorPickerButtonClicked"
+                android:text="COLOR PICKER" />
+
+            <Button
+                android:id="@+id/greyscaleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onGreyScaleButtonClicked"
+                android:text="GREYSCALE" />
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/convolutionLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onMenuBackPressed"
+                android:text="@string/left_arrow" />
+
+            <Button
+                android:id="@+id/gaussianBlurButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onGaussianBlurButtonClicked"
+                android:text="Gaussian Blur" />
+
+            <Button
+                android:id="@+id/meanBlurButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onMeanBlurButtonClicked"
+                android:text="Mean Blur" />
+
+            <Button
+                android:id="@+id/laplacianButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onLaplacianButtonClicked"
+                android:text="Laplacian" />
+
+            <Button
+                android:id="@+id/sobelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onSobelButtonClicked"
+                android:text="Sobel" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
 
-</LinearLayout>
+
+
+</RelativeLayout>
