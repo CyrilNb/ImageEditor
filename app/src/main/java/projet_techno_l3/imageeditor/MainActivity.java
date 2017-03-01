@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.FileOutputStream;
 import java.util.concurrent.Callable;
 
 import projet_techno_l3.imageeditor.ImageModifications.BrightnessEditor;
@@ -79,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private Bitmap getImageViewBitmap(){
+        if(mainImageView != null) {
+            return ((BitmapDrawable) mainImageView.getDrawable()).getBitmap();
+        }
+        return null;
+    }
+
     public void onBrightnessButtonClicked(View view) {
     }
 
@@ -118,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         mainLayout.addView(optionsLayout, relativeParams);
 
 
-        Callable imageModif = new MeanFilter(((BitmapDrawable) mainImageView.getDrawable()).getBitmap(), 7);
+        Callable imageModif = new MeanFilter(getImageViewBitmap(), 7);
 
         try {
             mainImageView.setImageBitmap((Bitmap) imageModif.call());
@@ -134,4 +143,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void onSaveButtonPressed(View view) {
+        Bitmap bmp = getImageViewBitmap();
+
+        //TODO Save Bitmap
+
+
+    }
 }

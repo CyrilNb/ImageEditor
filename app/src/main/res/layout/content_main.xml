@@ -21,6 +21,16 @@
         android:layout_alignParentTop="true"
         android:background="@drawable/ic_undo_white_24dp" />
 
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:onClick="onSaveButtonPressed"
+        android:background="@drawable/ic_save_white_24dp" />
+
+
     <projet_techno_l3.imageeditor.ZoomAndScrollImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
