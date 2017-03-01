@@ -2,11 +2,7 @@ package projet_techno_l3.imageeditor;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -15,26 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import java.io.FileOutputStream;
 import java.util.concurrent.Callable;
-
-import projet_techno_l3.imageeditor.ImageModifications.BrightnessEditor;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanFilter;
 
 public class MainActivity extends AppCompatActivity {
 
     ZoomAndScrollImageView mainImageView;
-
     LinearLayout menuPicker;
-
     RelativeLayout mainLayout;
 
 
@@ -46,9 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mainImageView = (ZoomAndScrollImageView) findViewById(R.id.imageView);
-
         menuPicker = (LinearLayout) findViewById(R.id.menuPickerLinearLayout);
-
         mainLayout = (RelativeLayout) findViewById(R.id.content_main);
     }
 
