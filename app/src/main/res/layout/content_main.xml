@@ -16,10 +16,10 @@
 
     <Button
         android:id="@+id/undoButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/undo" />
+        android:background="@drawable/ic_undo_white_24dp" />
 
     <projet_techno_l3.imageeditor.ZoomAndScrollImageView
         android:id="@+id/imageView"
@@ -33,17 +33,18 @@
         android:id="@+id/menuPickerScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentBottom="true">
 
         <LinearLayout
             android:id="@+id/menuPickerLinearLayout"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
             <Button
                 android:id="@+id/adjustButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onCategoriesMenuButtonClicked"
@@ -51,6 +52,7 @@
 
             <Button
                 android:id="@+id/filterButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onCategoriesMenuButtonClicked"
@@ -58,6 +60,7 @@
 
             <Button
                 android:id="@+id/convolutionButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onCategoriesMenuButtonClicked"
@@ -73,18 +76,22 @@
 
         <LinearLayout
             android:id="@+id/adjustLinearLayout"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:onClick="onMenuBackPressed"
-                android:text="@string/left_arrow" />
+                android:background="@drawable/ic_arrow_back_white_24dp"
+                />
 
             <Button
                 android:id="@+id/brightnessButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onBrightnessButtonClicked"
@@ -92,6 +99,7 @@
 
             <Button
                 android:id="@+id/contrastButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onContrastButtonClicked"
@@ -106,18 +114,21 @@
 
         <LinearLayout
             android:id="@+id/filterLinearLayout"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:onClick="onMenuBackPressed"
-                android:text="@string/left_arrow" />
+                android:background="@drawable/ic_arrow_back_white_24dp" />
 
             <Button
                 android:id="@+id/histogramEqualizationButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onHistogramEqualizationClicked"
@@ -125,6 +136,7 @@
 
             <Button
                 android:id="@+id/colorPickerButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onColorPickerButtonClicked"
@@ -132,6 +144,7 @@
 
             <Button
                 android:id="@+id/greyscaleButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onGreyScaleButtonClicked"
@@ -147,18 +160,21 @@
 
         <LinearLayout
             android:id="@+id/convolutionLinearLayout"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:onClick="onMenuBackPressed"
-                android:text="@string/left_arrow" />
+                android:background="@drawable/ic_arrow_back_white_24dp" />
 
             <Button
                 android:id="@+id/gaussianBlurButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onGaussianBlurButtonClicked"
@@ -166,6 +182,7 @@
 
             <Button
                 android:id="@+id/meanBlurButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onMeanBlurButtonClicked"
@@ -173,6 +190,7 @@
 
             <Button
                 android:id="@+id/laplacianButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onLaplacianButtonClicked"
@@ -180,6 +198,7 @@
 
             <Button
                 android:id="@+id/sobelButton"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onSobelButtonClicked"
@@ -187,7 +206,15 @@
         </LinearLayout>
     </HorizontalScrollView>
 
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_above="@id/menuPickerScrollView"
+        android:orientation="horizontal">
 
+        <SeekBar android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

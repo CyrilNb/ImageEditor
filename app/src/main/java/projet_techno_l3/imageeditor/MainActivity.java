@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCategoriesMenuButtonClicked(View view) {
-        menuPicker.setVisibility(View.GONE);
+        menuPicker.setVisibility(View.INVISIBLE);
         switch (view.getId()) {
             case R.id.adjustButton:
                 LinearLayout adjustLinearLayout = (LinearLayout) findViewById(R.id.adjustLinearLayout);
