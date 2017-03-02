@@ -19,14 +19,14 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentLeft="true"
-        android:onClick="onUndoButtonPressed"
+        android:onClick="onUndoButtonClicked"
         android:background="@drawable/ic_undo_white_24dp" />
 
     <Button
         android:id="@+id/loadFromGalleryButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:onClick="onLoadFromGalleryButtonPressed"
+        android:onClick="onLoadFromCameraButtonClicked"
         android:layout_centerHorizontal="true"
         android:background="@drawable/ic_camera_white" />
 
@@ -142,7 +142,7 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:onClick="onMenuBackPressed"
+                android:onClick="onMenuBackClicked"
                 android:background="@drawable/ic_arrow_back_white_24dp" />
 
             <Button

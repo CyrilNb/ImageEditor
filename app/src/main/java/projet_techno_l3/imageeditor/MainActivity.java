@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onMenuBackPressed(View view) {
+    public void onMenuBackClicked(View view) {
         ((LinearLayout) view.getParent()).setVisibility(View.GONE);
         menuPicker.setVisibility(View.VISIBLE);
     }
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
     public void onSobelButtonClicked(View view) {
     }
 
-    public void onUndoButtonPressed(View view){
+    public void onUndoButtonClicked(View view){
 
     }
 
@@ -200,13 +200,32 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bmp = getImageViewBitmap();
     }
 
-    public void onLoadFromGalleryButtonPressed(View view){
+    public void onLoadFromGalleryButtonClicked(View view){
         verifyStoragePermissions(MainActivity.this);
         Intent galleryIntent = new Intent(
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(galleryIntent, LOAD_PICTURE_GALLERY_ACTIVITY_REQUEST_CODE);
+    }
+
+    /**
+     * Open camera and save the photo into a specific directory
+     * @param view performs the operation
+     */
+    public void onLoadFromCameraButtonClicked(View view){
+        verifyStoragePermissions(MainActivity.this);
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = timeStamp + ".jpg";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
+        File file = new File(pictureImagePath);
+        Uri outputFileUri = Uri.fromFile(file);
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        startActivityForResult(cameraIntent, LOAD_PICTURE_CAMERA_ACTIVITY_REQUEST_CODE);
+
     }
 
     /**
@@ -229,25 +248,6 @@ public class MainActivity extends AppCompatActivity {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
-    }
-
-    /**
-     * Open camera and save the photo into a specific directory
-     * @param view performs the operation
-     */
-    public void onLoadFromCamera(View view){
-        verifyStoragePermissions(MainActivity.this);
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = timeStamp + ".jpg";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        pictureImagePath = storageDir.getAbsolutePath() + "/" + imageFileName;
-        File file = new File(pictureImagePath);
-        Uri outputFileUri = Uri.fromFile(file);
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-        startActivityForResult(cameraIntent, LOAD_PICTURE_CAMERA_ACTIVITY_REQUEST_CODE);
-
     }
 
 }
