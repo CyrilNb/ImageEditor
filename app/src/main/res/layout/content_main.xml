@@ -26,7 +26,7 @@
         android:id="@+id/loadFromGalleryButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:onClick="onLoadFromGalleryButtonPressed"
+        android:onClick="onLoadFromCamera"
         android:layout_centerHorizontal="true"
         android:background="@drawable/ic_camera_white" />
 

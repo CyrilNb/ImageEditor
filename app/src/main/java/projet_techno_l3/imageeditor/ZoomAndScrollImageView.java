@@ -1,13 +1,19 @@
 package projet_techno_l3.imageeditor;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Matrix;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 
@@ -81,6 +87,7 @@ public class ZoomAndScrollImageView extends ImageView {
                 break;
 
             case MotionEvent.ACTION_POINTER_DOWN: //First and second finger is down. ZOOM mode is ON.
+
                 dist = calculateDist(event);
                 Log.d("event", "dist=" + dist);
                 if (dist > 5f) {
@@ -149,6 +156,7 @@ public class ZoomAndScrollImageView extends ImageView {
         float y = event.getY(0) + event.getY(1);
         point.set(x / 2, y / 2);
     }
+
 }
 
 
