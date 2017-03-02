@@ -14,6 +14,13 @@
     tools:context="projet_techno_l3.imageeditor.MainActivity"
     tools:showIn="@layout/activity_main">
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_alignParentTop="true"
+        android:background="#99000000" />
+
     <Button
         android:id="@+id/undoButton"
         android:layout_width="24dp"
@@ -22,13 +29,34 @@
         android:background="@drawable/ic_undo_white_24dp"
         android:onClick="onUndoButtonPressed" />
 
+    <View
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:id="@+id/topCenter"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+
     <Button
         android:id="@+id/loadFromGalleryButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/ic_camera_white"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/topCenter"
+        android:background="@drawable/ic_collections_white_24dp"
+        android:layout_marginRight="40dp"
         android:onClick="onLoadFromGalleryButtonPressed" />
+    <Button
+        android:id="@+id/loadFromCameraButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@id/topCenter"
+        android:layout_toEndOf="@id/topCenter"
+        android:layout_marginLeft="40dp"
+        android:background="@drawable/ic_add_a_photo_white_24dp"
+        android:onClick="onLoadFromCamera" />
 
     <Button
         android:id="@+id/saveButton"
