@@ -1,14 +1,25 @@
 package projet_techno_l3.imageeditor;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import java.util.concurrent.Callable;
@@ -19,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
     ZoomAndScrollImageView mainImageView;
     LinearLayout menuPicker;
     RelativeLayout mainLayout;
+
+    //Constants
+    private static final int SELECT_PICTURE_ACTIVITY_REQUEST_CODE = 1;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
 
     @Override
@@ -31,6 +50,30 @@ public class MainActivity extends AppCompatActivity {
         mainImageView = (ZoomAndScrollImageView) findViewById(R.id.imageView);
         menuPicker = (LinearLayout) findViewById(R.id.menuPickerLinearLayout);
         mainLayout = (RelativeLayout) findViewById(R.id.content_main);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SELECT_PICTURE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            Bitmap loadedBitmap = BitmapFactory.decodeFile(picturePath);
+            mainImageView.setImageBitmap(loadedBitmap);
+            mainImageView.setAdjustViewBounds(true);
+            //mainImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
+        }
+
     }
 
     public void onMenuBackPressed(View view) {
@@ -123,12 +166,48 @@ public class MainActivity extends AppCompatActivity {
     public void onSobelButtonClicked(View view) {
     }
 
+    public void onUndoButtonPressed(View view){
 
-    public void onSaveButtonPressed(View view) {
+    }
+
+    public void onSaveButtonClicked(View view) {
         Bitmap bmp = getImageViewBitmap();
 
-        //TODO Save Bitmap
 
+    }
 
+    public void onLoadFromGalleryButtonPressed(View view){
+        verifyStoragePermissions(MainActivity.this);
+        Intent i = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(i, SELECT_PICTURE_ACTIVITY_REQUEST_CODE);
+    }
+
+    public void onLoadFromCamera(View view){
+
+    }
+
+    /**
+     *
+     * If APK >= 23, we need to check at runtime for user permissions
+     * Checks if the app has permission to write to device storage
+     * If the app does not has permissions required then the user will be prompted to grant permissions
+     *
+     * @param activity which performs the operation where permissions are requested
+     */
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if the application has write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // If not, prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
     }
 }

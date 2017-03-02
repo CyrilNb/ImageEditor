@@ -18,16 +18,24 @@
         android:id="@+id/undoButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:onClick="onUndoButtonPressed"
         android:background="@drawable/ic_undo_white_24dp" />
+
+    <Button
+        android:id="@+id/loadFromGalleryButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:onClick="onLoadFromGalleryButtonPressed"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_camera_white" />
 
     <Button
         android:id="@+id/saveButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:onClick="onSaveButtonPressed"
+        android:onClick="onSaveButtonClicked"
         android:background="@drawable/ic_save_white_24dp" />
 
 
@@ -36,7 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:src="@drawable/fruitbasket" />
+        android:src="@drawable/fruitbasket"
+    />
 
 
     <HorizontalScrollView
