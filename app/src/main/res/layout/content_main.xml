@@ -46,7 +46,7 @@
         android:layout_toLeftOf="@+id/topCenter"
         android:background="@drawable/ic_collections_white_24dp"
         android:layout_marginRight="40dp"
-        android:onClick="onLoadFromGalleryButtonPressed" />
+        android:onClick="onLoadFromGalleryButtonClicked" />
     <Button
         android:id="@+id/loadFromCameraButton"
         android:layout_width="24dp"
