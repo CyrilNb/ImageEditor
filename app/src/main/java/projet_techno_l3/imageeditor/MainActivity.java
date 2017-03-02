@@ -19,23 +19,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Callable;
 
+import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlur;
 
 public class MainActivity extends AppCompatActivity {
 
-    ZoomAndScrollImageView mainImageView;
-    LinearLayout menuPicker;
-    RelativeLayout mainLayout;
-    String pictureImagePath = "";
+    private ZoomAndScrollImageView mainImageView;
+    private LinearLayout menuPicker;
+    private RelativeLayout mainLayout;
+    private LinearLayout filterOptions;
 
+    String pictureImagePath = "";
 
     //Constants
     private static final int LOAD_PICTURE_GALLERY_ACTIVITY_REQUEST_CODE = 1;
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+
 
 
     @Override
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         mainImageView = (ZoomAndScrollImageView) findViewById(R.id.imageView);
         menuPicker = (LinearLayout) findViewById(R.id.menuPickerLinearLayout);
         mainLayout = (RelativeLayout) findViewById(R.id.content_main);
+        filterOptions = (LinearLayout) findViewById(R.id.filterOptionsLinearLayout);
+
 
     }
 
@@ -135,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clearFilterOptions() {
-        LinearLayout filterOptions = (LinearLayout) findViewById(R.id.filterOptionsLinearLayout);
 
         if (filterOptions != null) {
             filterOptions.removeAllViews();
@@ -152,9 +157,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onColorPickerButtonClicked(View view) {
+        SeekBar choice = new SeekBar(this);
+
+
+
     }
 
     public void onGreyScaleButtonClicked(View view) {
+        Callable imageModif = new Greyscale(getImageViewBitmap());
+
+        try {
+            mainImageView.setImageBitmap((Bitmap) imageModif.call());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onGaussianBlurButtonClicked(View view) {
@@ -164,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
         Button max = new Button(this);
         max.setText("max");
 
-        LinearLayout filterOptions = (LinearLayout) findViewById(R.id.filterOptionsLinearLayout);
 
         View.OnClickListener optionButtonClick = new View.OnClickListener() {
             @Override
@@ -208,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
         Button max = new Button(this);
         max.setText("max");
 
-        LinearLayout filterOptions = (LinearLayout) findViewById(R.id.filterOptionsLinearLayout);
 
         View.OnClickListener optionButtonClick = new View.OnClickListener() {
             @Override
