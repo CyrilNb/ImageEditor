@@ -19,24 +19,24 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentLeft="true"
-        android:onClick="onUndoButtonPressed"
-        android:background="@drawable/ic_undo_white_24dp" />
+        android:background="@drawable/ic_undo_white_24dp"
+        android:onClick="onUndoButtonPressed" />
 
     <Button
         android:id="@+id/loadFromGalleryButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:onClick="onLoadFromGalleryButtonPressed"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/ic_camera_white" />
+        android:background="@drawable/ic_camera_white"
+        android:onClick="onLoadFromGalleryButtonPressed" />
 
     <Button
         android:id="@+id/saveButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentRight="true"
-        android:onClick="onSaveButtonClicked"
-        android:background="@drawable/ic_save_white_24dp" />
+        android:background="@drawable/ic_save_white_24dp"
+        android:onClick="onSaveButtonClicked" />
 
 
     <projet_techno_l3.imageeditor.ZoomAndScrollImageView
@@ -44,15 +44,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:src="@drawable/fruitbasket"
-    />
+        android:src="@drawable/fruitbasket" />
 
 
     <HorizontalScrollView
         android:id="@+id/menuPickerScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="#99000000">
 
         <LinearLayout
             android:id="@+id/menuPickerLinearLayout"
@@ -104,9 +104,8 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:onClick="onMenuBackPressed"
                 android:background="@drawable/ic_arrow_back_white_24dp"
-                />
+                android:onClick="onMenuBackPressed" />
 
             <Button
                 android:id="@+id/brightnessButton"
@@ -142,8 +141,8 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:onClick="onMenuBackPressed"
-                android:background="@drawable/ic_arrow_back_white_24dp" />
+                android:background="@drawable/ic_arrow_back_white_24dp"
+                android:onClick="onMenuBackPressed" />
 
             <Button
                 android:id="@+id/histogramEqualizationButton"
@@ -188,8 +187,8 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:onClick="onMenuBackPressed"
-                android:background="@drawable/ic_arrow_back_white_24dp" />
+                android:background="@drawable/ic_arrow_back_white_24dp"
+                android:onClick="onMenuBackPressed" />
 
             <Button
                 android:id="@+id/gaussianBlurButton"
@@ -225,13 +224,15 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <LinearLayout android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@id/menuPickerScrollView"
         android:orientation="horizontal">
 
-        <SeekBar android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
