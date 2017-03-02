@@ -2,6 +2,7 @@ package projet_techno_l3.imageeditor;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -13,15 +14,21 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-
+import android.widget.Toast;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Callable;
@@ -272,7 +279,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSaveButtonClicked(View view) {
-        Bitmap bmp = getImageViewBitmap();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.NameSavedImageDialog);
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.saveimagedialog,null);
+        builder.setView(dialogView);
+        final EditText editTextName = (EditText) dialogView.findViewById(R.id.editTxtDialogSaveImaege);
+        builder.setTitle("Nom de l'image");
+        builder.setPositiveButton("TERMINER",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveImageIntoStorage(editTextName.getText().toString());
+                    }
+                });
+        builder.setNegativeButton("ANNULER",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void onLoadFromGalleryButtonClicked(View view) {
@@ -286,7 +315,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Open camera and save the photo into a specific directory
-     *
      * @param view performs the operation
      */
     public void onLoadFromCameraButtonClicked(View view) {
@@ -325,4 +353,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void saveImageIntoStorage(String filename){
+        //TODO in thread because it skipps frames.
+        verifyStoragePermissions(this);
+        Bitmap bmp = getImageViewBitmap();
+        OutputStream fOut = null;
+        try {
+            File root = new File(Environment.getExternalStorageDirectory()
+                    + File.separator + "ImageEditor" + File.separator);
+            root.mkdirs();
+            File sdImageMainDirectory = new File(root, filename+".png");
+            fOut = new FileOutputStream(sdImageMainDirectory);
+        } catch (Exception e) {
+            Toast.makeText(this, "Error occured. Please try again later.",
+                    Toast.LENGTH_SHORT).show();
+        }
+        try {
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+            fOut.flush();
+
+            fOut.close();
+        } catch (Exception e) {
+            Log.d("exception",e.getMessage());
+        }
+    }
 }
