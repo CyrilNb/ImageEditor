@@ -2,7 +2,6 @@ package projet_techno_l3.imageeditor;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -14,25 +13,21 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Callable;
-import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanFilter;
+
+import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
+import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
+import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlur;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -73,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == LOAD_PICTURE_GALLERY_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
@@ -91,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == LOAD_PICTURE_CAMERA_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             //Bitmap loadedBitmap = (Bitmap) data.getExtras().get("data");
             //mainImageView.setImageBitmap(loadedBitmap);
-            File imgFile = new  File(pictureImagePath);
-            if(imgFile.exists()){
+            File imgFile = new File(pictureImagePath);
+            if (imgFile.exists()) {
                 Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 mainImageView.setImageBitmap(myBitmap);
 
@@ -103,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onMenuBackClicked(View view) {
+        clearFilterOptions();
         ((LinearLayout) view.getParent()).setVisibility(View.GONE);
         menuPicker.setVisibility(View.VISIBLE);
     }
@@ -131,11 +127,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private Bitmap getImageViewBitmap(){
-        if(mainImageView != null) {
+    private Bitmap getImageViewBitmap() {
+        if (mainImageView != null) {
             return ((BitmapDrawable) mainImageView.getDrawable()).getBitmap();
         }
         return null;
+    }
+
+    private void clearFilterOptions() {
+        LinearLayout filterOptions = (LinearLayout) findViewById(R.id.filterOptionsLinearLayout);
+
+        if (filterOptions != null) {
+            filterOptions.removeAllViews();
+        }
     }
 
     public void onBrightnessButtonClicked(View view) {
@@ -154,9 +158,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGaussianBlurButtonClicked(View view) {
+        clearFilterOptions();
+        Button min = new Button(this);
+        min.setText("min");
+        Button max = new Button(this);
+        max.setText("max");
+
+        LinearLayout filterOptions = (LinearLayout) findViewById(R.id.filterOptionsLinearLayout);
+
+        View.OnClickListener optionButtonClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Button b = (Button) v;
+                BlurValues value = BlurValues.MIN;
+                switch (b.getText().toString()) {
+                    case "min":
+                        value = BlurValues.MIN;
+                        break;
+                    case "max":
+                        value = BlurValues.MED;
+                        break;
+                }
+                Callable imageModif = new GaussianBlur(getImageViewBitmap(), value);
+
+                try {
+                    mainImageView.setImageBitmap((Bitmap) imageModif.call());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        min.setOnClickListener(optionButtonClick);
+        max.setOnClickListener(optionButtonClick);
+
+        if (filterOptions != null) {
+            filterOptions.addView(min);
+            filterOptions.addView(max);
+        }
     }
 
     public void onMeanBlurButtonClicked(View view) {
+        clearFilterOptions();
         Button min = new Button(this);
         min.setText("min");
         Button mid = new Button(this);
@@ -164,25 +208,42 @@ public class MainActivity extends AppCompatActivity {
         Button max = new Button(this);
         max.setText("max");
 
-        RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        relativeParams.addRule(RelativeLayout.ABOVE,view.getId());
+        LinearLayout filterOptions = (LinearLayout) findViewById(R.id.filterOptionsLinearLayout);
 
-        LinearLayout optionsLayout = new LinearLayout(this);
-        optionsLayout.setOrientation(LinearLayout.HORIZONTAL);
-        optionsLayout.setGravity(Gravity.CENTER);
-        optionsLayout.addView(min);
-        optionsLayout.addView(mid);
-        optionsLayout.addView(max);
-        mainLayout.addView(optionsLayout, relativeParams);
+        View.OnClickListener optionButtonClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Button b = (Button) v;
+                BlurValues value = BlurValues.MIN;
+                switch (b.getText().toString()) {
+                    case "min":
+                        value = BlurValues.MIN;
+                        break;
+                    case "med":
+                        value = BlurValues.MED;
+                        break;
+                    case "max":
+                        value = BlurValues.MAX;
+                        break;
+                }
+                Callable imageModif = new MeanBlur(getImageViewBitmap(), value);
+                try {
+                    mainImageView.setImageBitmap((Bitmap) imageModif.call());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
+            }
+        };
 
-        Callable imageModif = new MeanFilter(getImageViewBitmap(), 7);
+        min.setOnClickListener(optionButtonClick);
+        mid.setOnClickListener(optionButtonClick);
+        max.setOnClickListener(optionButtonClick);
 
-        try {
-            mainImageView.setImageBitmap((Bitmap) imageModif.call());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (filterOptions != null) {
+            filterOptions.addView(min);
+            filterOptions.addView(mid);
+            filterOptions.addView(max);
         }
     }
 
@@ -192,15 +253,15 @@ public class MainActivity extends AppCompatActivity {
     public void onSobelButtonClicked(View view) {
     }
 
-    public void onUndoButtonClicked(View view){
-
+    public void onUndoButtonClicked(View view) {
+        mainImageView.undoModification();
     }
 
     public void onSaveButtonClicked(View view) {
         Bitmap bmp = getImageViewBitmap();
     }
 
-    public void onLoadFromGalleryButtonClicked(View view){
+    public void onLoadFromGalleryButtonClicked(View view) {
         verifyStoragePermissions(MainActivity.this);
         Intent galleryIntent = new Intent(
                 Intent.ACTION_PICK,
@@ -211,9 +272,10 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Open camera and save the photo into a specific directory
+     *
      * @param view performs the operation
      */
-    public void onLoadFromCameraButtonClicked(View view){
+    public void onLoadFromCameraButtonClicked(View view) {
         verifyStoragePermissions(MainActivity.this);
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = timeStamp + ".jpg";
@@ -229,7 +291,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *
      * If APK >= 23, we need to check at runtime for user permissions
      * Checks if the app has permission to write to device storage
      * If the app does not has permissions required then the user will be prompted to grant permissions

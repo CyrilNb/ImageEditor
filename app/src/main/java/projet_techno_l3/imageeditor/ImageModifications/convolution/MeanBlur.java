@@ -16,17 +16,13 @@ import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification
  *
  * Also called "Filtre Moyenneur" in French.
  */
-public class MeanFilter extends AbstractImageModification {
+public class MeanBlur extends AbstractImageModification {
 
     private final int filterSize;
 
-    public MeanFilter(Bitmap src, int filterSize) {
+    public MeanBlur(Bitmap src, BlurValues filterSize) {
         this.src = src;
-        if(filterSize%2 != 1){
-            filterSize = filterSize-1;
-        }
-        filterSize = ensureRange(filterSize,1,7);
-        this.filterSize =filterSize;
+        this.filterSize = (filterSize.ordinal()*2)+3;
     }
 
     /**

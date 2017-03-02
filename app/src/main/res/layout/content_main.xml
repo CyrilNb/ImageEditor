@@ -15,12 +15,6 @@
     tools:showIn="@layout/activity_main">
 
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:layout_alignParentTop="true"
-        android:background="#99000000" />
-
     <Button
         android:id="@+id/undoButton"
         android:layout_width="24dp"
@@ -68,12 +62,14 @@
         android:onClick="onSaveButtonClicked" />
 
 
-    <projet_techno_l3.imageeditor.ZoomAndScrollImageView
-        android:id="@+id/imageView"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:src="@drawable/fruitbasket" />
+        android:layout_height="28dp"
+        android:layout_alignParentTop="true"
+
+        android:background="#99000000" />
+
+
 
 
     <HorizontalScrollView
@@ -134,7 +130,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="@drawable/ic_arrow_back_white_24dp"
-                android:onClick="onMenuBackPressed" />
+                android:onClick="onMenuBackClicked" />
 
             <Button
                 android:id="@+id/brightnessButton"
@@ -171,7 +167,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="@drawable/ic_arrow_back_white_24dp"
-                android:onClick="onMenuBackPressed" />
+                android:onClick="onMenuBackClicked" />
 
             <Button
                 android:id="@+id/histogramEqualizationButton"
@@ -217,7 +213,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="@drawable/ic_arrow_back_white_24dp"
-                android:onClick="onMenuBackPressed" />
+                android:onClick="onMenuBackClicked" />
 
             <Button
                 android:id="@+id/gaussianBlurButton"
@@ -254,16 +250,21 @@
     </HorizontalScrollView>
 
     <LinearLayout
+        android:id="@+id/filterOptionsLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/menuPickerScrollView"
-        android:orientation="horizontal">
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
+        android:orientation="horizontal"
+        android:gravity="center">
     </LinearLayout>
 
+    <projet_techno_l3.imageeditor.ZoomAndScrollImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/filterOptionsLinearLayout"
+        android:layout_below="@id/loadFromCameraButton"
+        android:layout_centerVertical="true"
+        android:src="@drawable/fruitbasket" />
 
 </RelativeLayout>

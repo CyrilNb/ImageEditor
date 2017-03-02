@@ -23,13 +23,9 @@ public class GaussianBlur extends AbstractImageModification {
 
     private int[] gaussianValue = {0,10,0,66,0,98};
 
-    public GaussianBlur(Bitmap src, int filterSize) {
+    public GaussianBlur(Bitmap src, BlurValues filterSize) {
         this.src = src;
-        if(filterSize%2 != 1){
-            filterSize = filterSize-1;
-        }
-        filterSize = ensureRange(filterSize,3,5);
-        this.filterSize = filterSize;
+        this.filterSize = (filterSize.ordinal()*2)+3;
     }
 
     /**
