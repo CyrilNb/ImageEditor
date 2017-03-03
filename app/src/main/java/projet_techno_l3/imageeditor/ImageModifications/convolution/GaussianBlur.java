@@ -78,7 +78,7 @@ public class GaussianBlur extends AbstractImageModification {
         int arrayHeight = pixels2D.length;
         int arrayWidth = pixels2D[0].length;
 
-        int gaussianOffset = gaussianMatrix.length - arrayHeight;
+        int gaussianOffset = (gaussianMatrix.length - arrayHeight)/2;
 
         int totalRed = 0;
         int totalGreen = 0;
@@ -88,8 +88,8 @@ public class GaussianBlur extends AbstractImageModification {
 
         for (int y = 0; y < arrayHeight; y++) {
             for (int x = 0; x < arrayWidth; x++) {
-                int pixel = pixels2D[y + gaussianOffset][x + gaussianOffset];
-                int gaussianValue = gaussianMatrix[y][x];
+                int pixel = pixels2D[y ][x ];
+                int gaussianValue = gaussianMatrix[y + gaussianOffset ][x + gaussianOffset ];
                 totalRed += gaussianValue * Color.red(pixel);
                 totalGreen += gaussianValue * Color.green(pixel);
                 totalBlue += gaussianValue * Color.blue(pixel);
