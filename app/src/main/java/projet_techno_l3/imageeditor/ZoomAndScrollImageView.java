@@ -86,7 +86,7 @@ public class ZoomAndScrollImageView extends ImageView {
     public void setImageBitmap(Bitmap bm) {
         Log.d("event","size avant:"+Integer.toString(bitmapStack.size()));
         super.setImageBitmap(bm);
-        bitmapStack.add(bm);
+        bitmapStack.push(bm);
         Log.d("event","size apres:"+Integer.toString(bitmapStack.size()));
     }
 
@@ -94,10 +94,9 @@ public class ZoomAndScrollImageView extends ImageView {
      * Removes a modification by going back to the previous image.
      */
     public void undoModification() {
-        if (bitmapStack.size() > 0) {
-            Bitmap old = bitmapStack.peek();
-            setImageBitmap(old);
-            Log.d("event","a la fin: "+Integer.toString(bitmapStack.size()));
+        if (bitmapStack.size() > 1) {
+            bitmapStack.pop();
+            setImageBitmap(bitmapStack.peek());
         }
     }
 

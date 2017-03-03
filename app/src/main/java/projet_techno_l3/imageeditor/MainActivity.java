@@ -71,10 +71,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
         mainImageView = (ZoomAndScrollImageView) findViewById(R.id.imageView);
         menuPicker = (LinearLayout) findViewById(R.id.menuPickerLinearLayout);
         filterOptions = (LinearLayout) findViewById(R.id.filterOptionsLinearLayout);
 
+
+        Bitmap fruitBasket = BitmapFactory.decodeResource(getResources(),
+                R.drawable.fruitbasket);
+        // Adding the image programmatically so it gets added to the ZoomAndScrollImageView stack
+        mainImageView.setImageBitmap(fruitBasket);
     }
 
     @Override
@@ -143,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get the bitmap image in the main imageView
+     * @return The bitmap
+     */
     private Bitmap getImageViewBitmap() {
         if (mainImageView != null) {
             return ((BitmapDrawable) mainImageView.getDrawable()).getBitmap();
@@ -150,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Removes all filter options
+     */
     private void clearFilterOptions() {
 
         if (filterOptions != null) {
