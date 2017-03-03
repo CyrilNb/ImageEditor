@@ -112,7 +112,6 @@ public class MeanBlur extends AbstractImageModification {
     @Override
     public Object call() throws Exception {
 
-
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888, true);
 
         int imgHeight = result.getHeight();
