@@ -27,7 +27,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -45,6 +44,7 @@ import projet_techno_l3.imageeditor.ImageModifications.ContrastEditor;
 import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
+import projet_techno_l3.imageeditor.ImageModifications.convolution.LaplacianFilter;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlur;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.SobelFilter;
 
@@ -109,10 +109,10 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        Bitmap fruitBasket = BitmapFactory.decodeResource(getResources(),
+        Bitmap basedImage = BitmapFactory.decodeResource(getResources(),
                 R.drawable.fruitbasket);
         // Adding the image programmatically so it gets added to the ZoomAndScrollImageView stack
-        mainImageView.setImageBitmap(fruitBasket);
+        mainImageView.setImageBitmap(basedImage);
     }
 
     @Override
@@ -413,6 +413,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLaplacianButtonClicked(View view) {
+        Callable imageModif = new LaplacianFilter(getImageViewBitmap());
+
+        try {
+            mainImageView.setImageBitmap((Bitmap) imageModif.call());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         clearFilterOptions();
 
     }
@@ -433,8 +440,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSaveButtonClicked(View view) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.NameSavedImageDialog);
-        final View dialogView = LayoutInflater.from(this).inflate(R.layout.saveimagedialog, null);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.NameSavedImageDialog);
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.saveimagedialog,null);
         builder.setView(dialogView);
         final EditText editTextName = (EditText) dialogView.findViewById(R.id.editTxtDialogSaveImage);
         builder.setTitle("Nom de l'image");
@@ -468,7 +475,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Open camera and save the photo into a specific directory
-     *
      * @param view performs the operation
      */
     public void onLoadFromCameraButtonClicked(View view) {
