@@ -76,7 +76,18 @@ public class MainActivity extends AppCompatActivity {
         mainImageView = (ZoomAndScrollImageView) findViewById(R.id.imageView);
         menuPicker = (LinearLayout) findViewById(R.id.menuPickerLinearLayout);
         filterOptions = (LinearLayout) findViewById(R.id.filterOptionsLinearLayout);
+        Button undoButton = (Button) findViewById(R.id.undoButton);
 
+        // The onLongClick event isn't available in XML, so we define it here.
+        if (undoButton != null) {
+            undoButton.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mainImageView.resetPicture();
+                    return true;
+                }
+            });
+        }
 
         Bitmap fruitBasket = BitmapFactory.decodeResource(getResources(),
                 R.drawable.fruitbasket);
@@ -393,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveImageIntoStorage(String filename){
-        //TODO in thread because it skipps frames.
+        //TODO in thread because it skips frames.
         verifyStoragePermissions(this);
         Bitmap bmp = getImageViewBitmap();
         OutputStream fOut = null;
