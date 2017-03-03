@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         menuPicker = (LinearLayout) findViewById(R.id.menuPickerLinearLayout);
         mainLayout = (RelativeLayout) findViewById(R.id.content_main);
         filterOptions = (LinearLayout) findViewById(R.id.filterOptionsLinearLayout);
-
 
     }
 
