@@ -3,12 +3,7 @@ package projet_techno_l3.imageeditor.ImageModifications;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-/**
- * Created by Antoine on 03/03/2017.
- */
-
 public class ColorFilter extends AbstractImageModification {
-
 
     private final int color;
 

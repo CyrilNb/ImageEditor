@@ -8,11 +8,13 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.ColorInt;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +35,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Callable;
 
+import es.dmoral.coloromatic.ColorOMaticDialog;
+import es.dmoral.coloromatic.IndicatorMode;
+import es.dmoral.coloromatic.OnColorSelectedListener;
+import es.dmoral.coloromatic.colormode.ColorMode;
+import projet_techno_l3.imageeditor.ImageModifications.ColorFilter;
 import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
@@ -162,9 +169,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onColorPickerButtonClicked(View view) {
-        SeekBar choice = new SeekBar(this);
+        new ColorOMaticDialog.Builder()
+                .initialColor(Color.RED)
+                .colorMode(ColorMode.RGB) // RGB, ARGB, HVS
+                .indicatorMode(IndicatorMode.DECIMAL) // HEX or DECIMAL; Note that using HSV with IndicatorMode.HEX is not recommended
+                .onColorSelected(new OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(@ColorInt int color) {
+                        Callable colorFilterCallable = new ColorFilter(getImageViewBitmap(),color);
+                        try {
+                            mainImageView.setImageBitmap((Bitmap) colorFilterCallable.call());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-
+                    }
+                })
+                .showColorIndicator(true) // Default false, choose to show text indicator showing the current color in HEX or DEC (see images) or not
+                .create()
+                .show(getSupportFragmentManager(), "ColorOMaticDialog");
 
     }
 
@@ -280,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.NameSavedImageDialog);
         final View dialogView = LayoutInflater.from(this).inflate(R.layout.saveimagedialog,null);
         builder.setView(dialogView);
-        final EditText editTextName = (EditText) dialogView.findViewById(R.id.editTxtDialogSaveImaege);
+        final EditText editTextName = (EditText) dialogView.findViewById(R.id.editTxtDialogSaveImage);
         builder.setTitle("Nom de l'image");
         builder.setPositiveButton("TERMINER",
                 new DialogInterface.OnClickListener() {
@@ -296,7 +319,6 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-
 
         AlertDialog dialog = builder.create();
         dialog.show();

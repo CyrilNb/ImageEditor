@@ -66,10 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="28dp"
         android:layout_alignParentTop="true"
-
         android:background="#99000000" />
-
-
 
 
     <HorizontalScrollView
