@@ -89,7 +89,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onCategoriesMenuButtonClicked"
-                android:text="ADJUST" />
+                android:text="ADJUST"
+                android:textColor="@color/textColorPrimary" />
 
             <Button
                 android:id="@+id/filterButton"
@@ -97,7 +98,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onCategoriesMenuButtonClicked"
-                android:text="FILTER" />
+                android:text="FILTER"
+                android:textColor="@color/textColorPrimary" />
 
             <Button
                 android:id="@+id/convolutionButton"
@@ -105,7 +107,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onCategoriesMenuButtonClicked"
-                android:text="CONVOLUTION" />
+                android:text="CONVOLUTION"
+                android:textColor="@color/textColorPrimary" />
         </LinearLayout>
 
     </HorizontalScrollView>
@@ -127,7 +130,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="@drawable/ic_arrow_back_white_24dp"
-                android:onClick="onMenuBackClicked" />
+                android:onClick="onMenuBackClicked"
+                android:textColor="@color/textColorPrimary" />
 
             <Button
                 android:id="@+id/brightnessButton"
@@ -135,7 +139,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onBrightnessButtonClicked"
-                android:text="BRIGHTNESS" />
+                android:text="BRIGHTNESS"
+                android:textColor="@color/textColorPrimary" />
 
             <Button
                 android:id="@+id/contrastButton"
@@ -143,7 +148,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onContrastButtonClicked"
-                android:text="CONTRAST" />
+                android:text="CONTRAST"
+                android:textColor="@color/textColorPrimary" />
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -164,7 +170,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="@drawable/ic_arrow_back_white_24dp"
-                android:onClick="onMenuBackClicked" />
+                android:onClick="onMenuBackClicked"
+                android:textColor="@color/textColorPrimary" />
 
             <Button
                 android:id="@+id/histogramEqualizationButton"
@@ -172,7 +179,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onHistogramEqualizationClicked"
-                android:text="Histo Equ" />
+                android:text="Histo Equ"
+                android:textColor="@color/textColorPrimary" />
 
             <Button
                 android:id="@+id/colorPickerButton"
@@ -180,7 +188,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onColorPickerButtonClicked"
-                android:text="COLOR PICKER" />
+                android:text="COLOR PICKER"
+                android:textColor="@color/textColorPrimary" />
 
             <Button
                 android:id="@+id/greyscaleButton"
@@ -188,7 +197,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onGreyScaleButtonClicked"
-                android:text="GREYSCALE" />
+                android:text="GREYSCALE"
+                android:textColor="@color/textColorPrimary" />
         </LinearLayout>
 
     </HorizontalScrollView>
@@ -210,7 +220,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="@drawable/ic_arrow_back_white_24dp"
-                android:onClick="onMenuBackClicked" />
+                android:onClick="onMenuBackClicked"
+                android:textColor="@color/textColorPrimary" />
 
             <Button
                 android:id="@+id/gaussianBlurButton"
@@ -218,7 +229,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onGaussianBlurButtonClicked"
-                android:text="Gaussian Blur" />
+                android:text="Gaussian Blur"
+                android:textColor="@color/textColorPrimary" />
 
             <Button
                 android:id="@+id/meanBlurButton"
@@ -226,7 +238,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onMeanBlurButtonClicked"
-                android:text="Mean Blur" />
+                android:text="Mean Blur"
+                android:textColor="@color/textColorPrimary" />
 
             <Button
                 android:id="@+id/laplacianButton"
@@ -234,7 +247,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onLaplacianButtonClicked"
-                android:text="Laplacian" />
+                android:text="Laplacian"
+                android:textColor="@color/textColorPrimary" />
 
             <Button
                 android:id="@+id/sobelButton"
@@ -242,7 +256,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onSobelButtonClicked"
-                android:text="Sobel" />
+                android:text="Sobel"
+                android:textColor="@color/textColorPrimary" />
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -251,9 +266,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/menuPickerScrollView"
-        android:orientation="horizontal"
-        android:gravity="center">
-    </LinearLayout>
+        android:gravity="center"
+        android:orientation="horizontal"></LinearLayout>
 
     <projet_techno_l3.imageeditor.ZoomAndScrollImageView
         android:id="@+id/imageView"

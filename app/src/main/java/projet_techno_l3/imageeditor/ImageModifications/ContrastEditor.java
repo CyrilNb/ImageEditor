@@ -1,16 +1,11 @@
 package projet_techno_l3.imageeditor.ImageModifications;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 
 /**
- * Created by gagno on 2/10/2017.
+ * Changes the overall contrast of an image using an adjustment value
  */
-
 public class ContrastEditor extends AbstractImageModification {
 
     private float value;
@@ -62,6 +57,7 @@ public class ContrastEditor extends AbstractImageModification {
 
     /**
      * Truncate a pixel value between 0 and 255
+     *
      * @param v original color value
      * @return truncated value between 0 and 255
      */

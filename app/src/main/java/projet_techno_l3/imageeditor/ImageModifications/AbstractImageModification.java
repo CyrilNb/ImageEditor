@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import java.util.concurrent.Callable;
 
-public abstract class AbstractImageModification implements Callable{
+public abstract class AbstractImageModification implements Callable {
 
     protected Bitmap src;
 

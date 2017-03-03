@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">ImageEditor</string>
     <string name="title_activity_main">ImageEditor</string>
-    <string name="left_arrow"><![CDATA[<-]]></string>
 </resources>

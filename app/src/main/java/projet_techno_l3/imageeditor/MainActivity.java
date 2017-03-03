@@ -22,11 +22,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -52,14 +50,6 @@ import projet_techno_l3.imageeditor.ImageModifications.convolution.SobelFilter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ZoomAndScrollImageView mainImageView;
-    private LinearLayout menuPicker;
-    private LinearLayout filterOptions;
-
-    private String pictureImagePath = "";
-
-    private LinearLayout currentActiveFiltersMenu;
-
     //Constants
     private static final int LOAD_PICTURE_GALLERY_ACTIVITY_REQUEST_CODE = 1;
     private static final int LOAD_PICTURE_CAMERA_ACTIVITY_REQUEST_CODE = 2;
@@ -68,7 +58,32 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+    private ZoomAndScrollImageView mainImageView;
+    private LinearLayout menuPicker;
+    private LinearLayout filterOptions;
+    private String pictureImagePath = "";
+    private LinearLayout currentActiveFiltersMenu;
 
+    /**
+     * If APK >= 23, we need to check at runtime for user permissions
+     * Checks if the app has permission to write to device storage
+     * If the app does not has permissions required then the user will be prompted to grant permissions
+     *
+     * @param activity which performs the operation where permissions are requested
+     */
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if the application has write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // If not, prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -298,6 +313,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGreyScaleButtonClicked(View view) {
+        clearFilterOptions();
+
         Callable imageModif = new Greyscale(getImageViewBitmap());
 
         try {
@@ -396,9 +413,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLaplacianButtonClicked(View view) {
+        clearFilterOptions();
+
     }
 
     public void onSobelButtonClicked(View view) {
+        clearFilterOptions();
         Callable imageModif = new SobelFilter(getImageViewBitmap());
 
         try {
@@ -464,27 +484,6 @@ public class MainActivity extends AppCompatActivity {
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
         startActivityForResult(cameraIntent, LOAD_PICTURE_CAMERA_ACTIVITY_REQUEST_CODE);
 
-    }
-
-    /**
-     * If APK >= 23, we need to check at runtime for user permissions
-     * Checks if the app has permission to write to device storage
-     * If the app does not has permissions required then the user will be prompted to grant permissions
-     *
-     * @param activity which performs the operation where permissions are requested
-     */
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if the application has write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // If not, prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
     }
 
     private void saveImageIntoStorage(String filename) {

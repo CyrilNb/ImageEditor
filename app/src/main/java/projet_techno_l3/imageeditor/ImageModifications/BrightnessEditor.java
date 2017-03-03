@@ -11,8 +11,7 @@ public class BrightnessEditor extends AbstractImageModification {
     private float value;
 
     /**
-     *
-     * @param src Source image to be modified
+     * @param src   Source image to be modified
      * @param value Brightness adjusment value, between -100 and 100
      */
     public BrightnessEditor(Bitmap src, float value) {
@@ -38,11 +37,11 @@ public class BrightnessEditor extends AbstractImageModification {
 
         for (int i = 0; i < pixels.length; i++) {
             float[] hsv = new float[3];
-            Color.colorToHSV(pixels[i],hsv);
-            float addedValue = hsv[2] + value/100;
-            if (addedValue > 1 )
+            Color.colorToHSV(pixels[i], hsv);
+            float addedValue = hsv[2] + value / 100;
+            if (addedValue > 1)
                 addedValue = 1;
-            if(addedValue < -1)
+            if (addedValue < -1)
                 addedValue = -1;
 
             hsv[2] = addedValue;

@@ -1,20 +1,14 @@
 package projet_techno_l3.imageeditor;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
-import android.graphics.RectF;
 import android.os.Build;
-import android.provider.MediaStore;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import java.util.Stack;
@@ -22,17 +16,18 @@ import java.util.Stack;
 
 public class ZoomAndScrollImageView extends ImageView {
     /**
-     * Stack of current and previous Bitmap held by the view
-     */
-    private Stack<Bitmap> bitmapStack = new Stack<>();
-
-    /**
      * The 3 different states/events in which the user is performing
      */
     static final int NONE = 0;
     static final int SCROLL = 1;
     static final int ZOOM = 2;
-
+    // These matrices will be used to scale points of the image
+    Matrix matrix = new Matrix();
+    Matrix savedMatrix = new Matrix();
+    /**
+     * Stack of current and previous Bitmap held by the view
+     */
+    private Stack<Bitmap> bitmapStack = new Stack<>();
     /**
      * Private members
      */
@@ -40,24 +35,6 @@ public class ZoomAndScrollImageView extends ImageView {
     private float dist;
     private PointF startPoint = new PointF();
     private PointF middlePoint = new PointF();
-
-    // These matrices will be used to scale points of the image
-    Matrix matrix = new Matrix();
-    Matrix savedMatrix = new Matrix();
-
-
-    /**
-     * Getter and Setter of private members
-     *
-     * @return int the mode currently set
-     */
-    public int getMode() {
-        return mode;
-    }
-
-    public void setMode(int mode) {
-        this.mode = mode;
-    }
 
 
     /**
@@ -73,10 +50,28 @@ public class ZoomAndScrollImageView extends ImageView {
         super(context, attrs);
     }
 
+
     public ZoomAndScrollImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public ZoomAndScrollImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    /**
+     * Getter and Setter of private members
+     *
+     * @return int the mode currently set
+     */
+    public int getMode() {
+        return mode;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
 
     /**
      * Set the view image and stores it in the stack
@@ -113,11 +108,6 @@ public class ZoomAndScrollImageView extends ImageView {
             bitmapStack.clear();
         }
         setImageBitmap(firstBM);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ZoomAndScrollImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
