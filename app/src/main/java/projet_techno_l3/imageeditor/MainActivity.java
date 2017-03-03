@@ -43,6 +43,7 @@ import projet_techno_l3.imageeditor.ImageModifications.BrightnessEditor;
 import projet_techno_l3.imageeditor.ImageModifications.ColorFilter;
 import projet_techno_l3.imageeditor.ImageModifications.ContrastEditor;
 import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
+import projet_techno_l3.imageeditor.ImageModifications.HistogramEqualization;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlur;
@@ -286,6 +287,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void onHistogramEqualizationClicked(View view) {
         clearFilterOptions();
+
+        Callable imageModif = new HistogramEqualization(getImageViewBitmap());
+
+        try {
+            mainImageView.setImageBitmap((Bitmap) imageModif.call());
+            clearFilterOptions();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onColorPickerButtonClicked(View view) {
@@ -370,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
         Button min = new Button(this);
         min.setText("min");
         Button mid = new Button(this);
-        mid.setText("mid");
+        mid.setText("med");
         Button max = new Button(this);
         max.setText("max");
 
