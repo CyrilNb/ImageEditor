@@ -17,7 +17,7 @@ public class ContrastEditor extends AbstractImageModification {
 
     /**
      * @param src   Source image to be modified
-     * @param value Contract adjusment value, between -100 and 100
+     * @param value Contract adjusment value, between -255 and 255
      */
     public ContrastEditor(Bitmap src, float value) {
         this.src = src;

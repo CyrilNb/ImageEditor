@@ -80,14 +80,16 @@ public class ZoomAndScrollImageView extends ImageView {
 
     /**
      * Set the view image and stores it in the stack
+     *
      * @param bm The displayed bitmap
      */
     @Override
     public void setImageBitmap(Bitmap bm) {
-        Log.d("event","size avant:"+Integer.toString(bitmapStack.size()));
+        Log.d("event", "size avant:" + Integer.toString(bitmapStack.size()));
         super.setImageBitmap(bm);
-        bitmapStack.push(bm);
-        Log.d("event","size apres:"+Integer.toString(bitmapStack.size()));
+        if (!(bitmapStack.peek() == bm))
+            bitmapStack.push(bm);
+        Log.d("event", "size apres:" + Integer.toString(bitmapStack.size()));
     }
 
     /**
@@ -95,8 +97,10 @@ public class ZoomAndScrollImageView extends ImageView {
      */
     public void undoModification() {
         if (bitmapStack.size() > 1) {
-            bitmapStack.pop();
-            setImageBitmap(bitmapStack.peek());
+            Bitmap poppped = bitmapStack.pop();
+            Bitmap peeked = bitmapStack.peek();
+            setImageBitmap(peeked);
+            Log.d("ZoomAndScrollIV", "undoModification: " + poppped.toString() + " peeked: " + peeked.toString());
         }
     }
 
@@ -106,8 +110,7 @@ public class ZoomAndScrollImageView extends ImageView {
     public void resetPicture() {
         Bitmap firstBM = bitmapStack.firstElement();
         if (firstBM != bitmapStack.peek()) {
-            bitmapStack.removeAllElements();
-            bitmapStack.add(firstBM);
+            bitmapStack.clear();
         }
         setImageBitmap(firstBM);
     }

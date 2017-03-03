@@ -22,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -39,7 +40,9 @@ import es.dmoral.coloromatic.ColorOMaticDialog;
 import es.dmoral.coloromatic.IndicatorMode;
 import es.dmoral.coloromatic.OnColorSelectedListener;
 import es.dmoral.coloromatic.colormode.ColorMode;
+import projet_techno_l3.imageeditor.ImageModifications.BrightnessEditor;
 import projet_techno_l3.imageeditor.ImageModifications.ColorFilter;
+import projet_techno_l3.imageeditor.ImageModifications.ContrastEditor;
 import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
@@ -183,15 +186,80 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBrightnessButtonClicked(View view) {
+        clearFilterOptions();
+        SeekBar s = new SeekBar(this);
+        s.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        s.setProgress(50);
+        
+        s.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                Callable imageModif = new BrightnessEditor(getImageViewBitmap(),(seekBar.getProgress()-50)*2);
+
+                try {
+                    mainImageView.setImageBitmap((Bitmap) imageModif.call());
+                    clearFilterOptions();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        filterOptions.addView(s);
     }
 
     public void onContrastButtonClicked(View view) {
+        clearFilterOptions();
+        SeekBar s = new SeekBar(this);
+        s.setMax(255*2);
+        s.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        s.setProgress(255);
+
+        s.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                Callable imageModif = new ContrastEditor(getImageViewBitmap(),(seekBar.getProgress()-255));
+
+                try {
+                    mainImageView.setImageBitmap((Bitmap) imageModif.call());
+                    clearFilterOptions();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        filterOptions.addView(s);
     }
 
     public void onHistogramEqualizationClicked(View view) {
+        clearFilterOptions();
     }
 
     public void onColorPickerButtonClicked(View view) {
+        clearFilterOptions();
         new ColorOMaticDialog.Builder()
                 .initialColor(Color.RED)
                 .colorMode(ColorMode.RGB) // RGB, ARGB, HVS

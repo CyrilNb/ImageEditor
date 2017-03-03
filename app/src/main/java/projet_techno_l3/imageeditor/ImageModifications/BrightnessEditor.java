@@ -39,7 +39,13 @@ public class BrightnessEditor extends AbstractImageModification {
         for (int i = 0; i < pixels.length; i++) {
             float[] hsv = new float[3];
             Color.colorToHSV(pixels[i],hsv);
-            hsv[2] = hsv[2] * value/100;
+            float addedValue = hsv[2] + value/100;
+            if (addedValue > 1 )
+                addedValue = 1;
+            if(addedValue < -1)
+                addedValue = -1;
+
+            hsv[2] = addedValue;
             pixels[i] = Color.HSVToColor(hsv);
         }
 
