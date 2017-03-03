@@ -31,7 +31,7 @@ public class ColorFilter extends AbstractImageModification {
             int pixel = pixels[i];
             Color.colorToHSV(pixel, hsv);
 
-            if (!(hsv[0] - 10.0 < hue && hue < hsv[0] + 10.0 && hsv[1] > 0.01)) {
+            if (!(hsv[0] - 36.0 < hue && hue < hsv[0] + 36.0 && hsv[1] > 0.10)) {
                 int greyValue = (int) (0.299 * Color.red(pixel) + 0.587 * Color.green(pixel) + 0.114 * Color.blue(pixel));
                 pixels[i] = Color.rgb(greyValue, greyValue, greyValue);
             }

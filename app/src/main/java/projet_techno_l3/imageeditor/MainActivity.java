@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -57,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String pictureImagePath = "";
 
+    private LinearLayout currentActiveFiltersMenu;
+
     //Constants
     private static final int LOAD_PICTURE_GALLERY_ACTIVITY_REQUEST_CODE = 1;
     private static final int LOAD_PICTURE_CAMERA_ACTIVITY_REQUEST_CODE = 2;
@@ -73,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
         mainImageView = (ZoomAndScrollImageView) findViewById(R.id.imageView);
@@ -96,6 +98,13 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.fruitbasket);
         // Adding the image programmatically so it gets added to the ZoomAndScrollImageView stack
         mainImageView.setImageBitmap(fruitBasket);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        clearFilterOptions();
+        onMenuBackClicked(null);
     }
 
     @Override
@@ -136,8 +145,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void onMenuBackClicked(View view) {
         clearFilterOptions();
-        ((LinearLayout) view.getParent()).setVisibility(View.GONE);
-        menuPicker.setVisibility(View.VISIBLE);
+        if (currentActiveFiltersMenu != null) {
+            currentActiveFiltersMenu.setVisibility(View.GONE);
+            menuPicker.setVisibility(View.VISIBLE);
+        }
     }
 
     public void onCategoriesMenuButtonClicked(View view) {
@@ -147,18 +158,21 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayout adjustLinearLayout = (LinearLayout) findViewById(R.id.adjustLinearLayout);
                 if (adjustLinearLayout != null) {
                     adjustLinearLayout.setVisibility(View.VISIBLE);
+                    currentActiveFiltersMenu = adjustLinearLayout;
                 }
                 break;
             case R.id.filterButton:
                 LinearLayout filterLinearLayout = (LinearLayout) findViewById(R.id.filterLinearLayout);
                 if (filterLinearLayout != null) {
                     filterLinearLayout.setVisibility(View.VISIBLE);
+                    currentActiveFiltersMenu = filterLinearLayout;
                 }
                 break;
             case R.id.convolutionButton:
                 LinearLayout convolutionLinearLayout = (LinearLayout) findViewById(R.id.convolutionLinearLayout);
                 if (convolutionLinearLayout != null) {
                     convolutionLinearLayout.setVisibility(View.VISIBLE);
+                    currentActiveFiltersMenu = convolutionLinearLayout;
                 }
                 break;
         }
@@ -166,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Get the bitmap image in the main imageView
+     *
      * @return The bitmap
      */
     private Bitmap getImageViewBitmap() {
@@ -190,11 +205,11 @@ public class MainActivity extends AppCompatActivity {
         SeekBar s = new SeekBar(this);
         s.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         s.setProgress(50);
-        
+
         s.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                
+
             }
 
             @Override
@@ -205,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                Callable imageModif = new BrightnessEditor(getImageViewBitmap(),(seekBar.getProgress()-50)*2);
+                Callable imageModif = new BrightnessEditor(getImageViewBitmap(), (seekBar.getProgress() - 50) * 2);
 
                 try {
                     mainImageView.setImageBitmap((Bitmap) imageModif.call());
@@ -215,14 +230,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        
+
         filterOptions.addView(s);
     }
 
     public void onContrastButtonClicked(View view) {
         clearFilterOptions();
         SeekBar s = new SeekBar(this);
-        s.setMax(255*2);
+        s.setMax(255 * 2);
         s.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         s.setProgress(255);
 
@@ -240,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                Callable imageModif = new ContrastEditor(getImageViewBitmap(),(seekBar.getProgress()-255));
+                Callable imageModif = new ContrastEditor(getImageViewBitmap(), (seekBar.getProgress() - 255));
 
                 try {
                     mainImageView.setImageBitmap((Bitmap) imageModif.call());
@@ -267,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
                 .onColorSelected(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(@ColorInt int color) {
-                        Callable colorFilterCallable = new ColorFilter(getImageViewBitmap(),color);
+                        Callable colorFilterCallable = new ColorFilter(getImageViewBitmap(), color);
                         try {
                             mainImageView.setImageBitmap((Bitmap) colorFilterCallable.call());
                         } catch (Exception e) {
@@ -398,8 +413,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSaveButtonClicked(View view) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.NameSavedImageDialog);
-        final View dialogView = LayoutInflater.from(this).inflate(R.layout.saveimagedialog,null);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.NameSavedImageDialog);
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.saveimagedialog, null);
         builder.setView(dialogView);
         final EditText editTextName = (EditText) dialogView.findViewById(R.id.editTxtDialogSaveImage);
         builder.setTitle("Nom de l'image");
@@ -433,6 +448,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Open camera and save the photo into a specific directory
+     *
      * @param view performs the operation
      */
     public void onLoadFromCameraButtonClicked(View view) {
@@ -471,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void saveImageIntoStorage(String filename){
+    private void saveImageIntoStorage(String filename) {
         //TODO in thread because it skips frames.
         verifyStoragePermissions(this);
         Bitmap bmp = getImageViewBitmap();
@@ -480,7 +496,7 @@ public class MainActivity extends AppCompatActivity {
             File root = new File(Environment.getExternalStorageDirectory()
                     + File.separator + "ImageEditor" + File.separator);
             root.mkdirs();
-            File sdImageMainDirectory = new File(root, filename+".png");
+            File sdImageMainDirectory = new File(root, filename + ".png");
             fOut = new FileOutputStream(sdImageMainDirectory);
         } catch (Exception e) {
             Toast.makeText(this, "Error occured. Please try again later.",
@@ -492,7 +508,7 @@ public class MainActivity extends AppCompatActivity {
 
             fOut.close();
         } catch (Exception e) {
-            Log.d("exception",e.getMessage());
+            Log.d("exception", e.getMessage());
         }
     }
 }

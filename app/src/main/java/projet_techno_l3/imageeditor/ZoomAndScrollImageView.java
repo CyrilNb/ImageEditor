@@ -87,7 +87,7 @@ public class ZoomAndScrollImageView extends ImageView {
     public void setImageBitmap(Bitmap bm) {
         Log.d("event", "size avant:" + Integer.toString(bitmapStack.size()));
         super.setImageBitmap(bm);
-        if (!(bitmapStack.peek() == bm))
+        if (bitmapStack.size() < 1 || !(bitmapStack.peek() == bm))
             bitmapStack.push(bm);
         Log.d("event", "size apres:" + Integer.toString(bitmapStack.size()));
     }
