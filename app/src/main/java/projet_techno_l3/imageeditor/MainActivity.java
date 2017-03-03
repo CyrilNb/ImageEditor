@@ -44,15 +44,15 @@ import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlur;
+import projet_techno_l3.imageeditor.ImageModifications.convolution.SobelFilter;
 
 public class MainActivity extends AppCompatActivity {
 
     private ZoomAndScrollImageView mainImageView;
     private LinearLayout menuPicker;
-    private RelativeLayout mainLayout;
     private LinearLayout filterOptions;
 
-    String pictureImagePath = "";
+    private String pictureImagePath = "";
 
     //Constants
     private static final int LOAD_PICTURE_GALLERY_ACTIVITY_REQUEST_CODE = 1;
@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
         mainImageView = (ZoomAndScrollImageView) findViewById(R.id.imageView);
         menuPicker = (LinearLayout) findViewById(R.id.menuPickerLinearLayout);
-        mainLayout = (RelativeLayout) findViewById(R.id.content_main);
         filterOptions = (LinearLayout) findViewById(R.id.filterOptionsLinearLayout);
 
     }
@@ -108,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
             if (imgFile.exists()) {
                 Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 mainImageView.setImageBitmap(myBitmap);
-
             }
 
         }
@@ -293,6 +291,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSobelButtonClicked(View view) {
+        Callable imageModif = new SobelFilter(getImageViewBitmap());
+
+        try {
+            mainImageView.setImageBitmap((Bitmap) imageModif.call());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onUndoButtonClicked(View view) {

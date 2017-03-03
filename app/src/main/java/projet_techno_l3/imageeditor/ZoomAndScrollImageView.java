@@ -21,8 +21,6 @@ import java.util.Stack;
 
 
 public class ZoomAndScrollImageView extends ImageView {
-
-
     /**
      * Stack of current and previous Bitmap held by the view
      */
@@ -86,24 +84,25 @@ public class ZoomAndScrollImageView extends ImageView {
      */
     @Override
     public void setImageBitmap(Bitmap bm) {
+        Log.d("event","size avant:"+Integer.toString(bitmapStack.size()));
         super.setImageBitmap(bm);
-        if (bm != bitmapStack.peek()) {
-            bitmapStack.add(bm);
-        }
+        bitmapStack.add(bm);
+        Log.d("event","size apres:"+Integer.toString(bitmapStack.size()));
     }
 
     /**
      * Removes a modification by going back to the previous image.
      */
     public void undoModification() {
-        if (bitmapStack.size() > 1) {
-            bitmapStack.pop();
-            setImageBitmap(bitmapStack.peek());
+        if (bitmapStack.size() > 0) {
+            Bitmap old = bitmapStack.peek();
+            setImageBitmap(old);
+            Log.d("event","a la fin: "+Integer.toString(bitmapStack.size()));
         }
     }
 
     /**
-     * Resets the image to the first one.
+     * Resets the image to the original one.
      */
     public void resetPicture() {
         Bitmap firstBM = bitmapStack.firstElement();
