@@ -6,6 +6,8 @@ import android.graphics.Color;
 
 import java.util.concurrent.Callable;
 
+import es.dmoral.coloromatic.colormode.mode.RGB;
+
 public class HistogramEqualization extends AbstractImageModification {
     private int bitmapWidth;
     private int bitmapHeight;
@@ -21,14 +23,20 @@ public class HistogramEqualization extends AbstractImageModification {
     @Override
     public Object call() throws Exception {
         Bitmap result = (Bitmap) greyScaleCallable.call();
-        Histogram histogram = this.getHistogram(this.src);
 
-        int[] h = new int[256];
-        int[] ah = new int[256];
-        //remplissage de h...
-        ah[0] = h[0];
-        for (int i = 1; i < 256; i++) {
-            ah[i] = h[i] + ah[i - 1];
+        int[] pixels = new int[bitmapWidth * bitmapHeight];
+        result.getPixels(pixels,0,0,0,0,bitmapWidth,bitmapHeight);
+
+        for (int i = 0; i < bitmapWidth * bitmapHeight; i++) {
+            int color = pixels[i];
+            int r = Color.red(color);
+            int g = Color.green(color);
+            int b = Color.blue(color);
+
+            float[] hsv = new float[3];
+            Color.RGBToHSV(r, g, b, hsv);
+
+
         }
 
         return result;
