@@ -43,6 +43,7 @@ import projet_techno_l3.imageeditor.ImageModifications.ColorFilter;
 import projet_techno_l3.imageeditor.ImageModifications.ContrastEditor;
 import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 import projet_techno_l3.imageeditor.ImageModifications.HistogramEqualization;
+import projet_techno_l3.imageeditor.ImageModifications.Sepia;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.LaplacianFilter;
@@ -334,6 +335,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onSepiaButtonClicked(View view) {
+        clearFilterOptions();
+
+        Callable imageModif = new Sepia(getImageViewBitmap());
+
+        try {
+            mainImageView.setImageBitmap((Bitmap) imageModif.call());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void onGaussianBlurButtonClicked(View view) {
         clearFilterOptions();
         Button min = new Button(this);
@@ -401,9 +414,10 @@ public class MainActivity extends AppCompatActivity {
                         value = BlurValues.MAX;
                         break;
                 }
-                Callable imageModif = new MeanBlur(getImageViewBitmap(), value);
+                MeanBlur imageModif = new MeanBlur(getImageViewBitmap(), value);
                 try {
-                    mainImageView.setImageBitmap((Bitmap) imageModif.call());
+                    Bitmap result = (Bitmap) imageModif.call();
+                    mainImageView.setImageBitmap(result);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -423,6 +437,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLaplacianButtonClicked(View view) {
+        clearFilterOptions();
         Callable imageModif = new LaplacianFilter(getImageViewBitmap());
 
         try {
@@ -430,7 +445,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        clearFilterOptions();
+
     }
 
     public void onSobelButtonClicked(View view) {
@@ -525,4 +540,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d("exception", e.getMessage());
         }
     }
+
+
 }
