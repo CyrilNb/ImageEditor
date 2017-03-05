@@ -531,10 +531,11 @@ public class MainActivity extends AppCompatActivity {
         try {
             bmp.compress(Bitmap.CompressFormat.PNG, 100, fOut);
             fOut.flush();
-
             fOut.close();
+            Toast.makeText(this, R.string.image_saved, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.d("exception", e.getMessage());
+            Toast.makeText(this, R.string.image_not_saved, Toast.LENGTH_SHORT).show();
         }
     }
 
