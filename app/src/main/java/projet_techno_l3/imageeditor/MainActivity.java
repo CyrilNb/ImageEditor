@@ -38,6 +38,7 @@ import es.dmoral.coloromatic.ColorOMaticDialog;
 import es.dmoral.coloromatic.IndicatorMode;
 import es.dmoral.coloromatic.OnColorSelectedListener;
 import es.dmoral.coloromatic.colormode.ColorMode;
+import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
 import projet_techno_l3.imageeditor.ImageModifications.BrightnessEditor;
 import projet_techno_l3.imageeditor.ImageModifications.ColorFilter;
 import projet_techno_l3.imageeditor.ImageModifications.ContrastEditor;
@@ -46,6 +47,7 @@ import projet_techno_l3.imageeditor.ImageModifications.HistogramEqualization;
 import projet_techno_l3.imageeditor.ImageModifications.Sepia;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
+import projet_techno_l3.imageeditor.ImageModifications.convolution.HueColorize;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.LaplacianFilter;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlur;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.SobelFilter;
@@ -329,25 +331,20 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onColorPickerButtonClicked(View view) {
         clearFilterOptions();
-        new ColorOMaticDialog.Builder()
-                .initialColor(Color.RED)
-                .colorMode(ColorMode.RGB) // RGB, ARGB, HVS
-                .indicatorMode(IndicatorMode.DECIMAL) // HEX or DECIMAL; Note that using HSV with IndicatorMode.HEX is not recommended
-                .onColorSelected(new OnColorSelectedListener() {
-                    @Override
-                    public void onColorSelected(@ColorInt int color) {
-                        Callable colorFilterCallable = new ColorFilter(getImageViewBitmap(), color);
-                        try {
-                            mainImageView.setImageBitmap((Bitmap) colorFilterCallable.call());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+        ColorFilter colorFilterCallable = null;
+        this.showColorPickerDialog(false);
 
-                    }
-                })
-                .showColorIndicator(true) // Default false, choose to show text indicator showing the current color in HEX or DEC (see images) or not
-                .create()
-                .show(getSupportFragmentManager(), "ColorOMaticDialog");
+    }
+
+
+    /**
+     * Runs when the hue colorize button is clicked from the bottom menu
+     * @param view
+     */
+    public void onHueColorizeButtonClicked(View view) {
+        clearFilterOptions();
+        HueColorize hueColorizeCallable = null;
+        this.showColorPickerDialog(true);
 
     }
 
@@ -382,6 +379,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
     /**
      * * Runs when the Gaussian blur button is clicked from the bottom menu
@@ -610,6 +608,39 @@ public class MainActivity extends AppCompatActivity {
             Log.d("exception", e.getMessage());
             Toast.makeText(this, R.string.image_not_saved, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * Displays a color picker and runs the callable
+     * @param isHue  Is for HueColorize or not
+     */
+    private void showColorPickerDialog(final boolean isHue){
+        new ColorOMaticDialog.Builder()
+                .initialColor(Color.RED)
+                .colorMode(ColorMode.RGB) // RGB, ARGB, HVS
+                .indicatorMode(IndicatorMode.DECIMAL) // HEX or DECIMAL; Note that using HSV with IndicatorMode.HEX is not recommended
+                .onColorSelected(new OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(@ColorInt int color) {
+                        try {
+                            if(!isHue){
+                                final Callable imageModificationCallable = new ColorFilter(getImageViewBitmap(), color);
+                                mainImageView.setImageBitmap((Bitmap) imageModificationCallable.call());
+                            }else{
+                                final Callable imageModificationCallable = new HueColorize(getImageViewBitmap(), color);
+                                mainImageView.setImageBitmap((Bitmap) imageModificationCallable.call());
+                            }
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                })
+                .showColorIndicator(true) // Default false, choose to show text indicator showing the current color in HEX or DEC (see images) or not
+                .create()
+                .show(getSupportFragmentManager(), "ColorOMaticDialog");
     }
 
 
