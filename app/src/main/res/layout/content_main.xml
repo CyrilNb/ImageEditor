@@ -199,6 +199,15 @@
                 android:onClick="onGreyScaleButtonClicked"
                 android:text="GREYSCALE"
                 android:textColor="@color/textColorPrimary" />
+
+            <Button
+                android:id="@+id/sepiaButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onSepiaButtonClicked"
+                android:text="SEPIA"
+                android:textColor="@color/textColorPrimary" />
         </LinearLayout>
 
     </HorizontalScrollView>
