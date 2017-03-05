@@ -7,10 +7,8 @@ import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification
 import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 
 /**
- * Created by Cyril
+ * Applies a Laplacian filter on the image
  */
-
-//TO DO
 public class LaplacianFilter extends AbstractImageModification {
     private Callable greyScaleCallable;
     private int[][] convolutionMatrix = {
@@ -19,18 +17,27 @@ public class LaplacianFilter extends AbstractImageModification {
             {1,1,1}
     };
 
+    /**
+     * Constructor
+     * @param src bitmap to be modified
+     */
     public LaplacianFilter(Bitmap src) {
         this.src = src;
         greyScaleCallable = new Greyscale(this.src);
     }
 
+    /**
+     * Performs the operation on a specific thread
+     * @return
+     * @throws Exception
+     */
     @Override
     public Object call() throws Exception {
         int r,g,b;
         int rtotal, gtotal, btotal; rtotal = gtotal = btotal = 0;
 
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888, true);
-        //result = (Bitmap) greyScaleCallable.call();
+        result = (Bitmap) greyScaleCallable.call();
 
         for(int i = 1; i<result.getWidth()-1; i++) {
             for (int j = 1; j < result.getHeight() - 1; j++) {
@@ -40,7 +47,6 @@ public class LaplacianFilter extends AbstractImageModification {
                     {
                         // get each channel pixel value
                         int pixel = result.getPixel(i+x,j+y);
-                        //todo get pixels
 
                         r = Color.red(pixel);
                         g = Color.green(pixel);
@@ -54,11 +60,6 @@ public class LaplacianFilter extends AbstractImageModification {
 
                 }
 
-                // range checking
-                if(rtotal <= 0) rtotal = 255;
-                else{
-                    rtotal = 0;
-                }
 
                 if (rtotal > 255) rtotal = 255;
 

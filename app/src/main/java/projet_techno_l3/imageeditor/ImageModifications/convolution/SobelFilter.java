@@ -8,19 +8,30 @@ import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification
 import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 
 /**
- * Created by Cyril
+ * Applies a Sobel filter on an image
  */
-
 public class SobelFilter extends AbstractImageModification {
 
+    /**
+     * Private variables
+     */
     private int[][] convolutionMatrix = new int[3][3];
     private Callable greyScaleCallable;
 
+    /**
+     * Constructor
+     * @param src
+     */
     public SobelFilter(Bitmap src) {
         this.src = src;
         greyScaleCallable = new Greyscale(this.src);
     }
 
+    /**
+     * Performs the operation on a specific thread
+     * @return
+     * @throws Exception
+     */
     @Override
     public Object call() throws Exception {
 

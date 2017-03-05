@@ -5,9 +5,6 @@ import android.graphics.Color;
 
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
 
-/**
- * Created by Antoine Gagnon
- */
 
 /**
  * Creates a blur filter by using a mean value of the surroundings of a pixel.

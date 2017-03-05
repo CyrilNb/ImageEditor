@@ -4,18 +4,26 @@ package projet_techno_l3.imageeditor.ImageModifications;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-import java.util.concurrent.Callable;
 
+/**
+ * Equalizes the histogram of an image
+ */
 public class HistogramEqualization extends AbstractImageModification {
+
+    /**
+     * Private variables
+     */
     private int bitmapWidth;
     private int bitmapHeight;
     private float totalSize;
-
     private int valueHistogram[];
     private int cdfMin = -1;
-
     private float hsvPixels[][];
 
+    /**
+     * Constructor
+     * @param src
+     */
     public HistogramEqualization(Bitmap src) {
         this.src = src;
         bitmapWidth = src.getWidth();
@@ -25,6 +33,11 @@ public class HistogramEqualization extends AbstractImageModification {
         hsvPixels = new float[bitmapWidth * bitmapHeight][3];
     }
 
+    /**
+     * Performs the operation on a specific thread
+     * @return
+     * @throws Exception
+     */
     @Override
     public Object call() throws Exception {
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888,true);

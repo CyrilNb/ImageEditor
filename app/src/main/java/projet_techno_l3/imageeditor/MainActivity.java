@@ -52,7 +52,9 @@ import projet_techno_l3.imageeditor.ImageModifications.convolution.SobelFilter;
 
 public class MainActivity extends AppCompatActivity {
 
-    //Constants
+    /**
+     * Constants
+     */
     private static final int LOAD_PICTURE_GALLERY_ACTIVITY_REQUEST_CODE = 1;
     private static final int LOAD_PICTURE_CAMERA_ACTIVITY_REQUEST_CODE = 2;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -60,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+
+    /**
+     * Private variables
+     */
     private ZoomAndScrollImageView mainImageView;
     private LinearLayout menuPicker;
     private LinearLayout filterOptions;
@@ -124,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         onMenuBackClicked(null);
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -158,6 +165,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Runs when the arrow to get back on previous menu is clicked in the bottom menu
+     * @param view
+     */
     public void onMenuBackClicked(View view) {
         clearFilterOptions();
         if (currentActiveFiltersMenu != null) {
@@ -166,6 +177,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Runs when a category is clicked in the bottom menu
+     * @param view
+     */
     public void onCategoriesMenuButtonClicked(View view) {
         menuPicker.setVisibility(View.INVISIBLE);
         switch (view.getId()) {
@@ -215,6 +230,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Runs when the brightness button is clicked from the bottom menu
+     * @param view
+     */
     public void onBrightnessButtonClicked(View view) {
         clearFilterOptions();
         SeekBar s = new SeekBar(this);
@@ -249,6 +268,10 @@ public class MainActivity extends AppCompatActivity {
         filterOptions.addView(s);
     }
 
+    /**
+     * * Runs when the contrast button is clicked from the bottom menu
+     * @param view
+     */
     public void onContrastButtonClicked(View view) {
         clearFilterOptions();
         SeekBar s = new SeekBar(this);
@@ -284,6 +307,10 @@ public class MainActivity extends AppCompatActivity {
         filterOptions.addView(s);
     }
 
+    /**
+     * * Runs when the histogram equalization button is clicked from the bottom menu
+     * @param view
+     */
     public void onHistogramEqualizationClicked(View view) {
         clearFilterOptions();
 
@@ -297,6 +324,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * * Runs when the color picker button is clicked from the bottom menu
+     * @param view
+     */
     public void onColorPickerButtonClicked(View view) {
         clearFilterOptions();
         new ColorOMaticDialog.Builder()
@@ -321,6 +352,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * * Runs when the greyscale button is clicked from the bottom menu
+     * @param view
+     */
     public void onGreyScaleButtonClicked(View view) {
         clearFilterOptions();
 
@@ -333,6 +368,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Runs when the sepia button is clicked from the bottom menu
+     * @param view
+     */
     public void onSepiaButtonClicked(View view) {
         clearFilterOptions();
 
@@ -345,6 +384,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * * Runs when the Gaussian blur button is clicked from the bottom menu
+     * @param view
+     */
     public void onGaussianBlurButtonClicked(View view) {
         clearFilterOptions();
         Button min = new Button(this);
@@ -386,6 +429,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Runs when the Mean blur button is clicked from the bottom menu
+     * @param view
+     */
     public void onMeanBlurButtonClicked(View view) {
         clearFilterOptions();
         Button min = new Button(this);
@@ -434,6 +481,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Runs when the Laplacian button is clicked from the bottom menu
+     * @param view
+     */
     public void onLaplacianButtonClicked(View view) {
         clearFilterOptions();
         Callable imageModif = new LaplacianFilter(getImageViewBitmap());
@@ -446,6 +497,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Runs when the Sobel button is clicked from the bottom menu
+     * @param view
+     */
     public void onSobelButtonClicked(View view) {
         clearFilterOptions();
         Callable imageModif = new SobelFilter(getImageViewBitmap());
@@ -457,10 +512,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Runs when the undo button is clicked from the top menu
+     * Perfoms tne undo modification
+     * @param view
+     */
     public void onUndoButtonClicked(View view) {
         mainImageView.undoModification();
     }
 
+    /**
+     * Runs when the save button is clicked from the bottom menu
+     * Displays a dialog to name the image and perfoms the save of it
+     * @param view
+     */
     public void onSaveButtonClicked(View view) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.NameSavedImageDialog);
         final View dialogView = LayoutInflater.from(this).inflate(R.layout.saveimagedialog,null);
@@ -486,6 +551,11 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Runs when the gallery button is clicked from the bottom menu
+     * Performs the load of an image from the gallery
+     * @param view
+     */
     public void onLoadFromGalleryButtonClicked(View view) {
         verifyStoragePermissions(MainActivity.this);
         Intent galleryIntent = new Intent(
@@ -514,6 +584,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Saves an image into intenal storage of th device.
+     * @param filename
+     */
     private void saveImageIntoStorage(String filename) {
         verifyStoragePermissions(this);
         Bitmap bmp = getImageViewBitmap();

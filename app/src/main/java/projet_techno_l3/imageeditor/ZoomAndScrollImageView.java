@@ -13,7 +13,9 @@ import android.widget.ImageView;
 
 import java.util.Stack;
 
-
+/**
+ * Custom ImageView class designed to handle Zoom and Scroll
+ */
 public class ZoomAndScrollImageView extends ImageView {
     /**
      * The 3 different states/events in which the user is performing
@@ -110,6 +112,11 @@ public class ZoomAndScrollImageView extends ImageView {
         setImageBitmap(firstBM);
     }
 
+    /**
+     * Performs action according to the event.
+     * @param event
+     * @return boolean
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         this.setScaleType(ImageView.ScaleType.MATRIX);
@@ -163,7 +170,6 @@ public class ZoomAndScrollImageView extends ImageView {
         }
 
         this.setImageMatrix(matrix); // display the transformation on screen
-
         return true;
     }
 
