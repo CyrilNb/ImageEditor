@@ -2,7 +2,6 @@ package projet_techno_l3.imageeditor.ImageModifications.convolution;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.util.Log;
 
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
 
@@ -29,47 +28,7 @@ public class GaussianBlur extends AbstractImageModification {
     }
 
     /**
-     * Gets a part of a 2D array
-     *
-     * @param source The original 2D array
-     * @param x      The top left corner point x value
-     * @param y      The top left corner point y value
-     * @param width  The width of the resulting array
-     * @param height The height of the resulting array
-     * @return Resulting array
-     */
-    private static int[][] copySubrange(int[][] source, int x, int y, int width, int height) {
-
-        if (source == null) {
-            return null;
-        }
-        if (source.length == 0) {
-            return new int[0][0];
-        }
-        if (height < 0) {
-            throw new IllegalArgumentException("height must be positive");
-        }
-        if (width < 0) {
-            throw new IllegalArgumentException("width must be positive");
-        }
-        if ((y + height) > source.length) {
-            Log.d("MOY_TESTHEIGHT", "Height = " + height);
-            return null;
-        }
-        int[][] dest = new int[height][width];
-        for (int destY = 0; destY < height; destY++) {
-            int[] srcRow = source[(y + destY)];
-            if ((x + width) > srcRow.length) {
-                Log.d("MOY_TESTWIDTH", "Height = " + height);
-                return null;
-            }
-            System.arraycopy(srcRow, x, dest[destY], 0, width);
-        }
-        return dest;
-    }
-
-    /**
-     * Returns the gaussian Color value of a pixel array
+     * Returns the gaussian average pixel value of a pixel array
      *
      * @param pixels2D Array of pixels
      * @return Color value
@@ -78,7 +37,7 @@ public class GaussianBlur extends AbstractImageModification {
         int arrayHeight = pixels2D.length;
         int arrayWidth = pixels2D[0].length;
 
-        int gaussianOffset = (gaussianMatrix.length - arrayHeight)/2;
+        int gaussianOffset = (gaussianMatrix.length - arrayHeight) / 2;
 
         int totalRed = 0;
         int totalGreen = 0;
@@ -88,8 +47,8 @@ public class GaussianBlur extends AbstractImageModification {
 
         for (int y = 0; y < arrayHeight; y++) {
             for (int x = 0; x < arrayWidth; x++) {
-                int pixel = pixels2D[y ][x ];
-                int gaussianValue = gaussianMatrix[y + gaussianOffset ][x + gaussianOffset ];
+                int pixel = pixels2D[y][x];
+                int gaussianValue = gaussianMatrix[y + gaussianOffset][x + gaussianOffset];
                 totalRed += gaussianValue * Color.red(pixel);
                 totalGreen += gaussianValue * Color.green(pixel);
                 totalBlue += gaussianValue * Color.blue(pixel);
@@ -139,15 +98,14 @@ public class GaussianBlur extends AbstractImageModification {
 
         // Getting a 2D array to pick a sub array more easily
         int[][] pixels2D = get2DPixels(pixels, imgWidth, imgHeight);
-        int offset = (filterSize - 1) / 2;
+        int offset = (filterSize - 1)/2;
 
-        // Pour chaque pixel
-        for (int y = 0; y < imgHeight - (offset * 2); y++) { // We keep away from the borders
-            for (int x = 0; x < imgWidth - (offset * 2); x++) { // Same here for the width
+        for (int y = offset; y < imgHeight - offset; y++) { // We keep away from the borders
+            for (int x = offset; x < imgWidth - offset; x++) { // Same here for the width
                 int[][] subPixels;
-                if ((subPixels = copySubrange(pixels2D, x, y, filterSize, filterSize)) != null) {
+                if ((subPixels = getSubTable(pixels2D, x - offset, y - offset, filterSize, filterSize)) != null) {
                     // Get the average of the subrange, otherwise we keep the old non-blurred pixel
-                    newPixels[(y + offset) * imgWidth + x + offset] = getGaussianAverage(subPixels);
+                    newPixels[y * imgWidth + x] = getGaussianAverage(subPixels);
                 }
             }
         }
