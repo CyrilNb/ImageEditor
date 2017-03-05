@@ -3,4 +3,5 @@
     <string name="title_activity_main">ImageEditor</string>
     <string name="image_saved">Image saved successfully</string>
     <string name="image_not_saved">Error image not saved</string>
+    <string name="hint_save_dialog">Nom du fichier</string>
 </resources>
