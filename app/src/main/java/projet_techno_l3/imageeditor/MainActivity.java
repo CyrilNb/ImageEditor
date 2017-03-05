@@ -146,9 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        if (requestCode == LOAD_PICTURE_CAMERA_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            //Bitmap loadedBitmap = (Bitmap) data.getExtras().get("data");
-            //mainImageView.setImageBitmap(loadedBitmap);
+        if (requestCode == LOAD_PICTURE_CAMERA_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             File imgFile = new File(pictureImagePath);
             if (imgFile.exists()) {
                 Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
@@ -483,7 +481,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Open camera and save the photo into a specific directory
+     * Run intent for camera, creates new file stored in external storage, puts photo taken in this file.
      * @param view performs the operation
      */
     public void onLoadFromCameraButtonClicked(View view) {
@@ -502,7 +500,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveImageIntoStorage(String filename) {
-        //TODO in thread because it skips frames.
         verifyStoragePermissions(this);
         Bitmap bmp = getImageViewBitmap();
         OutputStream fOut = null;
