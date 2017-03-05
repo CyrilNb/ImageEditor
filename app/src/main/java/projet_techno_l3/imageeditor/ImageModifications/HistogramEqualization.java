@@ -37,8 +37,11 @@ public class HistogramEqualization extends AbstractImageModification {
             int g = Color.green(color);
             int b = Color.blue(color);
 
+            // Store all HSV value to save on computing power
             Color.RGBToHSV(r, g, b, hsvPixels[i]);
 
+
+            // Save HSV Value in a 0-255 range
             int rangedHSVvalue = valueToRange(hsvPixels[i][2]);
             valueHistogram[rangedHSVvalue]++;
         }
@@ -59,15 +62,12 @@ public class HistogramEqualization extends AbstractImageModification {
         return result;
     }
 
-    private void generateCdfMin() {
-        for (int aValueHistogram : valueHistogram) {
-            if (aValueHistogram != 0) {
-                cdfMin = aValueHistogram;
-                return;
-            }
-        }
-    }
 
+    /**
+     * Histogram euqalization formula, calculating the new value.
+     * @param v Original value
+     * @return New value
+     */
     private int histoEqual(int v) {
         generateCDF();
         int cdfValue = cdf[v];
@@ -77,23 +77,31 @@ public class HistogramEqualization extends AbstractImageModification {
     private int cdf[];
 
     /**
-     * Cumulative distribution function
-     *
-     * @return Total number of pixels with value under v
+     * Using a cumulative distribution function, generates a table and saves the min non-zero value
+     * of this table
      */
     private void generateCDF() {
+        boolean foundMin = false;
         if (cdf == null) {
             cdf = new int[256];
             int total = 0;
             for (int i = 0; i < valueHistogram.length; i++) {
+                if(!foundMin && valueHistogram[i] != 0) {
+                    cdfMin = valueHistogram[i];
+                    foundMin = true;
+                }
                 total += valueHistogram[i];
                 cdf[i] = total;
             }
-            generateCdfMin();
         }
 
     }
 
+    /**
+     * Transform a value between 0 and 255 to the Value of a HSV color between 0 and 1
+     * @param range Value between 0 and 255
+     * @return Value of HSV color between 0 and 1
+     */
     private float rangeToValue(int range) {
         return range / 255f;
     }
@@ -102,7 +110,7 @@ public class HistogramEqualization extends AbstractImageModification {
      * Transform a HSV value to a value between 0 and 255
      *
      * @param value The HSV value
-     * @return
+     * @return Range value between 0 and 255
      */
     private int valueToRange(float value) {
         return (int) Math.floor(value * 255);

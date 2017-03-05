@@ -424,7 +424,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onLaplacianButtonClicked(View view) {
         clearFilterOptions();
-
     }
 
     public void onSobelButtonClicked(View view) {

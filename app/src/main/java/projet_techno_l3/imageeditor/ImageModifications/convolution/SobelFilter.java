@@ -25,8 +25,7 @@ public class SobelFilter extends AbstractImageModification {
     @Override
     public Object call() throws Exception {
 
-        Bitmap result = src.copy(Bitmap.Config.ARGB_8888, true);
-        result = (Bitmap) greyScaleCallable.call();
+        Bitmap result = (Bitmap) greyScaleCallable.call();
         int imgHeight = result.getHeight();
         int imgWidth = result.getWidth();
 

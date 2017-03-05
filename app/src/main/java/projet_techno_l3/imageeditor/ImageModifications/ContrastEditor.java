@@ -44,9 +44,9 @@ public class ContrastEditor extends AbstractImageModification {
             int green = Color.green(pixel);
             int blue = Color.blue(pixel);
 
-            int newRed = pixelTruncate(factor * (red - 128) + 128);
-            int newGreen = pixelTruncate(factor * (green - 128) + 128);
-            int newBlue = pixelTruncate(factor * (blue - 128) + 128);
+            int newRed = (int) ensureRange(factor * (red - 128) + 128,0,255);
+            int newGreen = (int) ensureRange(factor * (green - 128) + 128,0,255);
+            int newBlue = (int) ensureRange(factor * (blue - 128) + 128,0,255);
             pixels[i] = Color.rgb(newRed, newGreen, newBlue);
         }
 
@@ -55,20 +55,6 @@ public class ContrastEditor extends AbstractImageModification {
 
     }
 
-    /**
-     * Truncate a pixel value between 0 and 255
-     *
-     * @param v original color value
-     * @return truncated value between 0 and 255
-     */
-    private int pixelTruncate(float v) {
-        if (v < 0) {
-            return 0;
-        }
-        if (v > 255) {
-            return 255;
-        }
-        return (int) v;
-    }
+
 
 }

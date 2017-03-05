@@ -3,7 +3,13 @@ package projet_techno_l3.imageeditor.ImageModifications;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+/**
+ * Greys out all the part of an image except for the one with a specific color
+ */
 public class ColorFilter extends AbstractImageModification {
+
+    // Accepted color range
+    private int COLOR_RANGE = 25;
 
     private final int color;
 
@@ -31,9 +37,8 @@ public class ColorFilter extends AbstractImageModification {
             int pixel = pixels[i];
             Color.colorToHSV(pixel, hsv);
 
-            if (!(hsv[0] - 36.0 < hue && hue < hsv[0] + 36.0 && hsv[1] > 0.10)) {
-                int greyValue = (int) (0.299 * Color.red(pixel) + 0.587 * Color.green(pixel) + 0.114 * Color.blue(pixel));
-                pixels[i] = Color.rgb(greyValue, greyValue, greyValue);
+            if (!(hsv[0] - COLOR_RANGE < hue && hue < hsv[0] + COLOR_RANGE && hsv[1] > 0.10)) {
+                pixels[i] = greyOutPixel(pixel);
             }
 
         }
