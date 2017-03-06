@@ -1,4 +1,4 @@
-package projet_techno_l3.imageeditor.ImageModifications.convolution;
+package projet_techno_l3.imageeditor.ImageModifications;
 
 
 import android.graphics.Bitmap;
