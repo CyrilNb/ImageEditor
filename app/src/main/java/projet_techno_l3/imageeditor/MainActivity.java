@@ -43,6 +43,7 @@ import projet_techno_l3.imageeditor.ImageModifications.ColorFilter;
 import projet_techno_l3.imageeditor.ImageModifications.ContrastEditor;
 import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 import projet_techno_l3.imageeditor.ImageModifications.HistogramEqualization;
+import projet_techno_l3.imageeditor.ImageModifications.NegativeFilter;
 import projet_techno_l3.imageeditor.ImageModifications.Sepia;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
@@ -364,7 +365,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Runs when the sepia button is clicked from the bottom menu
+     * Runs when the sepia button is clicked from the bottom menu and performs sepia filter
      * @param view
      */
     public void onSepiaButtonClicked(View view) {
@@ -379,9 +380,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Runs when the negative button is clicked from the bottom menu and performs negative filter
+     * @param view
+     */
+    public void onNegativeButtonClicked(View view){
+        clearFilterOptions();
+
+        Callable imageModif = new NegativeFilter(getImageViewBitmap());
+
+        try {
+            mainImageView.setImageBitmap((Bitmap) imageModif.call());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
-     * * Runs when the Gaussian blur button is clicked from the bottom menu
+     * * Runs when the Gaussian blur button is clicked from the bottom menu and performs Gaussian blur
      * @param view
      */
     public void onGaussianBlurButtonClicked(View view) {

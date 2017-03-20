@@ -217,6 +217,15 @@
                 android:onClick="onSepiaButtonClicked"
                 android:text="SEPIA"
                 android:textColor="@color/textColorPrimary" />
+
+            <Button
+                android:id="@+id/negativeButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onNegativeButtonClicked"
+                android:text="NEGATIVE"
+                android:textColor="@color/textColorPrimary" />
         </LinearLayout>
 
     </HorizontalScrollView>
