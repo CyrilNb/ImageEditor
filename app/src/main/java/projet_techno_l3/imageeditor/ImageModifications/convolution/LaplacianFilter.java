@@ -1,16 +1,18 @@
 package projet_techno_l3.imageeditor.ImageModifications.convolution;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import java.util.concurrent.Callable;
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
+import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
 import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 
 /**
  * Applies a Laplacian filter on the image
  */
-public class LaplacianFilter extends AbstractImageModification {
-    private Callable greyScaleCallable;
+public class LaplacianFilter extends AbstractImageModificationAsyncTask {
+    //private Callable greyScaleCallable;
     private int[][] convolutionMatrix = {
             {1,1,1},
             {1,-8,1},
@@ -21,23 +23,23 @@ public class LaplacianFilter extends AbstractImageModification {
      * Constructor
      * @param src bitmap to be modified
      */
-    public LaplacianFilter(Bitmap src) {
+    public LaplacianFilter(Bitmap src, Activity activity) {
+        super(activity);
         this.src = src;
-        greyScaleCallable = new Greyscale(this.src);
+        //greyScaleCallable = new Greyscale(this.src);
     }
 
     /**
      * Performs the operation on a specific thread
-     * @return
-     * @throws Exception
+     * @return result bitmap
      */
     @Override
-    public Object call() throws Exception {
+    protected Bitmap doInBackground(String... params) {
         int r,g,b;
         int rtotal, gtotal, btotal; rtotal = gtotal = btotal = 0;
 
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888, true);
-        result = (Bitmap) greyScaleCallable.call();
+        //result = (Bitmap) greyScaleCallable.call();
 
         for(int i = 1; i<result.getWidth()-1; i++) {
             for (int j = 1; j < result.getHeight() - 1; j++) {
@@ -79,5 +81,4 @@ public class LaplacianFilter extends AbstractImageModification {
         }
         return result;
     }
-
 }

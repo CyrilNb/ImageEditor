@@ -1,12 +1,13 @@
 package projet_techno_l3.imageeditor.ImageModifications;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
 /**
  * Changes the overall contrast of an image using an adjustment value
  */
-public class ContrastEditor extends AbstractImageModification {
+public class ContrastEditor extends AbstractImageModificationAsyncTask {
 
     private float value;
 
@@ -14,14 +15,15 @@ public class ContrastEditor extends AbstractImageModification {
      * @param src   Source image to be modified
      * @param value Contract adjusment value, between -255 and 255
      */
-    public ContrastEditor(Bitmap src, float value) {
+    public ContrastEditor(Bitmap src, float value, Activity activity) {
+        super(activity);
         this.src = src;
         this.value = value;
     }
 
-    @Override
-    public Bitmap call() throws Exception {
 
+    @Override
+    protected Bitmap doInBackground(String... params) {
         if (value > 255 || value < -255) {
             return src;
         }
@@ -52,9 +54,5 @@ public class ContrastEditor extends AbstractImageModification {
 
         result.setPixels(pixels, 0, imgWidth, 0, 0, imgWidth, imgHeight);
         return result;
-
     }
-
-
-
 }

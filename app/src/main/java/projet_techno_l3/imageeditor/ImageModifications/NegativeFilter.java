@@ -1,5 +1,6 @@
 package projet_techno_l3.imageeditor.ImageModifications;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
@@ -9,15 +10,15 @@ import android.graphics.Paint;
 /**
  * Invert colors of a bitmap by scaling each channel by -1, and then shifting the result up by 255 to remain in the standard color space.
  */
-public class NegativeFilter extends AbstractImageModification{
+public class NegativeFilter extends AbstractImageModificationAsyncTask{
 
-    public NegativeFilter(Bitmap src) {
+    public NegativeFilter(Bitmap src, Activity activity) {
+        super(activity);
         this.src = src;
     }
 
     @Override
-    public Object call() throws Exception {
-
+    protected Bitmap doInBackground(String... params) {
         ColorMatrix cm = new ColorMatrix(new float[]
                 {
                         -1, 0, 0, 0, 255,

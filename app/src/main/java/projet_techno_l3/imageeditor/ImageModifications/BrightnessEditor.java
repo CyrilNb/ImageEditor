@@ -1,12 +1,13 @@
 package projet_techno_l3.imageeditor.ImageModifications;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
 /**
  * Used to edit the brightness of an image using the Value in HSV colors
  */
-public class BrightnessEditor extends AbstractImageModification {
+public class BrightnessEditor extends AbstractImageModificationAsyncTask {
 
     private float value;
 
@@ -14,14 +15,16 @@ public class BrightnessEditor extends AbstractImageModification {
      * @param src   Source image to be modified
      * @param value Brightness adjusment value, between -100 and 100
      */
-    public BrightnessEditor(Bitmap src, float value) {
+    public BrightnessEditor(Bitmap src, float value, Activity activity) {
+        super(activity);
         this.src = src;
         this.value = value;
     }
 
-    @Override
-    public Bitmap call() throws Exception {
 
+    @Override
+    protected Bitmap doInBackground(String... params) {
+        publishProgress("Editing..."); // Calls onProgressUpdate()
         if (value == 0) {
             return src;
         }
@@ -50,7 +53,6 @@ public class BrightnessEditor extends AbstractImageModification {
 
         result.setPixels(pixels, 0, imgWidth, 0, 0, imgWidth, imgHeight);
         return result;
-
     }
 
 }

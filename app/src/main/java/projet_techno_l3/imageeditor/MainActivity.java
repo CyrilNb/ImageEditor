@@ -33,7 +33,6 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Callable;
-
 import es.dmoral.coloromatic.ColorOMaticDialog;
 import es.dmoral.coloromatic.IndicatorMode;
 import es.dmoral.coloromatic.OnColorSelectedListener;
@@ -65,10 +64,11 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    public ZoomAndScrollImageView mainImageView;
+
     /**
      * Private variables
      */
-    private ZoomAndScrollImageView mainImageView;
     private LinearLayout menuPicker;
     private LinearLayout filterOptions;
     private String pictureImagePath = "";
@@ -255,10 +255,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                Callable imageModif = new BrightnessEditor(getImageViewBitmap(), (seekBar.getProgress() - 50) * 2);
-
                 try {
-                    mainImageView.setImageBitmap((Bitmap) imageModif.call());
+                    BrightnessEditor brightnessEditor = new BrightnessEditor(getImageViewBitmap(), (seekBar.getProgress() - 50) * 2, MainActivity.this);
+                    brightnessEditor.execute();
                     clearFilterOptions();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -294,14 +293,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                Callable imageModif = new ContrastEditor(getImageViewBitmap(), (seekBar.getProgress() - 255));
-
-                try {
-                    mainImageView.setImageBitmap((Bitmap) imageModif.call());
-                    clearFilterOptions();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                ContrastEditor contrastEditor = new ContrastEditor(getImageViewBitmap(), (seekBar.getProgress() - 255),MainActivity.this);
+                contrastEditor.execute();
             }
         });
 
@@ -315,14 +308,8 @@ public class MainActivity extends AppCompatActivity {
     public void onHistogramEqualizationClicked(View view) {
         clearFilterOptions();
 
-        Callable imageModif = new HistogramEqualization(getImageViewBitmap());
-
-        try {
-            mainImageView.setImageBitmap((Bitmap) imageModif.call());
-            clearFilterOptions();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        HistogramEqualization histogramEqualization = new HistogramEqualization(getImageViewBitmap(),this);
+        histogramEqualization.execute();
     }
 
     /**
@@ -355,13 +342,9 @@ public class MainActivity extends AppCompatActivity {
     public void onGreyScaleButtonClicked(View view) {
         clearFilterOptions();
 
-        Callable imageModif = new Greyscale(getImageViewBitmap());
+        Greyscale asynctask = new Greyscale(getImageViewBitmap(),this);
+        asynctask.execute();
 
-        try {
-            mainImageView.setImageBitmap((Bitmap) imageModif.call());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -371,13 +354,9 @@ public class MainActivity extends AppCompatActivity {
     public void onSepiaButtonClicked(View view) {
         clearFilterOptions();
 
-        Callable imageModif = new Sepia(getImageViewBitmap());
+        Sepia sepia = new Sepia(getImageViewBitmap(),this);
+        sepia.execute();
 
-        try {
-            mainImageView.setImageBitmap((Bitmap) imageModif.call());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -387,13 +366,8 @@ public class MainActivity extends AppCompatActivity {
     public void onNegativeButtonClicked(View view){
         clearFilterOptions();
 
-        Callable imageModif = new NegativeFilter(getImageViewBitmap());
-
-        try {
-            mainImageView.setImageBitmap((Bitmap) imageModif.call());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        NegativeFilter negativeFilter = new NegativeFilter(getImageViewBitmap(), this);
+        negativeFilter.execute();
     }
 
 
@@ -422,14 +396,9 @@ public class MainActivity extends AppCompatActivity {
                         value = BlurValues.MED;
                         break;
                 }
-                Callable imageModif = new GaussianBlur(getImageViewBitmap(), value);
 
-                try {
-                    mainImageView.setImageBitmap((Bitmap) imageModif.call());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                GaussianBlur gaussianBlur = new GaussianBlur(getImageViewBitmap(), value,MainActivity.this);
+                gaussianBlur.execute();
             }
         };
 
@@ -472,13 +441,8 @@ public class MainActivity extends AppCompatActivity {
                         value = BlurValues.MAX;
                         break;
                 }
-                MeanBlur imageModif = new MeanBlur(getImageViewBitmap(), value);
-                try {
-                    Bitmap result = (Bitmap) imageModif.call();
-                    mainImageView.setImageBitmap(result);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                MeanBlur meanBlur = new MeanBlur(getImageViewBitmap(),value, MainActivity.this);
+                meanBlur.execute();
 
             }
         };
@@ -500,14 +464,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onLaplacianButtonClicked(View view) {
         clearFilterOptions();
-        Callable imageModif = new LaplacianFilter(getImageViewBitmap());
-
-        try {
-            mainImageView.setImageBitmap((Bitmap) imageModif.call());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        LaplacianFilter laplacianFilter = new LaplacianFilter(getImageViewBitmap(),this);
+        laplacianFilter.execute();
     }
 
     /**
@@ -516,13 +474,17 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onSobelButtonClicked(View view) {
         clearFilterOptions();
-        Callable imageModif = new SobelFilter(getImageViewBitmap());
+
+        SobelFilter asynctask = new SobelFilter(getImageViewBitmap(),this);
+        asynctask.execute();
+
+        /*Callable imageModif = new SobelFilter(getImageViewBitmap());
 
         try {
             mainImageView.setImageBitmap((Bitmap) imageModif.call());
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**
@@ -640,11 +602,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onColorSelected(@ColorInt int color) {
                         try {
                             if(!isHue){
-                                final Callable imageModificationCallable = new ColorFilter(getImageViewBitmap(), color);
-                                mainImageView.setImageBitmap((Bitmap) imageModificationCallable.call());
+                                final ColorFilter colorFilter = new ColorFilter(getImageViewBitmap(),color, MainActivity.this);
+                                colorFilter.execute();
                             }else{
-                                final Callable imageModificationCallable = new HueColorize(getImageViewBitmap(), color);
-                                mainImageView.setImageBitmap((Bitmap) imageModificationCallable.call());
+                                final HueColorize hueColorize = new HueColorize(getImageViewBitmap(),color,MainActivity.this);
+                                hueColorize.execute();
                             }
 
 
@@ -658,6 +620,5 @@ public class MainActivity extends AppCompatActivity {
                 .create()
                 .show(getSupportFragmentManager(), "ColorOMaticDialog");
     }
-
 
 }

@@ -1,9 +1,11 @@
 package projet_techno_l3.imageeditor.ImageModifications.convolution;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
+import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
 
 
 /**
@@ -11,11 +13,12 @@ import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification
  * <p>
  * Also called "Filtre Moyenneur" in French.
  */
-public class MeanBlur extends AbstractImageModification {
+public class MeanBlur extends AbstractImageModificationAsyncTask {
 
     private final int filterSize;
 
-    public MeanBlur(Bitmap src, BlurValues filterSize) {
+    public MeanBlur(Bitmap src, BlurValues filterSize, Activity activity) {
+        super(activity);
         this.src = src;
         this.filterSize = (filterSize.ordinal() * 2) + 3;
     }
@@ -66,9 +69,9 @@ public class MeanBlur extends AbstractImageModification {
         return newPixels;
     }
 
-    @Override
-    public Object call() throws Exception {
 
+    @Override
+    protected Bitmap doInBackground(String... params) {
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888, true);
 
         int imgHeight = result.getHeight();

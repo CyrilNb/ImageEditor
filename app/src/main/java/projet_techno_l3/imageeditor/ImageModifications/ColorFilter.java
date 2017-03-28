@@ -1,26 +1,28 @@
 package projet_techno_l3.imageeditor.ImageModifications;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
 /**
  * Greys out all the part of an image except for the one with a specific color
  */
-public class ColorFilter extends AbstractImageModification {
+public class ColorFilter extends AbstractImageModificationAsyncTask {
 
     // Accepted color range
     private int COLOR_RANGE = 25;
 
     private final int color;
 
-    public ColorFilter(Bitmap src, int color) {
+    public ColorFilter(Bitmap src, int color, Activity activity) {
+        super(activity);
         this.src = src;
         this.color = color;
     }
 
-    @Override
-    public Object call() throws Exception {
 
+    @Override
+    protected Bitmap doInBackground(String... params) {
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888, true);
 
         int imgHeight = result.getHeight();

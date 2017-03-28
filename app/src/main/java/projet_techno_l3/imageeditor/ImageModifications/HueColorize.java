@@ -1,6 +1,7 @@
 package projet_techno_l3.imageeditor.ImageModifications;
 
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
@@ -9,9 +10,7 @@ import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification
 /**
  * Colorizes the image with a new hue
  */
-public class HueColorize extends AbstractImageModification{
-
-    //TODO put height and width in abstract class as it's used in several subclass
+public class HueColorize extends AbstractImageModificationAsyncTask{
 
     /**
      * Private variables
@@ -26,7 +25,8 @@ public class HueColorize extends AbstractImageModification{
      * Constructor
      * @param src
      */
-    public HueColorize(Bitmap src, int color){
+    public HueColorize(Bitmap src, int color, Activity activity){
+        super(activity);
         this.src = src;
         this.color = color;
         this.height = src.getHeight();
@@ -40,7 +40,7 @@ public class HueColorize extends AbstractImageModification{
      * @throws Exception
      */
     @Override
-    public Object call() throws Exception {
+    protected Bitmap doInBackground(String... params) {
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888,true); //create a mutable copy of the original bitmap
         result.getPixels(pixels,0,width,0,0,width,height);
 
@@ -54,6 +54,7 @@ public class HueColorize extends AbstractImageModification{
         return result;
     }
 
+
     /**
      * Gets the hue value from a color
      *
@@ -65,4 +66,6 @@ public class HueColorize extends AbstractImageModification{
         Color.colorToHSV(integerColor, hsvValues);
         return hsvValues[0];
     }
+
+
 }

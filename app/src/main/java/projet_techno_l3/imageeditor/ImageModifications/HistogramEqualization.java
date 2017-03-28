@@ -1,6 +1,7 @@
 package projet_techno_l3.imageeditor.ImageModifications;
 
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
@@ -8,7 +9,7 @@ import android.graphics.Color;
 /**
  * Equalizes the histogram of an image
  */
-public class HistogramEqualization extends AbstractImageModification {
+public class HistogramEqualization extends AbstractImageModificationAsyncTask {
 
     /**
      * Private variables
@@ -24,7 +25,8 @@ public class HistogramEqualization extends AbstractImageModification {
      * Constructor
      * @param src
      */
-    public HistogramEqualization(Bitmap src) {
+    public HistogramEqualization(Bitmap src, Activity activity) {
+        super(activity);
         this.src = src;
         bitmapWidth = src.getWidth();
         bitmapHeight = src.getHeight();
@@ -35,11 +37,10 @@ public class HistogramEqualization extends AbstractImageModification {
 
     /**
      * Performs the operation on a specific thread
-     * @return
-     * @throws Exception
+     * @return result bitmap
      */
     @Override
-    public Object call() throws Exception {
+    protected Bitmap doInBackground(String... params) {
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888,true);
 
         int[] pixels = new int[bitmapWidth * bitmapHeight];
@@ -128,5 +129,6 @@ public class HistogramEqualization extends AbstractImageModification {
     private int valueToRange(float value) {
         return (int) Math.floor(value * 255);
     }
+
 
 }

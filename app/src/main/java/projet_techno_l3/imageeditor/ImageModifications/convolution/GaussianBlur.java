@@ -1,15 +1,17 @@
 package projet_techno_l3.imageeditor.ImageModifications.convolution;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
+import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
 
 /**
  * Applies a Gaussian Blur to an image.
  * Also called "Filtre Gaussien" in French.
  */
-public class GaussianBlur extends AbstractImageModification {
+public class GaussianBlur extends AbstractImageModificationAsyncTask {
 
     private final int filterSize;
 
@@ -22,7 +24,8 @@ public class GaussianBlur extends AbstractImageModification {
 
     private int[] gaussianValue = {0, 10, 0, 66, 0, 98};
 
-    public GaussianBlur(Bitmap src, BlurValues filterSize) {
+    public GaussianBlur(Bitmap src, BlurValues filterSize, Activity activity) {
+        super(activity);
         this.src = src;
         this.filterSize = (filterSize.ordinal() * 2) + 3;
     }
@@ -80,9 +83,7 @@ public class GaussianBlur extends AbstractImageModification {
     }
 
     @Override
-    public Object call() throws Exception {
-
-
+    protected Bitmap doInBackground(String... params) {
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888, true);
 
         int imgHeight = result.getHeight();

@@ -1,19 +1,21 @@
 package projet_techno_l3.imageeditor.ImageModifications;
 
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-public class Sepia extends AbstractImageModification {
+public class Sepia extends AbstractImageModificationAsyncTask {
 
     private int SEPIA_DEPTH = 20;
 
-    public Sepia(Bitmap src) {
+    public Sepia(Bitmap src, Activity activity) {
+        super(activity);
         this.src = src;
     }
 
     @Override
-    public Object call() throws Exception {
+    protected Bitmap doInBackground(String... params) {
         int imgHeight = src.getHeight();
         int imgWidth = src.getWidth();
 
