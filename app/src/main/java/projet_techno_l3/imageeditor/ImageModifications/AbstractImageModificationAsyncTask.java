@@ -38,7 +38,7 @@ public abstract class AbstractImageModificationAsyncTask extends AsyncTask<Strin
      * @param max Maximum value
      * @return Truncated value between min and max
      */
-    float ensureRange(float value, float min, float max) {
+    public float ensureRange(float value, float min, float max) {
         return Math.min(Math.max(value, min), max);
     }
 

@@ -49,6 +49,7 @@ import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
 import projet_techno_l3.imageeditor.ImageModifications.HueColorize;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.LaplacianFilter;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlur;
+import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanFilterRS;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.SobelFilter;
 
 public class MainActivity extends AppCompatActivity {
@@ -419,8 +420,6 @@ public class MainActivity extends AppCompatActivity {
         clearFilterOptions();
         Button min = new Button(this);
         min.setText("min");
-        Button mid = new Button(this);
-        mid.setText("med");
         Button max = new Button(this);
         max.setText("max");
 
@@ -434,26 +433,21 @@ public class MainActivity extends AppCompatActivity {
                     case "min":
                         value = BlurValues.MIN;
                         break;
-                    case "med":
-                        value = BlurValues.MED;
-                        break;
                     case "max":
                         value = BlurValues.MAX;
                         break;
                 }
-                MeanBlur meanBlur = new MeanBlur(getImageViewBitmap(),value, MainActivity.this);
+                MeanFilterRS meanBlur = new MeanFilterRS(getImageViewBitmap(),value, MainActivity.this);
                 meanBlur.execute();
 
             }
         };
 
         min.setOnClickListener(optionButtonClick);
-        mid.setOnClickListener(optionButtonClick);
         max.setOnClickListener(optionButtonClick);
 
         if (filterOptions != null) {
             filterOptions.addView(min);
-            filterOptions.addView(mid);
             filterOptions.addView(max);
         }
     }
