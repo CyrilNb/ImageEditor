@@ -32,7 +32,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.Callable;
+
 import es.dmoral.coloromatic.ColorOMaticDialog;
 import es.dmoral.coloromatic.IndicatorMode;
 import es.dmoral.coloromatic.OnColorSelectedListener;
@@ -47,9 +47,10 @@ import projet_techno_l3.imageeditor.ImageModifications.Sepia;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
 import projet_techno_l3.imageeditor.ImageModifications.HueColorize;
+import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlurRS;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.LaplacianFilter;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlur;
-import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanFilterRS;
+import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlurRS;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.SobelFilter;
 
 public class MainActivity extends AppCompatActivity {
@@ -380,6 +381,8 @@ public class MainActivity extends AppCompatActivity {
         clearFilterOptions();
         Button min = new Button(this);
         min.setText("min");
+        Button med = new Button(this);
+        med.setText("med");
         Button max = new Button(this);
         max.setText("max");
 
@@ -393,21 +396,26 @@ public class MainActivity extends AppCompatActivity {
                     case "min":
                         value = BlurValues.MIN;
                         break;
-                    case "max":
+                    case "med":
                         value = BlurValues.MED;
+                        break;
+                    case "max":
+                        value = BlurValues.MAX;
                         break;
                 }
 
-                GaussianBlur gaussianBlur = new GaussianBlur(getImageViewBitmap(), value,MainActivity.this);
+                GaussianBlurRS gaussianBlur = new GaussianBlurRS(getImageViewBitmap(), value,MainActivity.this);
                 gaussianBlur.execute();
             }
         };
 
         min.setOnClickListener(optionButtonClick);
+        med.setOnClickListener(optionButtonClick);
         max.setOnClickListener(optionButtonClick);
 
         if (filterOptions != null) {
             filterOptions.addView(min);
+            filterOptions.addView(med);
             filterOptions.addView(max);
         }
     }
@@ -437,7 +445,9 @@ public class MainActivity extends AppCompatActivity {
                         value = BlurValues.MAX;
                         break;
                 }
-                MeanFilterRS meanBlur = new MeanFilterRS(getImageViewBitmap(),value, MainActivity.this);
+
+
+                MeanBlurRS meanBlur = new MeanBlurRS(getImageViewBitmap(),value, MainActivity.this);
                 meanBlur.execute();
 
             }

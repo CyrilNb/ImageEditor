@@ -3,8 +3,8 @@ package projet_techno_l3.imageeditor.ImageModifications.convolution;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
 
-import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
 
 
@@ -72,6 +72,8 @@ public class MeanBlur extends AbstractImageModificationAsyncTask {
 
     @Override
     protected Bitmap doInBackground(String... params) {
+        long startTime = System.currentTimeMillis();
+
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888, true);
 
         int imgHeight = result.getHeight();
@@ -87,7 +89,7 @@ public class MeanBlur extends AbstractImageModificationAsyncTask {
 
         // Getting a 2D array to pick a sub array more easily
         int[][] pixels2D = get2DPixels(pixels, imgWidth, imgHeight);
-        int offset = (filterSize - 1)/2;
+        int offset = (filterSize - 1) / 2;
 
         for (int y = offset; y < imgHeight - offset; y++) { // We keep away from the borders
             for (int x = offset; x < imgWidth - offset; x++) { // Same here for the width
@@ -100,6 +102,10 @@ public class MeanBlur extends AbstractImageModificationAsyncTask {
         }
 
         result.setPixels(newPixels, 0, imgWidth, 0, 0, imgWidth, imgHeight);
+
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        Log.i("MeanBlur", "MeanBlur duration: " + elapsedTime);
         return result;
     }
 }
