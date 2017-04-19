@@ -27,6 +27,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
+
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Core;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -52,6 +58,7 @@ import projet_techno_l3.imageeditor.ImageModifications.convolution.LaplacianFilt
 import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlur;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlurRS;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.SobelFilter;
+import projet_techno_l3.imageeditor.ImageModifications.incrustation.EyesIncrustation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,9 +68,26 @@ public class MainActivity extends AppCompatActivity {
     private static final int LOAD_PICTURE_GALLERY_ACTIVITY_REQUEST_CODE = 1;
     private static final int LOAD_PICTURE_CAMERA_ACTIVITY_REQUEST_CODE = 2;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static final String TAG = "MainActivityLog";
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+        @Override
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS:
+                {
+                    Log.i(TAG, "OpenCV loaded successfully");
+                } break;
+                default:
+                {
+                    super.onManagerConnected(status);
+                } break;
+            }
+        }
     };
 
     public ZoomAndScrollImageView mainImageView;
@@ -121,10 +145,25 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
         Bitmap basedImage = BitmapFactory.decodeResource(getResources(),
                 R.drawable.fruitbasket);
         // Adding the image programmatically so it gets added to the ZoomAndScrollImageView stack
         mainImageView.setImageBitmap(basedImage);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if (!OpenCVLoader.initDebug()) {
+            Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
+        } else {
+            Log.d(TAG, "OpenCV library found inside package. Using it!");
+            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
     }
 
     @Override
@@ -625,4 +664,12 @@ public class MainActivity extends AppCompatActivity {
                 .show(getSupportFragmentManager(), "ColorOMaticDialog");
     }
 
+    public void onEyesIncrustationButtonClicked(View view) {
+
+        clearFilterOptions();
+
+        EyesIncrustation asynctask = new EyesIncrustation(getImageViewBitmap(),this);
+        asynctask.execute();
+
+    }
 }
