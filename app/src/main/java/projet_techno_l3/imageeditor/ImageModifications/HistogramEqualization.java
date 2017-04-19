@@ -54,11 +54,12 @@ public class HistogramEqualization extends AbstractImageModificationAsyncTask {
             // Store all HSV value to save on computing power
             Color.RGBToHSV(r, g, b, hsvPixels[i]);
 
-
             // Save HSV Value in a 0-255 range
             int rangedHSVvalue = valueToRange(hsvPixels[i][2]);
             valueHistogram[rangedHSVvalue]++;
         }
+
+        generateCDF();
 
         for (int i = 0; i < bitmapWidth * bitmapHeight; i++) {
             float value = hsvPixels[i][2];
@@ -83,7 +84,6 @@ public class HistogramEqualization extends AbstractImageModificationAsyncTask {
      * @return New value
      */
     private int histoEqual(int v) {
-        generateCDF();
         int cdfValue = cdf[v];
         return Math.round(((cdfValue - cdfMin) / totalSize) * 255);
     }
