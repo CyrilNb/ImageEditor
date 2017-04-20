@@ -41,7 +41,7 @@ public abstract class AbstractImageModificationAsyncTask extends AsyncTask<Strin
      * @param pixel Original pixel
      * @return Grey pixel
      */
-    int greyOutPixel(int pixel){
+    public int greyOutPixel(int pixel){
         int greyValue = (int) (0.299 * Color.red(pixel) + 0.587 * Color.green(pixel) + 0.114 * Color.blue(pixel));
         return Color.rgb(greyValue, greyValue, greyValue);
     }
