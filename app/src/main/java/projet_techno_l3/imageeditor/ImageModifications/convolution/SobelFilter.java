@@ -34,7 +34,6 @@ public class SobelFilter extends AbstractImageModificationAsyncTask {
      */
     @Override
     protected Bitmap doInBackground(String... params) {
-        publishProgress("Editing..."); // Calls onProgressUpdate()
         try {
 
             Bitmap result = src.copy(Bitmap.Config.ARGB_8888, true);
@@ -53,6 +52,7 @@ public class SobelFilter extends AbstractImageModificationAsyncTask {
                     convolutionMatrix[2][2]=Color.green(src.getPixel(x+1,y+1));
 
                     int edge = (int) convolutionSobel(convolutionMatrix);
+
                     result.setPixel(x,y,(edge<<16 | edge<<8 | edge));
                 }
             }
@@ -66,7 +66,9 @@ public class SobelFilter extends AbstractImageModificationAsyncTask {
         return result;
     }
 
-
+    /**
+     * Formula of Sobel convolution
+     */
     private double convolutionSobel(int[][] pixelMatrix){
         int gy = (pixelMatrix[0][0] * -1) + (pixelMatrix[0][1] * -2) + (pixelMatrix[0][2] * -1) + (pixelMatrix[2][0]) + (pixelMatrix[2][1] * 2) + (pixelMatrix[2][2]);
         int gx=(pixelMatrix[0][0])+(pixelMatrix[0][2]*-1)+(pixelMatrix[1][0]*2)+(pixelMatrix[1][2]*-2)+(pixelMatrix[2][0])+(pixelMatrix[2][2]*-1);
