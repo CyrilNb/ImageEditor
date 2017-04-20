@@ -23,4 +23,5 @@
     <string name="sobel"></string>
     <string name="minimum_value">min</string>
     <string name="medium_value">moy</string>
+    <string name="no_filename">Un nom de fichier est requis !</string>
 </resources>

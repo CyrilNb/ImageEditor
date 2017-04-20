@@ -11,10 +11,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.ColorInt;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -567,7 +569,21 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        saveImageIntoStorage(editTextName.getText().toString());
+                        String filename = editTextName.getText().toString();
+                        if(!filename.isEmpty()){
+                            AsyncTaskSaveImage asyncTaskSaveImage = new AsyncTaskSaveImage(filename);
+                            asyncTaskSaveImage.execute();
+                        }else{
+                            final Snackbar snackbar = Snackbar
+                                    .make(mainImageView, R.string.no_filename, Snackbar.LENGTH_LONG);
+                            snackbar.setAction("OK", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    snackbar.dismiss();
+                                }
+                            });
+                            snackbar.show();
+                        }
                     }
                 });
         builder.setNegativeButton("ANNULER",
@@ -618,33 +634,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Saves an image into intenal storage of th device.
-     *
-     * @param filename
+     * Internal Class to use AsyncTask
+     * Saves an image into intenal storage of the device in a background thread.
+     * Does not block UI thread.
      */
-    private void saveImageIntoStorage(String filename) {
-        verifyStoragePermissions(this);
-        Bitmap bmp = getImageViewBitmap();
-        OutputStream fOut = null;
-        try {
-            File root = new File(Environment.getExternalStorageDirectory()
-                    + File.separator + "ImageEditor" + File.separator);
-            root.mkdirs();
-            File sdImageMainDirectory = new File(root, filename + ".png");
-            fOut = new FileOutputStream(sdImageMainDirectory);
-        } catch (Exception e) {
-            Toast.makeText(this, "Error occured. Please try again later.",
-                    Toast.LENGTH_SHORT).show();
+    private class AsyncTaskSaveImage extends AsyncTask {
+        String fileName;
+
+        private AsyncTaskSaveImage(String fn) {
+            super();
+            this.fileName = fn;
         }
-        try {
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-            fOut.flush();
-            fOut.close();
-            Toast.makeText(this, R.string.image_saved, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Log.d("exception", e.getMessage());
-            Toast.makeText(this, R.string.image_not_saved, Toast.LENGTH_SHORT).show();
+
+        @Override
+        protected Void doInBackground(Object[] params) {
+            verifyStoragePermissions(MainActivity.this);
+            Bitmap bmp = getImageViewBitmap();
+            OutputStream fOut = null;
+            try {
+                File root = new File(Environment.getExternalStorageDirectory()
+                        + File.separator + "ImageEditor" + File.separator);
+                root.mkdirs();
+                File sdImageMainDirectory = new File(root, this.fileName + ".png");
+                fOut = new FileOutputStream(sdImageMainDirectory);
+            } catch (Exception e) {
+                Toast.makeText(MainActivity.this, "Error occured. Please try again later.", Toast.LENGTH_SHORT).show();
+            }
+            try {
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                fOut.flush();
+                fOut.close();
+                final Snackbar snackbar = Snackbar
+                        .make(mainImageView, R.string.image_saved, Snackbar.LENGTH_LONG);
+                snackbar.setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        snackbar.dismiss();
+                    }
+                });
+                snackbar.show();
+            } catch (Exception e) {
+                Log.d("exception", e.getMessage());
+                Toast.makeText(MainActivity.this, R.string.image_not_saved, Toast.LENGTH_SHORT).show();
+            }
+
+            return null;
         }
+
     }
 
     /**

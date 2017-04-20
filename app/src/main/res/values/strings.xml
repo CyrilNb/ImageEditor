@@ -27,4 +27,6 @@
     <string name="minimum_value">min</string>
     <string name="medium_value">med</string>
     <string name="maximum_value">max</string>
+    <string name="no_filename">A filename is required !</string>
+
 </resources>
