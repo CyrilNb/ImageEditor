@@ -16,6 +16,11 @@ public class NegativeFilter extends AbstractImageModificationAsyncTask{
         super(src, activity);
     }
 
+    /**
+     * Performs the operation in a background thread
+     * @param params
+     * @return
+     */
     @Override
     protected Bitmap doInBackground(String... params) {
         ColorMatrix cm = new ColorMatrix(new float[]
