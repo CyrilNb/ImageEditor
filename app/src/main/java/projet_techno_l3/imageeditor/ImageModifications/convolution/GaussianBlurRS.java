@@ -25,7 +25,7 @@ public class GaussianBlurRS extends AbstractImageModificationAsyncTask {
     public GaussianBlurRS(Bitmap src, BlurValues filterSize, Activity activity) {
         super(src, activity);
 
-        this.filterSize = (filterSize.ordinal() *3) + 3;
+        this.filterSize = (filterSize.ordinal() * 5) + 3;
         this.activitiyContext = activity.getApplicationContext();
     }
 
