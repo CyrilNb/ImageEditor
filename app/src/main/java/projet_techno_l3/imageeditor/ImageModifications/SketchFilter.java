@@ -25,8 +25,7 @@ public class SketchFilter extends AbstractImageModificationAsyncTask {
      * @param activity
      */
     public SketchFilter(Bitmap src, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
     }
 
     /**
