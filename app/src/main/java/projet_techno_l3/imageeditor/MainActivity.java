@@ -31,7 +31,6 @@ import android.widget.Toast;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Core;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,19 +46,19 @@ import projet_techno_l3.imageeditor.ImageModifications.BrightnessEditor;
 import projet_techno_l3.imageeditor.ImageModifications.ColorFilter;
 import projet_techno_l3.imageeditor.ImageModifications.ContrastEditor;
 import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
-import projet_techno_l3.imageeditor.ImageModifications.HistogramEqualization;
+import projet_techno_l3.imageeditor.ImageModifications.HistogramEqualizationOCV;
+import projet_techno_l3.imageeditor.ImageModifications.HueColorize;
 import projet_techno_l3.imageeditor.ImageModifications.NegativeFilter;
 import projet_techno_l3.imageeditor.ImageModifications.Sepia;
 import projet_techno_l3.imageeditor.ImageModifications.SketchFilter;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
-import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
-import projet_techno_l3.imageeditor.ImageModifications.HueColorize;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlurRS;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.LaplacianFilter;
-import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlur;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlurRS;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.SobelFilter;
 import projet_techno_l3.imageeditor.ImageModifications.incrustation.EyesIncrustation;
+import projet_techno_l3.imageeditor.ImageModifications.incrustation.MouthIncrustation;
+import projet_techno_l3.imageeditor.ImageModifications.incrustation.NoseIncrustation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,25 +73,22 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-
+    public ZoomAndScrollImageView mainImageView;
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
             switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                {
+                case LoaderCallbackInterface.SUCCESS: {
                     Log.i(TAG, "OpenCV loaded successfully");
-                } break;
-                default:
-                {
+                }
+                break;
+                default: {
                     super.onManagerConnected(status);
-                } break;
+                }
+                break;
             }
         }
     };
-
-    public ZoomAndScrollImageView mainImageView;
-
     /**
      * Private variables
      */
@@ -146,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
         Bitmap basedImage = BitmapFactory.decodeResource(getResources(),
                 R.drawable.fruitbasket);
@@ -155,8 +150,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         if (!OpenCVLoader.initDebug()) {
             Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
@@ -210,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Runs when the arrow to get back on previous menu is clicked in the bottom menu
+     *
      * @param view
      */
     public void onMenuBackClicked(View view) {
@@ -222,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Runs when a category is clicked in the bottom menu
+     *
      * @param view
      */
     public void onCategoriesMenuButtonClicked(View view) {
@@ -248,6 +244,12 @@ public class MainActivity extends AppCompatActivity {
                     currentActiveFiltersMenu = convolutionLinearLayout;
                 }
                 break;
+            case R.id.incrustationButton:
+                LinearLayout incrustationLinearLayout = (LinearLayout) findViewById(R.id.incrustationLinearLayout);
+                if (incrustationLinearLayout != null) {
+                    incrustationLinearLayout.setVisibility(View.VISIBLE);
+                    currentActiveFiltersMenu = incrustationLinearLayout;
+                }
         }
     }
 
@@ -275,30 +277,30 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Runs when the brightness button is clicked from the bottom menu
+     *
      * @param view
      */
     public void onBrightnessButtonClicked(View view) {
         clearFilterOptions();
         SeekBar s = new SeekBar(this);
+        s.setMax(200);
         s.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        s.setProgress(50);
+        s.setProgress(100);
 
         s.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
                 try {
-                    BrightnessEditor brightnessEditor = new BrightnessEditor(getImageViewBitmap(), (seekBar.getProgress() - 50) * 2, MainActivity.this);
+                    BrightnessEditor brightnessEditor = new BrightnessEditor(getImageViewBitmap(), (seekBar.getProgress() - 100), MainActivity.this);
                     brightnessEditor.execute();
                     clearFilterOptions();
                 } catch (Exception e) {
@@ -312,14 +314,15 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * * Runs when the contrast button is clicked from the bottom menu
+     *
      * @param view
      */
     public void onContrastButtonClicked(View view) {
         clearFilterOptions();
         SeekBar s = new SeekBar(this);
-        s.setMax(255 * 2);
+        s.setMax(200);
         s.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        s.setProgress(255);
+        s.setProgress(100);
 
         s.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -335,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                ContrastEditor contrastEditor = new ContrastEditor(getImageViewBitmap(), (seekBar.getProgress() - 255),MainActivity.this);
+                ContrastEditor contrastEditor = new ContrastEditor(getImageViewBitmap(), (seekBar.getProgress() - 100), MainActivity.this);
                 contrastEditor.execute();
             }
         });
@@ -345,22 +348,23 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * * Runs when the histogram equalization button is clicked from the bottom menu
+     *
      * @param view
      */
     public void onHistogramEqualizationClicked(View view) {
         clearFilterOptions();
 
-        HistogramEqualization histogramEqualization = new HistogramEqualization(getImageViewBitmap(),this);
+        HistogramEqualizationOCV histogramEqualization = new HistogramEqualizationOCV(getImageViewBitmap(), this);
         histogramEqualization.execute();
     }
 
     /**
      * * Runs when the color picker button is clicked from the bottom menu
+     *
      * @param view
      */
     public void onColorPickerButtonClicked(View view) {
         clearFilterOptions();
-        ColorFilter colorFilterCallable = null;
         this.showColorPickerDialog(false);
 
     }
@@ -368,35 +372,37 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Runs when the hue colorize button is clicked from the bottom menu
+     *
      * @param view
      */
     public void onHueColorizeButtonClicked(View view) {
         clearFilterOptions();
-        HueColorize hueColorizeCallable = null;
         this.showColorPickerDialog(true);
 
     }
 
     /**
      * * Runs when the greyscale button is clicked from the bottom menu
+     *
      * @param view
      */
     public void onGreyScaleButtonClicked(View view) {
         clearFilterOptions();
 
-        Greyscale asynctask = new Greyscale(getImageViewBitmap(),this);
+        Greyscale asynctask = new Greyscale(getImageViewBitmap(), this);
         asynctask.execute();
 
     }
 
     /**
      * Runs when the sepia button is clicked from the bottom menu and performs sepia filter
+     *
      * @param view
      */
     public void onSepiaButtonClicked(View view) {
         clearFilterOptions();
 
-        Sepia sepia = new Sepia(getImageViewBitmap(),this);
+        Sepia sepia = new Sepia(getImageViewBitmap(), this);
         sepia.execute();
 
     }
@@ -414,9 +420,10 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Runs when the negative button is clicked from the bottom menu and performs negative filter
+     *
      * @param view
      */
-    public void onNegativeButtonClicked(View view){
+    public void onNegativeButtonClicked(View view) {
         clearFilterOptions();
 
         NegativeFilter negativeFilter = new NegativeFilter(getImageViewBitmap(), this);
@@ -426,16 +433,17 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * * Runs when the Gaussian blur button is clicked from the bottom menu and performs Gaussian blur
+     *
      * @param view
      */
     public void onGaussianBlurButtonClicked(View view) {
         clearFilterOptions();
         Button min = new Button(this);
-        min.setText("min");
+        min.setText(R.string.minimum_value);
         Button med = new Button(this);
-        med.setText("med");
+        med.setText(R.string.medium_value);
         Button max = new Button(this);
-        max.setText("max");
+        max.setText(R.string.maximum_value);
 
 
         View.OnClickListener optionButtonClick = new View.OnClickListener() {
@@ -443,19 +451,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Button b = (Button) v;
                 BlurValues value = BlurValues.MIN;
-                switch (b.getText().toString()) {
-                    case "min":
-                        value = BlurValues.MIN;
-                        break;
-                    case "med":
-                        value = BlurValues.MED;
-                        break;
-                    case "max":
-                        value = BlurValues.MAX;
-                        break;
+                if (b.getText().toString().compareTo(String.valueOf(R.string.minimum_value)) == 0) {
+                    value = BlurValues.MIN;
                 }
-
-                GaussianBlurRS gaussianBlur = new GaussianBlurRS(getImageViewBitmap(), value,MainActivity.this);
+                if (b.getText().toString().compareTo(String.valueOf(R.string.medium_value)) == 0) {
+                    value = BlurValues.MED;
+                }
+                if (b.getText().toString().compareTo(String.valueOf(R.string.maximum_value)) == 0) {
+                    value = BlurValues.MAX;
+                }
+                GaussianBlurRS gaussianBlur = new GaussianBlurRS(getImageViewBitmap(), value, MainActivity.this);
                 gaussianBlur.execute();
             }
         };
@@ -473,14 +478,15 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Runs when the Mean blur button is clicked from the bottom menu
+     *
      * @param view
      */
     public void onMeanBlurButtonClicked(View view) {
         clearFilterOptions();
         Button min = new Button(this);
-        min.setText("min");
+        min.setText(R.string.minimum_value);
         Button max = new Button(this);
-        max.setText("max");
+        max.setText(R.string.maximum_value);
 
 
         View.OnClickListener optionButtonClick = new View.OnClickListener() {
@@ -488,17 +494,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Button b = (Button) v;
                 BlurValues value = BlurValues.MIN;
-                switch (b.getText().toString()) {
-                    case "min":
-                        value = BlurValues.MIN;
-                        break;
-                    case "max":
-                        value = BlurValues.MAX;
-                        break;
+                if (b.getText().toString().compareTo(String.valueOf(R.string.minimum_value)) == 0) {
+                    value = BlurValues.MIN;
+                }
+                if (b.getText().toString().compareTo(String.valueOf(R.string.maximum_value)) == 0) {
+                    value = BlurValues.MAX;
                 }
 
-
-                MeanBlurRS meanBlur = new MeanBlurRS(getImageViewBitmap(),value, MainActivity.this);
+                MeanBlurRS meanBlur = new MeanBlurRS(getImageViewBitmap(), value, MainActivity.this);
                 meanBlur.execute();
 
             }
@@ -511,40 +514,37 @@ public class MainActivity extends AppCompatActivity {
             filterOptions.addView(min);
             filterOptions.addView(max);
         }
+
     }
 
     /**
      * Runs when the Laplacian button is clicked from the bottom menu
+     *
      * @param view
      */
     public void onLaplacianButtonClicked(View view) {
         clearFilterOptions();
-        LaplacianFilter laplacianFilter = new LaplacianFilter(getImageViewBitmap(),this);
+        LaplacianFilter laplacianFilter = new LaplacianFilter(getImageViewBitmap(), this);
         laplacianFilter.execute();
     }
 
     /**
      * Runs when the Sobel button is clicked from the bottom menu
+     *
      * @param view
      */
     public void onSobelButtonClicked(View view) {
         clearFilterOptions();
 
-        SobelFilter asynctask = new SobelFilter(getImageViewBitmap(),this);
+        SobelFilter asynctask = new SobelFilter(getImageViewBitmap(), this);
         asynctask.execute();
 
-        /*Callable imageModif = new SobelFilter(getImageViewBitmap());
-
-        try {
-            mainImageView.setImageBitmap((Bitmap) imageModif.call());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
     }
 
     /**
      * Runs when the undo button is clicked from the top menu
      * Perfoms tne undo modification
+     *
      * @param view
      */
     public void onUndoButtonClicked(View view) {
@@ -554,11 +554,12 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Runs when the save button is clicked from the bottom menu
      * Displays a dialog to name the image and perfoms the save of it
+     *
      * @param view
      */
     public void onSaveButtonClicked(View view) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.NameSavedImageDialog);
-        final View dialogView = LayoutInflater.from(this).inflate(R.layout.saveimagedialog,null);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.NameSavedImageDialog);
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.saveimagedialog, null);
         builder.setView(dialogView);
         final EditText editTextName = (EditText) dialogView.findViewById(R.id.editTxtDialogSaveImage);
         builder.setTitle("Nom de l'image");
@@ -584,6 +585,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Runs when the gallery button is clicked from the bottom menu
      * Performs the load of an image from the gallery
+     *
      * @param view
      */
     public void onLoadFromGalleryButtonClicked(View view) {
@@ -597,6 +599,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Run intent for camera, creates new file stored in external storage, puts photo taken in this file.
+     *
      * @param view performs the operation
      */
     public void onLoadFromCameraButtonClicked(View view) {
@@ -616,6 +619,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Saves an image into intenal storage of th device.
+     *
      * @param filename
      */
     private void saveImageIntoStorage(String filename) {
@@ -645,9 +649,10 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Displays a color picker and runs the callable
-     * @param isHue  Is for HueColorize or not
+     *
+     * @param isHue Is for HueColorize or not
      */
-    private void showColorPickerDialog(final boolean isHue){
+    private void showColorPickerDialog(final boolean isHue) {
         new ColorOMaticDialog.Builder()
                 .initialColor(Color.RED)
                 .colorMode(ColorMode.RGB) // RGB, ARGB, HVS
@@ -656,11 +661,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onColorSelected(@ColorInt int color) {
                         try {
-                            if(!isHue){
-                                final ColorFilter colorFilter = new ColorFilter(getImageViewBitmap(),color, MainActivity.this);
+                            if (!isHue) {
+                                final ColorFilter colorFilter = new ColorFilter(getImageViewBitmap(), color, MainActivity.this);
                                 colorFilter.execute();
-                            }else{
-                                final HueColorize hueColorize = new HueColorize(getImageViewBitmap(),color,MainActivity.this);
+                            } else {
+                                final HueColorize hueColorize = new HueColorize(getImageViewBitmap(), color, MainActivity.this);
                                 hueColorize.execute();
                             }
 
@@ -680,8 +685,22 @@ public class MainActivity extends AppCompatActivity {
 
         clearFilterOptions();
 
-        EyesIncrustation asynctask = new EyesIncrustation(getImageViewBitmap(),this);
+        EyesIncrustation asynctask = new EyesIncrustation(getImageViewBitmap(), this, R.drawable.googly_eyes);
         asynctask.execute();
 
+    }
+
+    public void onNoseIncrustationButtonClicked(View view) {
+        clearFilterOptions();
+
+        NoseIncrustation asynctask = new NoseIncrustation(getImageViewBitmap(), this, R.drawable.clown_nose);
+        asynctask.execute();
+    }
+
+    public void onMouthIncrustationButtonClicked(View view) {
+        clearFilterOptions();
+
+        MouthIncrustation asynctask = new MouthIncrustation(getImageViewBitmap(), this, R.drawable.shark_mouth);
+        asynctask.execute();
     }
 }

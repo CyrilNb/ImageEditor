@@ -1,35 +1,33 @@
 package projet_techno_l3.imageeditor.ImageModifications.convolution;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
-import android.support.v8.renderscript.ScriptIntrinsicConvolve3x3;
-import android.support.v8.renderscript.ScriptIntrinsicConvolve5x5;
-import android.support.v8.renderscript.Type;
 import android.util.Log;
 
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
 
 /**
- * Created by Antoine Gagnon
+ * Applies a Gaussian Blur using RenderScript to an image.
+ * Also called "Filtre Gaussien" in French.
  */
-
 public class GaussianBlurRS extends AbstractImageModificationAsyncTask {
 
-    private final int filterSize;
 
-    private Context activitiyContext;
+    /**
+     * Size of the matrix used
+     */
+    private final int filterSize;
 
 
     public GaussianBlurRS(Bitmap src, BlurValues filterSize, Activity activity) {
-        super(activity);
-        this.src = src;
-        this.filterSize = (filterSize.ordinal() *3) + 3;
-        this.activitiyContext = activity.getApplicationContext();
+        super(src, activity);
+
+        int filterSizeTemp = (filterSize.ordinal() * 5) + 3;
+        this.filterSize = (int) ensureRange(filterSizeTemp, 0, 21);
     }
 
     @Override
@@ -38,7 +36,7 @@ public class GaussianBlurRS extends AbstractImageModificationAsyncTask {
 
         result = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
         //Create renderscript
-        RenderScript rs = RenderScript.create(activitiyContext);
+        RenderScript rs = RenderScript.create(mActivity.getApplicationContext());
 
         //Create allocation from Bitmap
         Allocation allocationIn = Allocation.createFromBitmap(rs, src);

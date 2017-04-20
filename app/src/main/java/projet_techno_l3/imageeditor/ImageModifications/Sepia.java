@@ -10,8 +10,7 @@ public class Sepia extends AbstractImageModificationAsyncTask {
     private int SEPIA_DEPTH = 20;
 
     public Sepia(Bitmap src, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
     }
 
     @Override
