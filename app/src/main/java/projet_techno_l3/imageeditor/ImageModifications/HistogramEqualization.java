@@ -59,7 +59,7 @@ public class HistogramEqualization extends AbstractImageModificationAsyncTask {
             Color.RGBToHSV(r, g, b, hsvPixels[i]);
 
             // Save HSV Value in a 0-255 range
-            int rangedHSVvalue = valueToRange(hsvPixels[i][2]);
+            int rangedHSVvalue = hueValueToColorRange(hsvPixels[i][2]);
             valueHistogram[rangedHSVvalue]++;
         }
 
@@ -67,9 +67,9 @@ public class HistogramEqualization extends AbstractImageModificationAsyncTask {
 
         for (int i = 0; i < bitmapWidth * bitmapHeight; i++) {
             float value = hsvPixels[i][2];
-            int range = valueToRange(value);
+            int range = hueValueToColorRange(value);
             int histoEqualValue = histoEqual(range);
-            float changedValue = rangeToValue(histoEqualValue);
+            float changedValue = colorRangeToHueValue(histoEqualValue);
             hsvPixels[i][2] = changedValue;
 
             float[] hsv = hsvPixels[i];
@@ -84,7 +84,7 @@ public class HistogramEqualization extends AbstractImageModificationAsyncTask {
     }
 
     /**
-     * Histogram euqalization formula, calculating the new value.
+     * Histogram equalization formula, calculating the new value.
      * @param v Original value
      * @return New value
      */
@@ -119,7 +119,7 @@ public class HistogramEqualization extends AbstractImageModificationAsyncTask {
      * @param range Value between 0 and 255
      * @return Value of HSV color between 0 and 1
      */
-    private float rangeToValue(int range) {
+    private float colorRangeToHueValue(int range) {
         return range / 255f;
     }
 
@@ -129,7 +129,7 @@ public class HistogramEqualization extends AbstractImageModificationAsyncTask {
      * @param value The HSV value
      * @return Range value between 0 and 255
      */
-    private int valueToRange(float value) {
+    private int hueValueToColorRange(float value) {
         return (int) Math.floor(value * 255);
     }
 

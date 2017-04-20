@@ -1,15 +1,3 @@
-org.opencv.android
-org.opencv.calib3d
-org.opencv.core
-org.opencv.features2d
-org.opencv.imgcodecs
-org.opencv.imgproc
-org.opencv.ml
-org.opencv.objdetect
-org.opencv.photo
-org.opencv.utils
-org.opencv.video
-org.opencv.videoio
 projet_techno_l3.imageeditor
 projet_techno_l3.imageeditor.ImageModifications
 projet_techno_l3.imageeditor.ImageModifications.convolution

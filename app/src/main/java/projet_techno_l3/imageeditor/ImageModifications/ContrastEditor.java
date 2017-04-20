@@ -30,6 +30,7 @@ public class ContrastEditor extends AbstractImageModificationAsyncTask {
 
         value = (value * 2.55f);
 
+        // 259 is an arbitrary value used to reduce or increase the histogram range according to the value
         float factor = (259 * (value + 255)) / (255 * (259 - value));
 
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888, true);
