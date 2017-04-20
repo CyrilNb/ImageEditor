@@ -228,6 +228,15 @@
                 android:textColor="@color/textColorPrimary" />
 
             <Button
+                android:id="@+id/sketchButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onSketchButtonClicked"
+                android:text="SKETCH"
+                android:textColor="@color/textColorPrimary" />
+
+            <Button
                 android:id="@+id/negativeButton"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
