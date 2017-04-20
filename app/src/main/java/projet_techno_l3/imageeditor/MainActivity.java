@@ -31,7 +31,6 @@ import android.widget.Toast;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Core;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,17 +47,17 @@ import projet_techno_l3.imageeditor.ImageModifications.ColorFilter;
 import projet_techno_l3.imageeditor.ImageModifications.ContrastEditor;
 import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 import projet_techno_l3.imageeditor.ImageModifications.HistogramEqualization;
+import projet_techno_l3.imageeditor.ImageModifications.HueColorize;
 import projet_techno_l3.imageeditor.ImageModifications.NegativeFilter;
 import projet_techno_l3.imageeditor.ImageModifications.Sepia;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
-import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlur;
-import projet_techno_l3.imageeditor.ImageModifications.HueColorize;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlurRS;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.LaplacianFilter;
-import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlur;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.MeanBlurRS;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.SobelFilter;
 import projet_techno_l3.imageeditor.ImageModifications.incrustation.EyesIncrustation;
+import projet_techno_l3.imageeditor.ImageModifications.incrustation.MouthIncrustation;
+import projet_techno_l3.imageeditor.ImageModifications.incrustation.NoseIncrustation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-
+    public ZoomAndScrollImageView mainImageView;
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -89,9 +88,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-
-    public ZoomAndScrollImageView mainImageView;
-
     /**
      * Private variables
      */
@@ -247,6 +243,12 @@ public class MainActivity extends AppCompatActivity {
                     currentActiveFiltersMenu = convolutionLinearLayout;
                 }
                 break;
+            case R.id.incrustationButton:
+                LinearLayout incrustationLinearLayout = (LinearLayout) findViewById(R.id.incrustationLinearLayout);
+                if (incrustationLinearLayout != null) {
+                    incrustationLinearLayout.setVisibility(View.VISIBLE);
+                    currentActiveFiltersMenu = incrustationLinearLayout;
+                }
         }
     }
 
@@ -668,8 +670,22 @@ public class MainActivity extends AppCompatActivity {
 
         clearFilterOptions();
 
-        EyesIncrustation asynctask = new EyesIncrustation(getImageViewBitmap(),this);
+        EyesIncrustation asynctask = new EyesIncrustation(getImageViewBitmap(), this, R.drawable.googly_eyes);
         asynctask.execute();
 
+    }
+
+    public void onNoseIncrustationButtonClicked(View view) {
+        clearFilterOptions();
+
+        NoseIncrustation asynctask = new NoseIncrustation(getImageViewBitmap(), this, R.drawable.clown_nose);
+        asynctask.execute();
+    }
+
+    public void onMouthIncrustationButtonClicked(View view) {
+        clearFilterOptions();
+
+        MouthIncrustation asynctask = new MouthIncrustation(getImageViewBitmap(), this, R.drawable.shark_mouth);
+        asynctask.execute();
     }
 }

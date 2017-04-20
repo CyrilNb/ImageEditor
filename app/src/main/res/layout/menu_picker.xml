@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menuPickerLinearLayout"
+    style="?android:attr/buttonBarStyle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <Button
+        android:id="@+id/adjustButton"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onCategoriesMenuButtonClicked"
+        android:text="ADJUST"
+        android:textColor="@color/textColorPrimary" />
+
+    <Button
+        android:id="@+id/incrustationButton"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onCategoriesMenuButtonClicked"
+        android:text="INCRUSTATION"
+        android:textColor="@color/textColorPrimary" />
+
+    <Button
+        android:id="@+id/filterButton"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onCategoriesMenuButtonClicked"
+        android:text="FILTER"
+        android:textColor="@color/textColorPrimary" />
+
+    <Button
+        android:id="@+id/convolutionButton"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onCategoriesMenuButtonClicked"
+        android:text="CONVOLUTION"
+        android:textColor="@color/textColorPrimary" />
+</LinearLayout>

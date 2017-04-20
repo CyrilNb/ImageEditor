@@ -9,7 +9,6 @@ import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
@@ -21,23 +20,24 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
-import projet_techno_l3.imageeditor.R;
 
 /**
  * Abstract class used to ease the creation of different incrustations.
  */
 abstract class HaarCascadeIncrustation extends AbstractImageModificationAsyncTask {
 
+    static String TAG = "Incrustation";
     private final Activity activity;
+    private final int incrustationID;
     String fileName = "face.xml";
     double ratioMinElementSize = 0.10f;
-    static String TAG = "Incrustation";
     private double absoluteElementSize;
 
 
-    HaarCascadeIncrustation(Bitmap src, Activity activity) {
+    HaarCascadeIncrustation(Bitmap src, Activity activity, int incrustationID) {
         super(activity);
         this.activity = activity;
+        this.incrustationID = incrustationID;
         this.src = src;
         result = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
     }
@@ -99,7 +99,7 @@ abstract class HaarCascadeIncrustation extends AbstractImageModificationAsyncTas
         Rect[] elementsArray = elements.toArray();
         Mat incrustationElement;
         try {
-            incrustationElement = Utils.loadResource(activity.getApplicationContext(), R.drawable.googly_eyes);
+            incrustationElement = Utils.loadResource(activity.getApplicationContext(), incrustationID);
         } catch (IOException e) {
             Log.e(TAG,"Couldn't load incrustation element");
             e.printStackTrace();
@@ -111,7 +111,6 @@ abstract class HaarCascadeIncrustation extends AbstractImageModificationAsyncTas
             Mat resizedIncrustationElement = new Mat();
             Imgproc.resize(incrustationElement,resizedIncrustationElement,incrustationSize);
             resizedIncrustationElement.copyTo(frame.rowRange((int) anElementsArray.tl().y, (int) anElementsArray.br().y).colRange((int) anElementsArray.tl().x,(int)anElementsArray.br().x));
-            //Imgproc.rectangle(frame, anElementsArray.tl(), anElementsArray.br(), new Scalar(255, 255, 255), 10);
         }
 
         Utils.matToBitmap(frame,this.result);

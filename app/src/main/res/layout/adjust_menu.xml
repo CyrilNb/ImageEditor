@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/adjustLinearLayout"
+    style="?android:attr/buttonBarStyle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone">
+
+    <Button
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/ic_arrow_back_white_24dp"
+        android:onClick="onMenuBackClicked"
+        android:textColor="@color/textColorPrimary" />
+
+    <Button
+        android:id="@+id/brightnessButton"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onBrightnessButtonClicked"
+        android:text="BRIGHTNESS"
+        android:textColor="@color/textColorPrimary" />
+
+    <Button
+        android:id="@+id/contrastButton"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onContrastButtonClicked"
+        android:text="CONTRAST"
+        android:textColor="@color/textColorPrimary" />
+</LinearLayout>
