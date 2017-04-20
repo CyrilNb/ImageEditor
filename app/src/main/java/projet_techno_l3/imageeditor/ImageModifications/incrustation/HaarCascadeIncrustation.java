@@ -27,9 +27,24 @@ import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification
 abstract class HaarCascadeIncrustation extends AbstractImageModificationAsyncTask {
 
     static String TAG = "Incrustation";
+
+    /**
+     * ID of the drawable that will be added
+     */
     private final int incrustationID;
+
+    /**
+     * Name of the Haar Cascade file
+     */
     String fileName = "face.xml";
-    double ratioMinElementSize = 0.10f;
+
+
+    /**
+     * Minimum ratio of an element to the whole picture
+     */
+    double ratioMinElementSize = 0.30f;
+
+
     private double absoluteElementSize;
 
 
@@ -92,25 +107,25 @@ abstract class HaarCascadeIncrustation extends AbstractImageModificationAsyncTas
         elementCascade.detectMultiScale(grayFrame, elements, 1.1, 2, Objdetect.CASCADE_SCALE_IMAGE,
                 new Size(this.absoluteElementSize, this.absoluteElementSize), new Size());
 
-        // Drawing rectangles over elements
+        // Drawing drawable
         Rect[] elementsArray = elements.toArray();
         Mat incrustationElement;
         try {
             incrustationElement = Utils.loadResource(mActivity.getApplicationContext(), incrustationID);
         } catch (IOException e) {
-            Log.e(TAG,"Couldn't load incrustation element");
+            Log.e(TAG, "Couldn't load incrustation element");
             e.printStackTrace();
             return src;
         }
 
         for (Rect anElementsArray : elementsArray) {
-            Size incrustationSize = new Size(anElementsArray.width,anElementsArray.height);
+            Size incrustationSize = new Size(anElementsArray.width, anElementsArray.height);
             Mat resizedIncrustationElement = new Mat();
-            Imgproc.resize(incrustationElement,resizedIncrustationElement,incrustationSize);
-            resizedIncrustationElement.copyTo(frame.rowRange((int) anElementsArray.tl().y, (int) anElementsArray.br().y).colRange((int) anElementsArray.tl().x,(int)anElementsArray.br().x));
+            Imgproc.resize(incrustationElement, resizedIncrustationElement, incrustationSize);
+            resizedIncrustationElement.copyTo(frame.rowRange((int) anElementsArray.tl().y, (int) anElementsArray.br().y).colRange((int) anElementsArray.tl().x, (int) anElementsArray.br().x));
         }
 
-        Utils.matToBitmap(frame,this.result);
+        Utils.matToBitmap(frame, this.result);
 
         return result;
     }

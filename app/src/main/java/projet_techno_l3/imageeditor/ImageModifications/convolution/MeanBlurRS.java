@@ -1,7 +1,6 @@
 package projet_techno_l3.imageeditor.ImageModifications.convolution;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
@@ -19,11 +18,12 @@ import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification
 public class MeanBlurRS extends AbstractImageModificationAsyncTask {
 
 
+    // Size of the matrix used for the mean blur (either 3 o 5)
     private final int filterSize;
 
-    private final float[] matrixBlur;
 
-    private Context activitiyContext;
+    // Matrix with values to be applied to each pixel
+    private final float[] matrixBlur;
 
 
     public MeanBlurRS(Bitmap src, BlurValues filterSize, Activity activity) {
@@ -35,7 +35,6 @@ public class MeanBlurRS extends AbstractImageModificationAsyncTask {
         for (int i = 0; i < matrixSize; i++) {
             matrixBlur[i] = (1f / matrixSize);
         }
-        this.activitiyContext = activity.getApplicationContext();
     }
 
     @Override
@@ -43,7 +42,7 @@ public class MeanBlurRS extends AbstractImageModificationAsyncTask {
         long startTime = System.currentTimeMillis();
         result = src.copy(Bitmap.Config.ARGB_8888, true);
 
-        RenderScript renderScript = RenderScript.create(activitiyContext);
+        RenderScript renderScript = RenderScript.create(mActivity.getApplicationContext());
 
         Allocation input = Allocation.createFromBitmap(renderScript, src);
         Allocation output = Allocation.createFromBitmap(renderScript, result);

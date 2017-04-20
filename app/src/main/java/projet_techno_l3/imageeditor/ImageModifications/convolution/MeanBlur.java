@@ -9,6 +9,9 @@ import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification
 
 
 /**
+ * This algorithm was replaced by the one using RenderScript.
+ * The file is still here to show the old version we used.
+ * <p>
  * Creates a blur filter by using a mean value of the surroundings of a pixel.
  * <p>
  * Also called "Filtre Moyenneur" in French.

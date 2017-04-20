@@ -8,6 +8,9 @@ import android.util.Log;
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
 
 /**
+ * This algorithm was replaced by the one using RenderScript.
+ * The file is still here to show the old version we used.
+ * <p>
  * Applies a Gaussian Blur to an image.
  * Also called "Filtre Gaussien" in French.
  */
@@ -101,7 +104,7 @@ public class GaussianBlur extends AbstractImageModificationAsyncTask {
 
         // Getting a 2D array to pick a sub array more easily
         int[][] pixels2D = get2DPixels(pixels, imgWidth, imgHeight);
-        int offset = (filterSize - 1)/2;
+        int offset = (filterSize - 1) / 2;
 
         for (int y = offset; y < imgHeight - offset; y++) { // We keep away from the borders
             for (int x = offset; x < imgWidth - offset; x++) { // Same here for the width
