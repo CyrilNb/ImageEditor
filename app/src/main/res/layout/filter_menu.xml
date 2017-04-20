@@ -68,4 +68,13 @@
         android:onClick="onNegativeButtonClicked"
         android:text="@string/negative"
         android:textColor="@color/textColorPrimary" />
+
+    <Button
+        android:id="@+id/sketchButton"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onSketchButtonClicked"
+        android:text="@string/sketch"
+        android:textColor="@color/textColorPrimary" />
 </LinearLayout>
