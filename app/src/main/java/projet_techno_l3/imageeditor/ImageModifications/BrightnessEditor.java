@@ -16,8 +16,8 @@ public class BrightnessEditor extends AbstractImageModificationAsyncTask {
      * @param value Brightness adjusment value, between -100 and 100
      */
     public BrightnessEditor(Bitmap src, float value, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
+
         this.value = value;
     }
 
@@ -25,7 +25,7 @@ public class BrightnessEditor extends AbstractImageModificationAsyncTask {
     @Override
     protected Bitmap doInBackground(String... params) {
         publishProgress("Editing..."); // Calls onProgressUpdate()
-        if (value == 0) {
+        if (value == 0 || value > 100 || value < -100) {
             return src;
         }
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888, true);
@@ -38,16 +38,13 @@ public class BrightnessEditor extends AbstractImageModificationAsyncTask {
         result.getPixels(pixels, 0, imgWidth, 0, 0, imgWidth, imgHeight);
 
 
+        // Increasing the V of HSV to increase brightness
         for (int i = 0; i < pixels.length; i++) {
             float[] hsv = new float[3];
             Color.colorToHSV(pixels[i], hsv);
-            float addedValue = hsv[2] + value / 100;
-            if (addedValue > 1)
-                addedValue = 1;
-            if (addedValue < -1)
-                addedValue = -1;
+            hsv[2] = hsv[2] + (value / 100);
 
-            hsv[2] = addedValue;
+            // No need to ensure range, HSVToColor does it.
             pixels[i] = Color.HSVToColor(hsv);
         }
 

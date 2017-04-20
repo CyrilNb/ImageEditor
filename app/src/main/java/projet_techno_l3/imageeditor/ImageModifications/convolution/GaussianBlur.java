@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
 
-import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
 
 /**
@@ -26,8 +25,8 @@ public class GaussianBlur extends AbstractImageModificationAsyncTask {
     private int[] gaussianValue = {0, 10, 0, 66, 0, 98};
 
     public GaussianBlur(Bitmap src, BlurValues filterSize, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
+
         this.filterSize = (filterSize.ordinal() * 2) + 3;
     }
 

@@ -7,9 +7,6 @@ import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
-import android.support.v8.renderscript.ScriptIntrinsicConvolve3x3;
-import android.support.v8.renderscript.ScriptIntrinsicConvolve5x5;
-import android.support.v8.renderscript.Type;
 import android.util.Log;
 
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
@@ -26,8 +23,8 @@ public class GaussianBlurRS extends AbstractImageModificationAsyncTask {
 
 
     public GaussianBlurRS(Bitmap src, BlurValues filterSize, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
+
         this.filterSize = (filterSize.ordinal() *3) + 3;
         this.activitiyContext = activity.getApplicationContext();
     }

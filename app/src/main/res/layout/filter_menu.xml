@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onHistogramEqualizationClicked"
-        android:text="Histo Equ"
+        android:text="@string/histo_equ"
         android:textColor="@color/textColorPrimary" />
 
     <Button
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onColorPickerButtonClicked"
-        android:text="COLOR PICKER"
+        android:text="@string/color_picker"
         android:textColor="@color/textColorPrimary" />
 
     <Button
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onHueColorizeButtonClicked"
-        android:text="Hue colorize"
+        android:text="@string/hue_colorize"
         android:textColor="@color/textColorPrimary" />
 
     <Button
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onGreyScaleButtonClicked"
-        android:text="GREYSCALE"
+        android:text="@string/greyscale"
         android:textColor="@color/textColorPrimary" />
 
     <Button
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onSepiaButtonClicked"
-        android:text="SEPIA"
+        android:text="@string/sepia"
         android:textColor="@color/textColorPrimary" />
 
     <Button
@@ -66,6 +66,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onNegativeButtonClicked"
-        android:text="NEGATIVE"
+        android:text="@string/negative"
         android:textColor="@color/textColorPrimary" />
 </LinearLayout>

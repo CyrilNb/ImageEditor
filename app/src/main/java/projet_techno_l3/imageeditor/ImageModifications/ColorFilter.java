@@ -9,14 +9,13 @@ import android.graphics.Color;
  */
 public class ColorFilter extends AbstractImageModificationAsyncTask {
 
+    private final int color;
     // Accepted color range
     private int COLOR_RANGE = 25;
 
-    private final int color;
-
     public ColorFilter(Bitmap src, int color, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
+
         this.color = color;
     }
 

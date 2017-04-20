@@ -27,8 +27,8 @@ public class MeanBlurRS extends AbstractImageModificationAsyncTask {
 
 
     public MeanBlurRS(Bitmap src, BlurValues filterSize, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
+
         this.filterSize = filterSize.ordinal() + 3;
         int matrixSize = this.filterSize * this.filterSize;
         matrixBlur = new float[matrixSize];

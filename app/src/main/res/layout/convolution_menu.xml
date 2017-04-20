@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onGaussianBlurButtonClicked"
-        android:text="Gaussian Blur"
+        android:text="@string/gaussian_blur"
         android:textColor="@color/textColorPrimary" />
 
     <Button
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onMeanBlurButtonClicked"
-        android:text="Mean Blur"
+        android:text="@string/mean_blur"
         android:textColor="@color/textColorPrimary" />
 
     <Button
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onLaplacianButtonClicked"
-        android:text="Laplacian"
+        android:text="@string/laplacian"
         android:textColor="@color/textColorPrimary" />
 
     <Button
@@ -48,6 +48,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onSobelButtonClicked"
-        android:text="Sobel"
+        android:text="@string/sobel"
         android:textColor="@color/textColorPrimary" />
 </LinearLayout>

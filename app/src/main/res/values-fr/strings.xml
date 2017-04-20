@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ImageEditor</string>
+    <string name="adjust">Ajuster</string>
+    <string name="brightness">Luminosité</string>
+    <string name="color_picker">Garder couleur</string>
+    <string name="contrast">Contraste</string>
+    <string name="eyes">Yeux</string>
+    <string name="filter">Filtre</string>
+    <string name="gaussian_blur">Flou Gaussien</string>
+    <string name="greyscale">Noir et Blanc</string>
+    <string name="hint_save_dialog">Nom du fichier</string>
+    <string name="histo_equ"></string>
+    <string name="hue_colorize">Teinte</string>
+    <string name="image_not_saved">Erreur, image non sauvegardée</string>
+    <string name="image_saved">Image sauvegardée</string>
+    <string name="mean_blur">Flou moyen</string>
+    <string name="mouth">Bouche</string>
+    <string name="negative">Negatif</string>
+    <string name="nose">Nez</string>
+    <string name="sepia">Sepia</string>
+    <string name="sobel"></string>
+</resources>

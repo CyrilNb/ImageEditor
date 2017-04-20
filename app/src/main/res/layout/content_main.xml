@@ -20,6 +20,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:background="@drawable/ic_undo_white_24dp"
         android:onClick="onUndoButtonClicked" />
 
@@ -37,8 +38,10 @@
         android:layout_height="24dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:layout_toLeftOf="@+id/topCenter"
+        android:layout_toStartOf="@+id/topCenter"
         android:background="@drawable/ic_collections_white_24dp"
         android:onClick="onLoadFromGalleryButtonClicked" />
 
@@ -48,6 +51,7 @@
         android:layout_height="24dp"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
         android:layout_toEndOf="@id/topCenter"
         android:layout_toRightOf="@id/topCenter"
         android:background="@drawable/ic_add_a_photo_white_24dp"
@@ -57,6 +61,7 @@
         android:id="@+id/saveButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/ic_save_white_24dp"
         android:onClick="onSaveButtonClicked" />
@@ -87,7 +92,7 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomBarLayout"
+        android:layout_above="@id/filterOptionsLinearLayout"
         android:layout_below="@id/loadFromCameraButton"
         android:layout_centerVertical="true" />
 

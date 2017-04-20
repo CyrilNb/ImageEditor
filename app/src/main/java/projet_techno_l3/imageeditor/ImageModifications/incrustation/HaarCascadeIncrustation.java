@@ -27,18 +27,15 @@ import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification
 abstract class HaarCascadeIncrustation extends AbstractImageModificationAsyncTask {
 
     static String TAG = "Incrustation";
-    private final Activity activity;
     private final int incrustationID;
     String fileName = "face.xml";
     double ratioMinElementSize = 0.10f;
     private double absoluteElementSize;
 
 
-    HaarCascadeIncrustation(Bitmap src, Activity activity, int incrustationID) {
-        super(activity);
-        this.activity = activity;
+    HaarCascadeIncrustation(Bitmap src, Activity mActivity, int incrustationID) {
+        super(src, mActivity);
         this.incrustationID = incrustationID;
-        this.src = src;
         result = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
     }
 
@@ -48,8 +45,8 @@ abstract class HaarCascadeIncrustation extends AbstractImageModificationAsyncTas
         final InputStream is;
         FileOutputStream os;
         try {
-            is = activity.getResources().getAssets().open(fileName);
-            File cascadeDir = activity.getDir("cascade", Context.MODE_PRIVATE);
+            is = mActivity.getResources().getAssets().open(fileName);
+            File cascadeDir = mActivity.getDir("cascade", Context.MODE_PRIVATE);
             mCascadeFile = new File(cascadeDir, fileName);
 
             os = new FileOutputStream(mCascadeFile);
@@ -99,7 +96,7 @@ abstract class HaarCascadeIncrustation extends AbstractImageModificationAsyncTas
         Rect[] elementsArray = elements.toArray();
         Mat incrustationElement;
         try {
-            incrustationElement = Utils.loadResource(activity.getApplicationContext(), incrustationID);
+            incrustationElement = Utils.loadResource(mActivity.getApplicationContext(), incrustationID);
         } catch (IOException e) {
             Log.e(TAG,"Couldn't load incrustation element");
             e.printStackTrace();

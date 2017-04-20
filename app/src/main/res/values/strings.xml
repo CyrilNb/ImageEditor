@@ -3,5 +3,24 @@
     <string name="title_activity_main">ImageEditor</string>
     <string name="image_saved">Image saved successfully</string>
     <string name="image_not_saved">Error image not saved</string>
-    <string name="hint_save_dialog">Nom du fichier</string>
+    <string name="hint_save_dialog">Filename</string>
+    <string name="brightness">BRIGHTNESS</string>
+    <string name="contrast">CONTRAST</string>
+    <string name="gaussian_blur">Gaussian Blur</string>
+    <string name="mean_blur">Mean Blur</string>
+    <string name="laplacian">Laplacian</string>
+    <string name="sobel">Sobel</string>
+    <string name="histo_equ">Histo Equ</string>
+    <string name="color_picker">COLOR PICKER</string>
+    <string name="hue_colorize">Hue</string>
+    <string name="greyscale">GREYSCALE</string>
+    <string name="sepia">SEPIA</string>
+    <string name="negative">NEGATIVE</string>
+    <string name="eyes">EYES</string>
+    <string name="nose">NOSE</string>
+    <string name="mouth">MOUTH</string>
+    <string name="adjust">ADJUST</string>
+    <string name="incrustation">INCRUSTATION</string>
+    <string name="filter">FILTER</string>
+    <string name="convolution">CONVOLUTION</string>
 </resources>

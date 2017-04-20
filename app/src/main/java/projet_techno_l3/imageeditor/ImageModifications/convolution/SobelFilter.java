@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-import java.util.concurrent.Callable;
-import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
-import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 
 /**
  * Applies a Sobel filter on an image
@@ -26,8 +23,8 @@ public class SobelFilter extends AbstractImageModificationAsyncTask {
      * @param src
      */
     public SobelFilter(Bitmap src, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
+
         //greyScaleCallable = new Greyscale(this.src);
     }
 

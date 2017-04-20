@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onEyesIncrustationButtonClicked"
-        android:text="EYES"
+        android:text="@string/eyes"
         android:textColor="@color/textColorPrimary" />
 
     <Button
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onNoseIncrustationButtonClicked"
-        android:text="NOSE"
+        android:text="@string/nose"
         android:textColor="@color/textColorPrimary" />
 
     <Button
@@ -39,6 +39,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onMouthIncrustationButtonClicked"
-        android:text="MOUTH"
+        android:text="@string/mouth"
         android:textColor="@color/textColorPrimary" />
 </LinearLayout>

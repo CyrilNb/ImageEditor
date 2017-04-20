@@ -46,7 +46,7 @@ import projet_techno_l3.imageeditor.ImageModifications.BrightnessEditor;
 import projet_techno_l3.imageeditor.ImageModifications.ColorFilter;
 import projet_techno_l3.imageeditor.ImageModifications.ContrastEditor;
 import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
-import projet_techno_l3.imageeditor.ImageModifications.HistogramEqualization;
+import projet_techno_l3.imageeditor.ImageModifications.HistogramEqualizationOCV;
 import projet_techno_l3.imageeditor.ImageModifications.HueColorize;
 import projet_techno_l3.imageeditor.ImageModifications.NegativeFilter;
 import projet_techno_l3.imageeditor.ImageModifications.Sepia;
@@ -281,25 +281,24 @@ public class MainActivity extends AppCompatActivity {
     public void onBrightnessButtonClicked(View view) {
         clearFilterOptions();
         SeekBar s = new SeekBar(this);
+        s.setMax(200);
         s.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        s.setProgress(50);
+        s.setProgress(100);
 
         s.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
                 try {
-                    BrightnessEditor brightnessEditor = new BrightnessEditor(getImageViewBitmap(), (seekBar.getProgress() - 50) * 2, MainActivity.this);
+                    BrightnessEditor brightnessEditor = new BrightnessEditor(getImageViewBitmap(), (seekBar.getProgress() - 100), MainActivity.this);
                     brightnessEditor.execute();
                     clearFilterOptions();
                 } catch (Exception e) {
@@ -318,9 +317,9 @@ public class MainActivity extends AppCompatActivity {
     public void onContrastButtonClicked(View view) {
         clearFilterOptions();
         SeekBar s = new SeekBar(this);
-        s.setMax(255 * 2);
+        s.setMax(200);
         s.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        s.setProgress(255);
+        s.setProgress(100);
 
         s.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -336,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                ContrastEditor contrastEditor = new ContrastEditor(getImageViewBitmap(), (seekBar.getProgress() - 255),MainActivity.this);
+                ContrastEditor contrastEditor = new ContrastEditor(getImageViewBitmap(), (seekBar.getProgress() - 100), MainActivity.this);
                 contrastEditor.execute();
             }
         });
@@ -351,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
     public void onHistogramEqualizationClicked(View view) {
         clearFilterOptions();
 
-        HistogramEqualization histogramEqualization = new HistogramEqualization(getImageViewBitmap(),this);
+        HistogramEqualizationOCV histogramEqualization = new HistogramEqualizationOCV(getImageViewBitmap(), this);
         histogramEqualization.execute();
     }
 

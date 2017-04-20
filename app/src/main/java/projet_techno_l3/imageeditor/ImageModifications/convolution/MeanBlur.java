@@ -18,8 +18,8 @@ public class MeanBlur extends AbstractImageModificationAsyncTask {
     private final int filterSize;
 
     public MeanBlur(Bitmap src, BlurValues filterSize, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
+
         this.filterSize = (filterSize.ordinal() * 2) + 3;
     }
 

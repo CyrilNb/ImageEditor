@@ -13,8 +13,7 @@ import android.graphics.Paint;
 public class NegativeFilter extends AbstractImageModificationAsyncTask{
 
     public NegativeFilter(Bitmap src, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
     }
 
     @Override
