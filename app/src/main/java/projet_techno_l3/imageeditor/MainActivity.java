@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
         Bitmap basedImage = BitmapFactory.decodeResource(getResources(),
                 R.drawable.fruitbasket);
