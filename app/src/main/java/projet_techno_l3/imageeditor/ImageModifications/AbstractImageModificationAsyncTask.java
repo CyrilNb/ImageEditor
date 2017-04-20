@@ -1,7 +1,6 @@
 package projet_techno_l3.imageeditor.ImageModifications;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -20,7 +19,6 @@ public abstract class AbstractImageModificationAsyncTask extends AsyncTask<Strin
     protected Bitmap src;
     protected Bitmap result;
     protected Activity mActivity;
-    ProgressDialog progressDialog;
 
     public AbstractImageModificationAsyncTask(Bitmap src, Activity activity) {
         this.src = src;
@@ -93,7 +91,6 @@ public abstract class AbstractImageModificationAsyncTask extends AsyncTask<Strin
         // execution of result of Long time consuming operation
         ImageView imgview = (ImageView) mActivity.findViewById(R.id.imageView);
         imgview.setImageBitmap(result);
-        //progressDialog.dismiss();
     }
 
 
