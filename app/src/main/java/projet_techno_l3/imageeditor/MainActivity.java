@@ -50,6 +50,7 @@ import projet_techno_l3.imageeditor.ImageModifications.HistogramEqualizationOCV;
 import projet_techno_l3.imageeditor.ImageModifications.HueColorize;
 import projet_techno_l3.imageeditor.ImageModifications.NegativeFilter;
 import projet_techno_l3.imageeditor.ImageModifications.Sepia;
+import projet_techno_l3.imageeditor.ImageModifications.SketchFilter;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.BlurValues;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.GaussianBlurRS;
 import projet_techno_l3.imageeditor.ImageModifications.convolution.LaplacianFilter;
@@ -404,6 +405,17 @@ public class MainActivity extends AppCompatActivity {
         Sepia sepia = new Sepia(getImageViewBitmap(), this);
         sepia.execute();
 
+    }
+
+    /**
+     * Runs when the sketch button is clicked from the bottom menu
+     * @param view
+     */
+    public void onSketchButtonClicked(View view) {
+        clearFilterOptions();
+
+        SketchFilter sketchFilter = new SketchFilter(getImageViewBitmap(),this);
+        sketchFilter.execute();
     }
 
     /**
