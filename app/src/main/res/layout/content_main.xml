@@ -20,6 +20,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:background="@drawable/ic_undo_white_24dp"
         android:onClick="onUndoButtonClicked" />
 
@@ -37,8 +38,10 @@
         android:layout_height="24dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:layout_toLeftOf="@+id/topCenter"
+        android:layout_toStartOf="@+id/topCenter"
         android:background="@drawable/ic_collections_white_24dp"
         android:onClick="onLoadFromGalleryButtonClicked" />
 
@@ -48,6 +51,7 @@
         android:layout_height="24dp"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
         android:layout_toEndOf="@id/topCenter"
         android:layout_toRightOf="@id/topCenter"
         android:background="@drawable/ic_add_a_photo_white_24dp"
@@ -57,6 +61,7 @@
         android:id="@+id/saveButton"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/ic_save_white_24dp"
         android:onClick="onSaveButtonClicked" />
@@ -68,242 +73,20 @@
         android:layout_alignParentTop="true"
         android:background="#99000000" />
 
-
-    <HorizontalScrollView
-        android:id="@+id/menuPickerScrollView"
+    <include
+        android:id="@+id/bottomBarLayout"
+        layout="@layout/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#99000000">
-
-        <LinearLayout
-            android:id="@+id/menuPickerLinearLayout"
-            style="?android:attr/buttonBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <Button
-                android:id="@+id/adjustButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onCategoriesMenuButtonClicked"
-                android:text="ADJUST"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/filterButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onCategoriesMenuButtonClicked"
-                android:text="FILTER"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/convolutionButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onCategoriesMenuButtonClicked"
-                android:text="CONVOLUTION"
-                android:textColor="@color/textColorPrimary" />
-        </LinearLayout>
-
-    </HorizontalScrollView>
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <LinearLayout
-            android:id="@+id/adjustLinearLayout"
-            style="?android:attr/buttonBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <Button
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/ic_arrow_back_white_24dp"
-                android:onClick="onMenuBackClicked"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/brightnessButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onBrightnessButtonClicked"
-                android:text="BRIGHTNESS"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/contrastButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onContrastButtonClicked"
-                android:text="CONTRAST"
-                android:textColor="@color/textColorPrimary" />
-        </LinearLayout>
-    </HorizontalScrollView>
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <LinearLayout
-            android:id="@+id/filterLinearLayout"
-            style="?android:attr/buttonBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <Button
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/ic_arrow_back_white_24dp"
-                android:onClick="onMenuBackClicked"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/histogramEqualizationButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onHistogramEqualizationClicked"
-                android:text="Histo Equ"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/eyesIncrustationButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onEyesIncrustationButtonClicked"
-                android:text="Eyes Incrustation"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/colorPickerButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onColorPickerButtonClicked"
-                android:text="COLOR PICKER"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/hueColorize"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onHueColorizeButtonClicked"
-                android:text="Hue colorize"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/greyscaleButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onGreyScaleButtonClicked"
-                android:text="GREYSCALE"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/sepiaButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onSepiaButtonClicked"
-                android:text="SEPIA"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/negativeButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onNegativeButtonClicked"
-                android:text="NEGATIVE"
-                android:textColor="@color/textColorPrimary" />
-        </LinearLayout>
-
-    </HorizontalScrollView>
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <LinearLayout
-            android:id="@+id/convolutionLinearLayout"
-            style="?android:attr/buttonBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <Button
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/ic_arrow_back_white_24dp"
-                android:onClick="onMenuBackClicked"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/gaussianBlurButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onGaussianBlurButtonClicked"
-                android:text="Gaussian Blur"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/meanBlurButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onMeanBlurButtonClicked"
-                android:text="Mean Blur"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/laplacianButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onLaplacianButtonClicked"
-                android:text="Laplacian"
-                android:textColor="@color/textColorPrimary" />
-
-            <Button
-                android:id="@+id/sobelButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onSobelButtonClicked"
-                android:text="Sobel"
-                android:textColor="@color/textColorPrimary" />
-        </LinearLayout>
-    </HorizontalScrollView>
+        android:layout_alignParentBottom="true" />
 
     <LinearLayout
         android:id="@+id/filterOptionsLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/menuPickerScrollView"
+        android:layout_above="@id/bottomBarLayout"
         android:gravity="center"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal" />
 
     <projet_techno_l3.imageeditor.ZoomAndScrollImageView
         android:id="@+id/imageView"

@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
-
 /**
  * Colorizes the image with a new hue
  */
@@ -26,8 +24,7 @@ public class HueColorize extends AbstractImageModificationAsyncTask{
      * @param src
      */
     public HueColorize(Bitmap src, int color, Activity activity){
-        super(activity);
-        this.src = src;
+        super(src, activity);
         this.color = color;
         this.height = src.getHeight();
         this.width = src.getWidth();
@@ -35,9 +32,20 @@ public class HueColorize extends AbstractImageModificationAsyncTask{
     }
 
     /**
+     * Gets the hue value from a color
+     *
+     * @param integerColor Integer representation of a color
+     * @return Hue value from a color
+     */
+    private static float getHueValue(int integerColor) {
+        float[] hsvValues = new float[3];
+        Color.colorToHSV(integerColor, hsvValues);
+        return hsvValues[0];
+    }
+
+    /**
      * Performs the operation on a specific thread
      * @return
-     * @throws Exception
      */
     @Override
     protected Bitmap doInBackground(String... params) {
@@ -52,19 +60,6 @@ public class HueColorize extends AbstractImageModificationAsyncTask{
         }
         result.setPixels(pixels,0,this.width,0,0,this.width,this.height);
         return result;
-    }
-
-
-    /**
-     * Gets the hue value from a color
-     *
-     * @param integerColor Integer representation of a color
-     * @return Hue value from a color
-     */
-    private static float getHueValue (int integerColor) {
-        float[] hsvValues = new float[3];
-        Color.colorToHSV(integerColor, hsvValues);
-        return hsvValues[0];
     }
 
 

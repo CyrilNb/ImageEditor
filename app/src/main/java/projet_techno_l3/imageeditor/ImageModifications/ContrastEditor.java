@@ -13,20 +13,22 @@ public class ContrastEditor extends AbstractImageModificationAsyncTask {
 
     /**
      * @param src   Source image to be modified
-     * @param value Contract adjusment value, between -255 and 255
+     * @param value Contract adjusment value, between -100 and 100
      */
     public ContrastEditor(Bitmap src, float value, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
+
         this.value = value;
     }
 
 
     @Override
     protected Bitmap doInBackground(String... params) {
-        if (value > 255 || value < -255) {
+        if (value == 0 || value > 100 || value < -100) {
             return src;
         }
+
+        value = (value * 2.55f);
 
         float factor = (259 * (value + 255)) / (255 * (259 - value));
 

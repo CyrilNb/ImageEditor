@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-import java.util.concurrent.Callable;
-import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
-import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 
 /**
  * Applies a Sobel filter on an image
@@ -26,8 +23,8 @@ public class SobelFilter extends AbstractImageModificationAsyncTask {
      * @param src
      */
     public SobelFilter(Bitmap src, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
+
         //greyScaleCallable = new Greyscale(this.src);
     }
 
@@ -71,7 +68,7 @@ public class SobelFilter extends AbstractImageModificationAsyncTask {
 
 
     private double convolutionSobel(int[][] pixelMatrix){
-        int gy=(pixelMatrix[0][0]*-1)+(pixelMatrix[0][1]*-2)+(pixelMatrix[0][2]*-1)+(pixelMatrix[2][0])+(pixelMatrix[2][1]*2)+(pixelMatrix[2][2]*1);
+        int gy = (pixelMatrix[0][0] * -1) + (pixelMatrix[0][1] * -2) + (pixelMatrix[0][2] * -1) + (pixelMatrix[2][0]) + (pixelMatrix[2][1] * 2) + (pixelMatrix[2][2]);
         int gx=(pixelMatrix[0][0])+(pixelMatrix[0][2]*-1)+(pixelMatrix[1][0]*2)+(pixelMatrix[1][2]*-2)+(pixelMatrix[2][0])+(pixelMatrix[2][2]*-1);
         return Math.sqrt(Math.pow(gy,2)+Math.pow(gx,2));
     }

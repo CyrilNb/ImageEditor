@@ -4,14 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ImageView;
 
-import java.util.concurrent.Callable;
-
-import projet_techno_l3.imageeditor.MainActivity;
 import projet_techno_l3.imageeditor.R;
 
 /**
@@ -24,10 +19,11 @@ public abstract class AbstractImageModificationAsyncTask extends AsyncTask<Strin
      */
     protected Bitmap src;
     protected Bitmap result;
+    protected Activity mActivity;
     ProgressDialog progressDialog;
-    Activity mActivity;
 
-    public AbstractImageModificationAsyncTask(Activity activity){
+    public AbstractImageModificationAsyncTask(Bitmap src, Activity activity) {
+        this.src = src;
         this.mActivity = activity;
     }
 

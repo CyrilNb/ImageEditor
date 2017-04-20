@@ -4,6 +4,7 @@ package projet_techno_l3.imageeditor.ImageModifications;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
 
 
 /**
@@ -20,14 +21,14 @@ public class HistogramEqualization extends AbstractImageModificationAsyncTask {
     private int valueHistogram[];
     private int cdfMin = -1;
     private float hsvPixels[][];
+    private int cdf[];
 
     /**
      * Constructor
      * @param src
      */
     public HistogramEqualization(Bitmap src, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
         bitmapWidth = src.getWidth();
         bitmapHeight = src.getHeight();
         valueHistogram = new int[256];
@@ -41,6 +42,9 @@ public class HistogramEqualization extends AbstractImageModificationAsyncTask {
      */
     @Override
     protected Bitmap doInBackground(String... params) {
+
+        long startTime = System.currentTimeMillis();
+
         Bitmap result = src.copy(Bitmap.Config.ARGB_8888,true);
 
         int[] pixels = new int[bitmapWidth * bitmapHeight];
@@ -73,10 +77,11 @@ public class HistogramEqualization extends AbstractImageModificationAsyncTask {
         }
 
         result.setPixels(pixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
-
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        Log.i("HistEqual", "HistEqual Duration: " + elapsedTime);
         return result;
     }
-
 
     /**
      * Histogram euqalization formula, calculating the new value.
@@ -87,8 +92,6 @@ public class HistogramEqualization extends AbstractImageModificationAsyncTask {
         int cdfValue = cdf[v];
         return Math.round(((cdfValue - cdfMin) / totalSize) * 255);
     }
-
-    private int cdf[];
 
     /**
      * Using a cumulative distribution function, generates a table and saves the min non-zero value

@@ -8,8 +8,8 @@ import android.graphics.Bitmap;
  */
 public class NoseIncrustation extends HaarCascadeIncrustation {
 
-    public NoseIncrustation(Bitmap src, Activity activity) {
-        super(src, activity);
+    public NoseIncrustation(Bitmap src, Activity activity, int incrustationID) {
+        super(src, activity, incrustationID);
         this.fileName = "nose.xml";
         this.ratioMinElementSize = 0.08f;
         TAG = "Nose Incrustation";

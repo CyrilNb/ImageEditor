@@ -1,11 +1,10 @@
 package projet_techno_l3.imageeditor;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.PointF;
-import android.os.Build;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -16,7 +15,7 @@ import java.util.Stack;
 /**
  * Custom ImageView class designed to handle Zoom and Scroll
  */
-public class ZoomAndScrollImageView extends ImageView {
+public class ZoomAndScrollImageView extends AppCompatImageView {
     /**
      * The 3 different states/events in which the user is performing
      */
@@ -55,11 +54,6 @@ public class ZoomAndScrollImageView extends ImageView {
 
     public ZoomAndScrollImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ZoomAndScrollImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     /**

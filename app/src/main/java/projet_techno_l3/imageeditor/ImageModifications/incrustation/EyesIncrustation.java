@@ -10,10 +10,10 @@ import android.graphics.Bitmap;
 public class EyesIncrustation extends HaarCascadeIncrustation {
 
 
-    public EyesIncrustation(Bitmap src, Activity activity) {
-        super(src, activity);
+    public EyesIncrustation(Bitmap src, Activity activity, int incrustationID) {
+        super(src, activity, incrustationID);
         this.fileName = "eyes.xml";
-        this.ratioMinElementSize = 0.05f;
+        this.ratioMinElementSize = 0.07f;
         TAG = "Eyes Incrustation";
     }
 

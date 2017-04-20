@@ -9,7 +9,6 @@ import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
@@ -21,24 +20,37 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
-import projet_techno_l3.imageeditor.R;
 
 /**
  * Abstract class used to ease the creation of different incrustations.
  */
 abstract class HaarCascadeIncrustation extends AbstractImageModificationAsyncTask {
 
-    private final Activity activity;
-    String fileName = "face.xml";
-    double ratioMinElementSize = 0.10f;
     static String TAG = "Incrustation";
+
+    /**
+     * ID of the drawable that will be added
+     */
+    private final int incrustationID;
+
+    /**
+     * Name of the Haar Cascade file
+     */
+    String fileName = "face.xml";
+
+
+    /**
+     * Minimum ratio of an element to the whole picture
+     */
+    double ratioMinElementSize = 0.30f;
+
+
     private double absoluteElementSize;
 
 
-    HaarCascadeIncrustation(Bitmap src, Activity activity) {
-        super(activity);
-        this.activity = activity;
-        this.src = src;
+    HaarCascadeIncrustation(Bitmap src, Activity mActivity, int incrustationID) {
+        super(src, mActivity);
+        this.incrustationID = incrustationID;
         result = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
     }
 
@@ -48,8 +60,8 @@ abstract class HaarCascadeIncrustation extends AbstractImageModificationAsyncTas
         final InputStream is;
         FileOutputStream os;
         try {
-            is = activity.getResources().getAssets().open(fileName);
-            File cascadeDir = activity.getDir("cascade", Context.MODE_PRIVATE);
+            is = mActivity.getResources().getAssets().open(fileName);
+            File cascadeDir = mActivity.getDir("cascade", Context.MODE_PRIVATE);
             mCascadeFile = new File(cascadeDir, fileName);
 
             os = new FileOutputStream(mCascadeFile);
@@ -95,26 +107,25 @@ abstract class HaarCascadeIncrustation extends AbstractImageModificationAsyncTas
         elementCascade.detectMultiScale(grayFrame, elements, 1.1, 2, Objdetect.CASCADE_SCALE_IMAGE,
                 new Size(this.absoluteElementSize, this.absoluteElementSize), new Size());
 
-        // Drawing rectangles over elements
+        // Drawing drawable
         Rect[] elementsArray = elements.toArray();
         Mat incrustationElement;
         try {
-            incrustationElement = Utils.loadResource(activity.getApplicationContext(), R.drawable.googly_eyes);
+            incrustationElement = Utils.loadResource(mActivity.getApplicationContext(), incrustationID);
         } catch (IOException e) {
-            Log.e(TAG,"Couldn't load incrustation element");
+            Log.e(TAG, "Couldn't load incrustation element");
             e.printStackTrace();
             return src;
         }
 
         for (Rect anElementsArray : elementsArray) {
-            Size incrustationSize = new Size(anElementsArray.width,anElementsArray.height);
+            Size incrustationSize = new Size(anElementsArray.width, anElementsArray.height);
             Mat resizedIncrustationElement = new Mat();
-            Imgproc.resize(incrustationElement,resizedIncrustationElement,incrustationSize);
-            resizedIncrustationElement.copyTo(frame.rowRange((int) anElementsArray.tl().y, (int) anElementsArray.br().y).colRange((int) anElementsArray.tl().x,(int)anElementsArray.br().x));
-            //Imgproc.rectangle(frame, anElementsArray.tl(), anElementsArray.br(), new Scalar(255, 255, 255), 10);
+            Imgproc.resize(incrustationElement, resizedIncrustationElement, incrustationSize);
+            resizedIncrustationElement.copyTo(frame.rowRange((int) anElementsArray.tl().y, (int) anElementsArray.br().y).colRange((int) anElementsArray.tl().x, (int) anElementsArray.br().x));
         }
 
-        Utils.matToBitmap(frame,this.result);
+        Utils.matToBitmap(frame, this.result);
 
         return result;
     }

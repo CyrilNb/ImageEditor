@@ -3,10 +3,8 @@ package projet_techno_l3.imageeditor.ImageModifications.convolution;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import java.util.concurrent.Callable;
-import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModification;
+
 import projet_techno_l3.imageeditor.ImageModifications.AbstractImageModificationAsyncTask;
-import projet_techno_l3.imageeditor.ImageModifications.Greyscale;
 
 /**
  * Applies a Laplacian filter on the image
@@ -24,8 +22,8 @@ public class LaplacianFilter extends AbstractImageModificationAsyncTask {
      * @param src bitmap to be modified
      */
     public LaplacianFilter(Bitmap src, Activity activity) {
-        super(activity);
-        this.src = src;
+        super(src, activity);
+
         //greyScaleCallable = new Greyscale(this.src);
     }
 
