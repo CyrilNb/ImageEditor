@@ -20,4 +20,6 @@
     <string name="nose">Nez</string>
     <string name="sepia">Sepia</string>
     <string name="sobel"></string>
+    <string name="minimum_value">min</string>
+    <string name="medium_value">moy</string>
 </resources>

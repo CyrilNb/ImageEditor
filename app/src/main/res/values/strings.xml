@@ -23,4 +23,7 @@
     <string name="incrustation">INCRUSTATION</string>
     <string name="filter">FILTER</string>
     <string name="convolution">CONVOLUTION</string>
+    <string name="minimum_value">min</string>
+    <string name="medium_value">med</string>
+    <string name="maximum_value">max</string>
 </resources>

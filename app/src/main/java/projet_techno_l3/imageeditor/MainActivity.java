@@ -420,11 +420,11 @@ public class MainActivity extends AppCompatActivity {
     public void onGaussianBlurButtonClicked(View view) {
         clearFilterOptions();
         Button min = new Button(this);
-        min.setText("min");
+        min.setText(R.string.minimum_value);
         Button med = new Button(this);
-        med.setText("med");
+        med.setText(R.string.medium_value);
         Button max = new Button(this);
-        max.setText("max");
+        max.setText(R.string.maximum_value);
 
 
         View.OnClickListener optionButtonClick = new View.OnClickListener() {
@@ -467,9 +467,9 @@ public class MainActivity extends AppCompatActivity {
     public void onMeanBlurButtonClicked(View view) {
         clearFilterOptions();
         Button min = new Button(this);
-        min.setText("min");
+        min.setText(R.string.minimum_value);
         Button max = new Button(this);
-        max.setText("max");
+        max.setText(R.string.maximum_value);
 
 
         View.OnClickListener optionButtonClick = new View.OnClickListener() {
