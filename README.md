@@ -9,7 +9,7 @@ You can check the documentation here: https://cyrilnb.github.io/ImageEditor/
 # Technical Skills
 - Custom View
 - AsyncTasks
-
+- Maths algorithms to be optimized
 
 # Interface
 
