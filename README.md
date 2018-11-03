@@ -19,4 +19,4 @@ You can check the documentation here: https://cyrilnb.github.io/ImageEditor/
 
 # APK
 
-You can download the APK here to try it out!
+You can download the APK in the release section to try it out!
